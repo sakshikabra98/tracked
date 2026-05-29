@@ -1,0 +1,2390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackEd: Reflective M&E Tool - Complete Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, #002244 0%, #003366 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .logo p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 1.5rem 0;
+        }
+
+        .user-role {
+            margin-bottom: 1.5rem;
+        }
+
+        .user-role label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .user-role select {
+            width: 100%;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-menu button {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: left;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu button:hover,
+        .nav-menu button.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 3rem;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-header {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #002244;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-header {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Principle Cards */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .principle-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .principle-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .principle-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .principle-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Feature Boxes */
+        .feature-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+        }
+
+        .supportive-prompt {
+            background: #e8f4f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            margin: 1rem 0;
+        }
+
+        .reflection-question {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 0.5rem 0;
+        }
+
+        .alert-danger {
+            background: #ffe6e6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 1rem 0;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #002244;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            margin: 1rem 0;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"],
+        .checkbox-group input[type="radio"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #002244;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Metrics */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .metric-card .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .metric-card .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .metric-card .metric-delta {
+            font-size: 0.85rem;
+            color: #28a745;
+            margin-top: 0.3rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #f8f9fa;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        /* Slider */
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Comparison grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card h3 {
+            color: #002244;
+            margin-bottom: 1rem;
+        }
+
+        /* Charts placeholder */
+        .chart-placeholder {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                height: auto;
+            }
+
+            .principles-grid,
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Student specific styles */
+        .assignment-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .grade-a { background: #d4edda; color: #155724; }
+        .grade-b { background: #d1ecf1; color: #0c5460; }
+        .grade-c { background: #fff3cd; color: #856404; }
+
+        /* Admin specific styles */
+        .teacher-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-active { background: #28a745; }
+        .status-inactive { background: #dc3545; }
+        .status-warning { background: #ffc107; }
+
+        /* Designer specific styles */
+        .feedback-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <h2>TrackEd M&E</h2>
+                <p>Your reflective partner for growth</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="user-role">
+                <label>View as:</label>
+                <select id="userRole" onchange="updateRole()">
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                    <option value="admin">Administrator</option>
+                    <option value="designer">Product Designer</option>
+                </select>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="stats" id="statsContainer">
+                <!-- Stats will be dynamically updated based on role -->
+            </div>
+
+            <div class="divider"></div>
+
+            <ul class="nav-menu" id="navMenu">
+                <!-- Navigation will be dynamically updated based on role -->
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Content will be dynamically loaded based on role and page -->
+        </main>
+    </div>
+
+    <script>
+        // Global state
+        let currentRole = 'teacher';
+        let currentPage = 'home';
+
+        // Role configurations
+        const roleConfigs = {
+            teacher: {
+                stats: [
+                    { number: '3', label: 'Reflections' },
+                    { number: '4', label: 'Sessions' }
+                ],
+                navigation: [
+                    { id: 'home', icon: '🏠', label: 'Home' },
+                    { id: 'agency', icon: '⚙️', label: 'Agency Settings' },
+                    { id: 'recording', icon: '📹', label: 'Recording Dashboard' },
+                    { id: 'reflection', icon: '💭', label: 'Reflection Space' },
+                    { id: 'insights', icon: '📊', label: 'Insights Dashboard' },
+                    { id: 'testing', icon: '🎯', label: 'Testing Sandbox' }
+                ]
+            },
+            student: {
+                stats: [
+                    { number: '8', label: 'Classes' },
+                    { number: 'B+', label: 'Avg Grade' }
+                ],
+                navigation: [
+                    { id: 'student-home', icon: '🏠', label: 'Home' },
+                    { id: 'student-classes', icon: '📚', label: 'My Classes' },
+                    { id: 'student-progress', icon: '📈', label: 'My Progress' },
+                    { id: 'student-feedback', icon: '💬', label: 'Feedback' },
+                    { id: 'student-privacy', icon: '🔒', label: 'Privacy Settings' }
+                ]
+            },
+            admin: {
+                stats: [
+                    { number: '45', label: 'Teachers' },
+                    { number: '850', label: 'Students' }
+                ],
+                navigation: [
+                    { id: 'admin-home', icon: '🏠', label: 'Dashboard' },
+                    { id: 'admin-teachers', icon: '👥', label: 'Teachers' },
+                    { id: 'admin-analytics', icon: '📊', label: 'Analytics' },
+                    { id: 'admin-compliance', icon: '✅', label: 'Compliance' },
+                    { id: 'admin-settings', icon: '⚙️', label: 'System Settings' }
+                ]
+            },
+            designer: {
+                stats: [
+                    { number: '127', label: 'Feedback Items' },
+                    { number: '4.2', label: 'Avg Rating' }
+                ],
+                navigation: [
+                    { id: 'designer-home', icon: '🏠', label: 'Overview' },
+                    { id: 'designer-usability', icon: '🎨', label: 'Usability Tests' },
+                    { id: 'designer-feedback', icon: '💭', label: 'User Feedback' },
+                    { id: 'designer-analytics', icon: '📊', label: 'Usage Analytics' },
+                    { id: 'designer-prototypes', icon: '🎯', label: 'Prototypes' }
+                ]
+            }
+        };
+
+        // Initialize app
+        function initApp() {
+            updateRole();
+        }
+
+        // Update role and interface
+        function updateRole() {
+            currentRole = document.getElementById('userRole').value;
+            updateStats();
+            updateNavigation();
+            showPage(roleConfigs[currentRole].navigation[0].id);
+        }
+
+        // Update stats based on role
+        function updateStats() {
+            const statsContainer = document.getElementById('statsContainer');
+            const stats = roleConfigs[currentRole].stats;
+            
+            statsContainer.innerHTML = stats.map(stat => `
+                <div class="stat-card">
+                    <div class="number">${stat.number}</div>
+                    <div class="label">${stat.label}</div>
+                </div>
+            `).join('');
+        }
+
+        // Update navigation based on role
+        function updateNavigation() {
+            const navMenu = document.getElementById('navMenu');
+            const navigation = roleConfigs[currentRole].navigation;
+            
+            navMenu.innerHTML = navigation.map((item, index) => `
+                <li>
+                    <button onclick="showPage('${item.id}')" class="nav-btn ${index === 0 ? 'active' : ''}">
+                        ${item.icon} ${item.label}
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        // Show page based on role and page ID
+        function showPage(pageId) {
+            currentPage = pageId;
+            const mainContent = document.getElementById('mainContent');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find and activate the clicked button
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(pageId) || btn.onclick.toString().includes(pageId)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Load page content based on role and page
+            if (currentRole === 'teacher') {
+                loadTeacherPage(pageId);
+            } else if (currentRole === 'student') {
+                loadStudentPage(pageId);
+            } else if (currentRole === 'admin') {
+                loadAdminPage(pageId);
+            } else if (currentRole === 'designer') {
+                loadDesignerPage(pageId);
+            }
+        }
+
+        // Teacher pages
+        function loadTeacherPage(pageId) {
+            const mainContent = document.getElementById('mainContent');
+            
+            const pages = {
+                'home': getTeacherHomePage(),
+                'agency': getTeacherAgencyPage(),
+                'recording': getTeacherRecordingPage(),
+                'reflection': getTeacherReflectionPage(),
+                'insights': getTeacherInsightsPage(),
+                'testing': getTeacherTestingPage()
+            };
+            
+            mainContent.innerHTML = pages[pageId] || pages['home'];
+        }
+
+        function getTeacherHomePage() {
+            return `
+                <h1 class="main-header">Welcome to TrackEd: Your Reflective M&E Tool</h1>
+                <p class="sub-header">A trust-first, agency-centered monitoring and evaluation platform designed with dignity and growth in mind</p>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Core Principles</h2>
+                
+                <div class="principles-grid">
+                    <div class="principle-card">
+                        <h3>🔓 Transparency & Ownership</h3>
+                        <p>You know exactly what's recorded, who can see it, and why. You own your data.</p>
+                    </div>
+                    <div class="principle-card">
+                        <h3>✋ Agency Through Choice</h3>
+                        <p>Opt-in/opt-out features give you control over what, when, and how data is captured.</p>
+                    </div>
+                    <div class="principle-card">
+                        <h3>📝 Qualitative Narratives</h3>
+                        <p>Your context matters. Add explanations, reflections, and stories to your data.</p>
+                    </div>
+                    <div class="principle-card">
+                        <h3>🎯 Sampling Over Exhaustion</h3>
+                        <p>Minimum frequency requirements protect your time and maintain safe spaces.</p>
+                    </div>
+                    <div class="principle-card">
+                        <h3>🤝 Supportive Language</h3>
+                        <p>Prompts for reflection, not judgment. Context suggestions, not accusations.</p>
+                    </div>
+                    <div class="principle-card">
+                        <h3>🪞 Mirror for Growth</h3>
+                        <p>This tool helps you see yourself to improve, not to be judged by others.</p>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 3rem 0;"></div>
+
+                <h2 style="color: #002244;">Quick Start for Teachers</h2>
+                <div class="feature-box">
+                    <p><strong>Getting started is simple and on your terms:</strong></p>
+                    <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Set Your Preferences</strong> - Visit Agency Settings to choose recording frequency and medium</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Maintain Minimum Sampling</strong> - Just one recording per class per month (you choose when!)</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Add Context When You Want</strong> - Optional reflections help tell your story</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>View Your Insights</strong> - Check data designed to support your growth</li>
+                    </ol>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showPage('agency')">⚙️ Configure Settings</button>
+                    <button class="btn btn-primary" onclick="showPage('recording')">📹 Start a Session</button>
+                    <button class="btn btn-primary" onclick="showPage('reflection')">💭 Write a Reflection</button>
+                </div>
+
+                <div class="divider" style="margin: 3rem 0;"></div>
+
+                <h2 style="color: #002244;">Paradigm Shift: From Surveillance to Support</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Traditional M&E</th>
+                            <th>TrackEd M&E</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Purpose</strong></td>
+                            <td>Catching mistakes</td>
+                            <td>Supporting growth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Collection</strong></td>
+                            <td>Exhaustive logging</td>
+                            <td>Sampling with agency</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teacher Role</strong></td>
+                            <td>Passive data point</td>
+                            <td>Active agent with choice</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Language</strong></td>
+                            <td>Judgmental tracking</td>
+                            <td>Supportive reflection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outcome Focus</strong></td>
+                            <td>Accountability/Compliance</td>
+                            <td>Improvement/Development</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function getTeacherAgencyPage() {
+            return `
+                <h1 class="main-header">⚙️ Agency Settings</h1>
+                <p class="sub-header">You are in control. Configure how TrackEd works for you.</p>
+
+                <div class="info-box">
+                    💡 <strong>Remember:</strong> These settings give you agency while maintaining minimum sampling requirements for meaningful insights.
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">📅 Recording Frequency</h2>
+                <p><strong>Minimum requirement:</strong> At least one recording per class per month</p>
+
+                <div class="form-group">
+                    <label>How often would you like to record sessions?</label>
+                    <select id="recordingFrequency" onchange="checkFrequency()">
+                        <option value="monthly">Once per month (minimum)</option>
+                        <option value="bimonthly">Twice per month</option>
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="biweekly">Twice weekly</option>
+                        <option value="daily">Every session</option>
+                    </select>
+                </div>
+
+                <div id="frequencyWarning" style="display: none;" class="warning-box">
+                    ⚠️ You've selected a high recording frequency. Research shows this may increase burden. Would you like to reduce it?
+                    <button class="btn btn-warning" style="margin-top: 0.5rem;" onclick="reduceFrequency()">Reduce to Weekly</button>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">🎥 Recording Medium Options</h2>
+                
+                <div class="comparison-grid">
+                    <div>
+                        <p style="margin-bottom: 1rem;">Choose what to record:</p>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" checked> Audio</label>
+                            <label><input type="checkbox"> Video</label>
+                            <label><input type="checkbox" checked> Lesson Plans</label>
+                            <label><input type="checkbox"> Student Artifacts</label>
+                            <label><input type="checkbox"> Photos of Board Work</label>
+                        </div>
+                    </div>
+
+                    <div class="feature-box">
+                        <h4>💡 Medium Tips</h4>
+                        <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+                            <li><strong>Audio:</strong> Less intrusive, captures dialogue</li>
+                            <li><strong>Video:</strong> Full context, can feel monitored</li>
+                            <li><strong>Lesson Plans:</strong> Minimal burden</li>
+                            <li><strong>Artifacts:</strong> Shows student work quality</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-success" onclick="saveSettings()">💾 Save All Settings</button>
+                </div>
+            `;
+        }
+
+        function getTeacherRecordingPage() {
+            return `
+                <h1 class="main-header">📹 Recording Dashboard</h1>
+                <p class="sub-header">Manage your session recordings with full control</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">This Month's Sessions</div>
+                        <div class="metric-delta">✅ Minimum met</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">Total Recordings</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1</div>
+                        <div class="metric-label">Opted Out</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">With Reflections</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">📚 Your Past Recordings</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Class</th>
+                            <th>Duration</th>
+                            <th>Medium</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nov 20, 2024</td>
+                            <td>Mathematics - Grade 9A</td>
+                            <td>45 min</td>
+                            <td>Audio + Lesson Plan</td>
+                            <td>✅ Recorded</td>
+                            <td><button class="btn btn-danger" style="padding: 0.3rem 0.8rem; font-size: 0.9rem;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td>Nov 18, 2024</td>
+                            <td>Science - Grade 9B</td>
+                            <td>40 min</td>
+                            <td>Video + Audio</td>
+                            <td>✅ Recorded</td>
+                            <td><button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.9rem;">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function getTeacherReflectionPage() {
+            return `
+                <h1 class="main-header">💭 Reflection Space</h1>
+                <p class="sub-header">Add your voice, context, and narrative to your teaching journey</p>
+
+                <div class="info-box">
+                    💡 Reflections are <strong>entirely optional</strong> but highly valuable for your growth.
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Reflection Prompts</h2>
+                
+                <div class="reflection-question">
+                    <strong>Prompt 1:</strong> What surprised you about today's class?
+                </div>
+                <div class="reflection-question">
+                    <strong>Prompt 2:</strong> What was the most challenging question a student asked?
+                </div>
+                <div class="reflection-question">
+                    <strong>Prompt 3:</strong> What would you do differently?
+                </div>
+
+                <div class="form-group" style="margin-top: 2rem;">
+                    <label>Write your reflection:</label>
+                    <textarea placeholder="Share your thoughts..."></textarea>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-success">📤 Submit Reflection</button>
+                </div>
+            `;
+        }
+
+        function getTeacherInsightsPage() {
+            return `
+                <h1 class="main-header">📊 Your Insights Dashboard</h1>
+                <p class="sub-header">Reflective insights designed to support your growth</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">7.2/10</div>
+                        <div class="metric-label">Avg. Class Energy</div>
+                        <div class="metric-delta">+0.3 from last month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">Student Engagement</div>
+                    </div>
+                </div>
+
+                <div class="supportive-prompt" style="margin-top: 2rem;">
+                    <h3>🌟 Success Highlight</h3>
+                    <p>Student question quality increased by 40% this month! Your "Think-Pair-Share" strategy is working well.</p>
+                </div>
+
+                <div class="supportive-prompt">
+                    <h3>💡 Reflection Opportunity</h3>
+                    <p>Early morning sessions show lower engagement. Consider energizer activities at the start of class.</p>
+                </div>
+            `;
+        }
+
+        function getTeacherTestingPage() {
+            return `
+                <h1 class="main-header">🎯 Testing Sandbox</h1>
+                <p class="sub-header">Test and provide feedback on different features</p>
+
+                <div class="info-box">
+                    👋 <strong>Welcome!</strong> This space lets you test different feature implementations.
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Language Comparison Test</h2>
+                
+                <div class="comparison-grid">
+                    <div class="alert-danger">
+                        <h4>❌ Traditional: Low Engagement Alert</h4>
+                        <p>45% students off-task. Requires immediate intervention.</p>
+                    </div>
+                    <div class="supportive-prompt">
+                        <h4>✅ TrackEd: Reflection Opportunity</h4>
+                        <p>Some students seemed less engaged. What factors might have influenced today's energy?</p>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 2rem;">
+                    <label>Which version would you prefer?</label>
+                    <select>
+                        <option>Traditional</option>
+                        <option selected>TrackEd</option>
+                    </select>
+                </div>
+            `;
+        }
+
+        // Student pages
+        function loadStudentPage(pageId) {
+            const mainContent = document.getElementById('mainContent');
+            
+            const pages = {
+                'student-home': getStudentHomePage(),
+                'student-classes': getStudentClassesPage(),
+                'student-progress': getStudentProgressPage(),
+                'student-feedback': getStudentFeedbackPage(),
+                'student-privacy': getStudentPrivacyPage()
+            };
+            
+            mainContent.innerHTML = pages[pageId] || pages['student-home'];
+        }
+
+        function getStudentHomePage() {
+            return `
+                <h1 class="main-header">Welcome Back, Alex! 👋</h1>
+                <p class="sub-header">Here's your learning journey at a glance</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">8</div>
+                        <div class="metric-label">Active Classes</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">B+</div>
+                        <div class="metric-label">Average Grade</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Attendance</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">5</div>
+                        <div class="metric-label">New Feedback</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Recent Activity</h2>
+                
+                <div class="assignment-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Mathematics - Algebra Quiz</h3>
+                            <p style="color: #666;">Completed Nov 20, 2024</p>
+                        </div>
+                        <span class="grade-badge grade-a">A-</span>
+                    </div>
+                    <p style="margin-top: 1rem;">Great work on problem-solving! Consider reviewing the quadratic formula section.</p>
+                </div>
+
+                <div class="assignment-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Science - Lab Report</h3>
+                            <p style="color: #666;">Completed Nov 18, 2024</p>
+                        </div>
+                        <span class="grade-badge grade-b">B+</span>
+                    </div>
+                    <p style="margin-top: 1rem;">Excellent observations! Your hypothesis was well-structured.</p>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Your Privacy & Control</h2>
+                
+                <div class="info-box">
+                    <strong>🔒 You're in control:</strong> You can view your own class recordings, see your feedback, and control who sees your work. 
+                    Visit Privacy Settings to manage your preferences.
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="showPage('student-classes')">📚 View My Classes</button>
+                    <button class="btn btn-primary" onclick="showPage('student-progress')">📈 Check My Progress</button>
+                </div>
+            `;
+        }
+
+        function getStudentClassesPage() {
+            return `
+                <h1 class="main-header">📚 My Classes</h1>
+                <p class="sub-header">View your enrolled classes and recent sessions</p>
+
+                <div class="dashboard-card">
+                    <h3>Mathematics - Grade 9A</h3>
+                    <p><strong>Teacher:</strong> Ms. Johnson</p>
+                    <p><strong>Current Topic:</strong> Quadratic Equations</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;">75% Complete</div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary">View Class Materials</button>
+                        <button class="btn btn-info">My Recordings</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Science - Grade 9B</h3>
+                    <p><strong>Teacher:</strong> Mr. Patel</p>
+                    <p><strong>Current Topic:</strong> Chemical Reactions</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;">60% Complete</div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary">View Class Materials</button>
+                        <button class="btn btn-info">My Recordings</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>English - Grade 10A</h3>
+                    <p><strong>Teacher:</strong> Ms. Williams</p>
+                    <p><strong>Current Topic:</strong> Shakespearean Literature</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;">85% Complete</div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary">View Class Materials</button>
+                        <button class="btn btn-info">My Recordings</button>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    💡 <strong>About Your Recordings:</strong> You can access recordings of sessions where you participated. 
+                    These help you review material and track your learning journey.
+                </div>
+            `;
+        }
+
+        function getStudentProgressPage() {
+            return `
+                <h1 class="main-header">📈 My Progress</h1>
+                <p class="sub-header">Track your academic journey and growth</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">B+</div>
+                        <div class="metric-label">Overall GPA</div>
+                        <div class="metric-delta">+0.2 from last quarter</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">18</div>
+                        <div class="metric-label">Assignments Completed</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Class Participation</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Improvement Areas</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Grade Breakdown by Subject</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Current Grade</th>
+                            <th>Trend</th>
+                            <th>Assignments</th>
+                            <th>Participation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mathematics</strong></td>
+                            <td><span class="grade-badge grade-a">A-</span></td>
+                            <td style="color: #28a745;">↑ Improving</td>
+                            <td>15/16 completed</td>
+                            <td>95%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Science</strong></td>
+                            <td><span class="grade-badge grade-b">B+</span></td>
+                            <td style="color: #28a745;">↑ Improving</td>
+                            <td>14/15 completed</td>
+                            <td>88%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>English</strong></td>
+                            <td><span class="grade-badge grade-a">A</span></td>
+                            <td style="color: #666;">→ Stable</td>
+                            <td>12/12 completed</td>
+                            <td>98%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>History</strong></td>
+                            <td><span class="grade-badge grade-b">B</span></td>
+                            <td style="color: #ffc107;">↓ Needs attention</td>
+                            <td>13/14 completed</td>
+                            <td>82%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="supportive-prompt" style="margin-top: 2rem;">
+                    <h3>🌟 Strengths</h3>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Excellent written communication skills (English)</li>
+                        <li>Strong problem-solving abilities (Mathematics)</li>
+                        <li>High participation in class discussions</li>
+                        <li>Consistent homework completion</li>
+                    </ul>
+                </div>
+
+                <div class="reflection-question" style="margin-top: 1rem;">
+                    <h3>📝 Growth Opportunities</h3>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>History: Consider reviewing timeline connections</li>
+                        <li>Science: Lab report conclusions could be more detailed</li>
+                        <li>Consider joining the Math Club to build on your strengths</li>
+                    </ul>
+                </div>
+
+                <div class="chart-placeholder" style="margin-top: 2rem;">
+                    📊 Grade Trend Chart - Your progress over time
+                </div>
+            `;
+        }
+
+        function getStudentFeedbackPage() {
+            return `
+                <h1 class="main-header">💬 My Feedback</h1>
+                <p class="sub-header">Teacher feedback and personalized learning suggestions</p>
+
+                <div class="info-box">
+                    💡 Your teachers provide feedback to help you grow. Remember: feedback is about learning, not judgment!
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Recent Feedback</h2>
+
+                <div class="assignment-card">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Mathematics - Algebra Quiz</h3>
+                            <p style="color: #666; font-size: 0.9rem;">From Ms. Johnson • Nov 20, 2024</p>
+                        </div>
+                        <span class="grade-badge grade-a">A-</span>
+                    </div>
+                    <div class="supportive-prompt" style="margin-top: 1rem;">
+                        <p><strong>What you did well:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Excellent step-by-step problem solving</li>
+                            <li>Clear mathematical reasoning</li>
+                            <li>Good use of formulas</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>To improve further:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Review the quadratic formula - you mixed up the signs in question 7</li>
+                            <li>Double-check your final answers</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">View Full Assessment</button>
+                </div>
+
+                <div class="assignment-card">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">Science - Lab Report</h3>
+                            <p style="color: #666; font-size: 0.9rem;">From Mr. Patel • Nov 18, 2024</p>
+                        </div>
+                        <span class="grade-badge grade-b">B+</span>
+                    </div>
+                    <div class="supportive-prompt" style="margin-top: 1rem;">
+                        <p><strong>Strengths:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Excellent hypothesis formation</li>
+                            <li>Detailed observations during experiment</li>
+                            <li>Good use of scientific terminology</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Next steps:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Include more analysis in your conclusion</li>
+                            <li>Explain why the results support your hypothesis</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">View Full Report</button>
+                </div>
+
+                <div class="assignment-card">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3 style="margin-bottom: 0.5rem;">English - Essay on "Romeo & Juliet"</h3>
+                            <p style="color: #666; font-size: 0.9rem;">From Ms. Williams • Nov 15, 2024</p>
+                        </div>
+                        <span class="grade-badge grade-a">A</span>
+                    </div>
+                    <div class="supportive-prompt" style="margin-top: 1rem; background: #d4edda; border-left-color: #28a745;">
+                        <p><strong>Outstanding work! 🌟</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Exceptional literary analysis</li>
+                            <li>Strong use of textual evidence</li>
+                            <li>Sophisticated understanding of themes</li>
+                            <li>Clear, engaging writing style</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><em>Keep up this excellent standard of work!</em></p>
+                    </div>
+                    <button class="btn btn-success" style="margin-top: 1rem;">View Full Essay</button>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Learning Recommendations</h2>
+
+                <div class="reflection-question">
+                    <h4>Based on your progress, here are some personalized suggestions:</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li><strong>Mathematics:</strong> You're doing great! Consider joining the Math Olympiad team</li>
+                        <li><strong>Science:</strong> Practice writing more detailed lab conclusions</li>
+                        <li><strong>English:</strong> Your analytical skills are excellent - maintain this level</li>
+                        <li><strong>History:</strong> Try creating timeline charts to visualize connections</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function getStudentPrivacyPage() {
+            return `
+                <h1 class="main-header">🔒 Privacy Settings</h1>
+                <p class="sub-header">Control how your learning data is used and who can see it</p>
+
+                <div class="info-box">
+                    💡 <strong>You're in control:</strong> TrackEd respects your privacy. You decide what's shared and with whom.
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Your Data Access</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Who</th>
+                            <th>Can View</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>You</strong></td>
+                            <td>All your recordings, grades, and feedback</td>
+                            <td>Review your own learning</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Your Teachers</strong></td>
+                            <td>Your class participation and assignments</td>
+                            <td>Provide personalized feedback</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Your Parents/Guardians</strong></td>
+                            <td>Progress reports and grades</td>
+                            <td>Support your education</td>
+                        </tr>
+                        <tr>
+                            <td><strong>School Administration</strong></td>
+                            <td>Anonymized progress data only</td>
+                            <td>Improve school programs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Other Students</strong></td>
+                            <td>Nothing (unless you share)</td>
+                            <td>N/A</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Privacy Controls</h2>
+
+                <div class="form-group">
+                    <label>Who can see my class participation recordings?</label>
+                    <select>
+                        <option selected>Only me and my teachers</option>
+                        <option>Me, my teachers, and my parents</option>
+                        <option>Only me (I'll share with teachers when needed)</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" checked>
+                        Allow teachers to include my work in anonymized school reports
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>
+                        Send me notifications when someone accesses my data
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        Share my learning progress with my parents weekly
+                    </label>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Opt-Out Options</h2>
+
+                <div class="warning-box">
+                    <strong>Safe Space Feature:</strong> Some classrooms have "safe space corners" where recording is disabled. 
+                    If you need to discuss something privately, you can use this space.
+                </div>
+
+                <div class="checkbox-group" style="margin-top: 1.5rem;">
+                    <label>
+                        <input type="checkbox">
+                        I want to opt-out of video recordings (audio only)
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        Don't include my work in class highlight reels
+                    </label>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    <strong>Have questions about your privacy?</strong> Talk to your teacher or school counselor. 
+                    Your privacy is important to us!
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-success" onclick="alert('Privacy settings saved!')">💾 Save Privacy Settings</button>
+                </div>
+            `;
+        }
+
+        // Administrator pages
+        function loadAdminPage(pageId) {
+            const mainContent = document.getElementById('mainContent');
+            
+            const pages = {
+                'admin-home': getAdminHomePage(),
+                'admin-teachers': getAdminTeachersPage(),
+                'admin-analytics': getAdminAnalyticsPage(),
+                'admin-compliance': getAdminCompliancePage(),
+                'admin-settings': getAdminSettingsPage()
+            };
+            
+            mainContent.innerHTML = pages[pageId] || pages['admin-home'];
+        }
+
+        function getAdminHomePage() {
+            return `
+                <h1 class="main-header">Administrator Dashboard</h1>
+                <p class="sub-header">System overview and key metrics</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">45</div>
+                        <div class="metric-label">Active Teachers</div>
+                        <div class="metric-delta">+3 this month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">850</div>
+                        <div class="metric-label">Students</div>
+                        <div class="metric-delta">+15 this month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">95%</div>
+                        <div class="metric-label">Compliance Rate</div>
+                        <div class="metric-delta">+2% from last month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.3/5</div>
+                        <div class="metric-label">Teacher Satisfaction</div>
+                        <div class="metric-delta">Stable</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">System Health</h2>
+
+                <div class="dashboard-card">
+                    <h3>Recording Compliance</h3>
+                    <p>Teachers meeting minimum sampling requirements</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%;">95%</div>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        43 out of 45 teachers are meeting minimum requirements
+                    </p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Agency Utilization</h3>
+                    <p>Teachers actively using opt-in/opt-out features</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 78%;">78%</div>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Teachers are exercising agency appropriately - healthy balance
+                    </p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Reflection Engagement</h3>
+                    <p>Teachers adding qualitative context to recordings</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 82%;">82%</div>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        Strong adoption of reflection features
+                    </p>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Recent Alerts</h2>
+
+                <div class="supportive-prompt">
+                    <strong>✅ All Systems Normal</strong>
+                    <p style="margin-top: 0.5rem;">No critical issues requiring attention. 2 teachers need gentle reminder about monthly minimum.</p>
+                </div>
+
+                <div class="info-box" style="margin-top: 1rem;">
+                    <strong>📊 Trust-First Metrics:</strong> TrackEd is designed to support teachers, not surveil them. 
+                    Our metrics focus on system health and teacher satisfaction, not punitive tracking.
+                </div>
+            `;
+        }
+
+        function getAdminTeachersPage() {
+            return `
+                <h1 class="main-header">👥 Teacher Management</h1>
+                <p class="sub-header">Overview of teacher engagement with TrackEd</p>
+
+                <div class="form-group">
+                    <label>Filter by Department:</label>
+                    <select>
+                        <option>All Departments</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>English</option>
+                        <option>History</option>
+                        <option>Arts</option>
+                    </select>
+                </div>
+
+                <table style="margin-top: 2rem;">
+                    <thead>
+                        <tr>
+                            <th>Teacher</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Recordings (This Month)</th>
+                            <th>Reflections</th>
+                            <th>Compliance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Ms. Johnson</strong></td>
+                            <td>Mathematics</td>
+                            <td><span class="status-indicator status-active"></span> Active</td>
+                            <td>4 / 3 required</td>
+                            <td>3</td>
+                            <td style="color: #28a745;">✅ Met</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mr. Patel</strong></td>
+                            <td>Science</td>
+                            <td><span class="status-indicator status-active"></span> Active</td>
+                            <td>3 / 3 required</td>
+                            <td>2</td>
+                            <td style="color: #28a745;">✅ Met</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ms. Williams</strong></td>
+                            <td>English</td>
+                            <td><span class="status-indicator status-active"></span> Active</td>
+                            <td>5 / 3 required</td>
+                            <td>4</td>
+                            <td style="color: #28a745;">✅ Exceeded</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mr. Rodriguez</strong></td>
+                            <td>History</td>
+                            <td><span class="status-indicator status-warning"></span> Needs Support</td>
+                            <td>2 / 3 required</td>
+                            <td>1</td>
+                            <td style="color: #ffc107;">⚠️ Below minimum</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ms. Chen</strong></td>
+                            <td>Mathematics</td>
+                            <td><span class="status-indicator status-active"></span> Active</td>
+                            <td>3 / 3 required</td>
+                            <td>3</td>
+                            <td style="color: #28a745;">✅ Met</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Support Actions</h2>
+
+                <div class="reflection-question">
+                    <h4>Teachers Needing Gentle Support</h4>
+                    <p style="margin-top: 0.5rem;"><strong>Mr. Rodriguez (History)</strong> - 2 recordings this month</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <em>Suggested action:</em> Send supportive reminder about monthly minimum. 
+                        Check if technical support is needed or if there are scheduling conflicts.
+                    </p>
+                    <button class="btn btn-info" style="margin-top: 1rem;">Send Supportive Reminder</button>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Schedule Check-in</button>
+                </div>
+
+                <div class="supportive-prompt" style="margin-top: 2rem;">
+                    <h4>📈 Department Insights</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Mathematics department showing highest reflection engagement (avg 3.5/teacher)</li>
+                        <li>Science teachers effectively using opt-out features for lab sessions</li>
+                        <li>English department maintaining consistent recording schedules</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function getAdminAnalyticsPage() {
+            return `
+                <h1 class="main-header">📊 System Analytics</h1>
+                <p class="sub-header">Aggregated insights (all data anonymized)</p>
+
+                <div class="info-box">
+                    🔒 <strong>Privacy Note:</strong> All analytics are anonymized and aggregated. 
+                    Individual teacher data is never used for comparative evaluation.
+                </div>
+
+                <div class="metrics-row" style="margin-top: 2rem;">
+                    <div class="metric-card">
+                        <div class="metric-value">1,247</div>
+                        <div class="metric-label">Total Recordings</div>
+                        <div class="metric-delta">This month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">892</div>
+                        <div class="metric-label">Reflections Written</div>
+                        <div class="metric-delta">71% reflection rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">234</div>
+                        <div class="metric-label">Opt-Outs Used</div>
+                        <div class="metric-delta">19% of sessions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.3/5</div>
+                        <div class="metric-label">Teacher Satisfaction</div>
+                        <div class="metric-delta">With system</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Usage Patterns</h2>
+
+                <div class="chart-placeholder">
+                    📈 Recording Frequency Distribution Chart
+                </div>
+
+                <div class="dashboard-card" style="margin-top: 2rem;">
+                    <h3>Opt-Out Reasons (Aggregated)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Reason</th>
+                                <th>Frequency</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Experimental pedagogy</td>
+                                <td>89</td>
+                                <td>38%</td>
+                            </tr>
+                            <tr>
+                                <td>Sensitive student discussion</td>
+                                <td>67</td>
+                                <td>29%</td>
+                            </tr>
+                            <tr>
+                                <td>Repetitive content</td>
+                                <td>45</td>
+                                <td>19%</td>
+                            </tr>
+                            <tr>
+                                <td>Technical issues</td>
+                                <td>23</td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td>Other</td>
+                                <td>10</td>
+                                <td>4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="supportive-prompt" style="margin-top: 2rem;">
+                    <h4>✅ Positive Trends</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Teachers using agency features appropriately</li>
+                        <li>High reflection engagement indicates trust in the system</li>
+                        <li>Opt-out patterns show thoughtful use, not avoidance</li>
+                        <li>Teacher satisfaction scores increasing month-over-month</li>
+                    </ul>
+                </div>
+
+                <div class="chart-placeholder" style="margin-top: 2rem;">
+                    📊 Teacher Satisfaction Trends Over Time
+                </div>
+            `;
+        }
+
+        function getAdminCompliancePage() {
+            return `
+                <h1 class="main-header">✅ Compliance & Quality</h1>
+                <p class="sub-header">Monitoring system standards and ethical practices</p>
+
+                <div class="success-box">
+                    ✅ <strong>Overall Compliance: 95%</strong> - System is functioning within expected parameters
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Compliance Metrics</h2>
+
+                <div class="dashboard-card">
+                    <h3>Minimum Sampling Requirements</h3>
+                    <p>Teachers meeting "1 recording per class per month" minimum</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%;">43 of 45 teachers</div>
+                    </div>
+                    <div class="reflection-question" style="margin-top: 1rem;">
+                        <strong>Action needed:</strong> 2 teachers below minimum. Supportive outreach scheduled.
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Data Access Compliance</h3>
+                    <p>All data access following approved protocols</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;">
+                        ✅ No unauthorized access attempts detected
+                    </p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Privacy Protocols</h3>
+                    <p>Student consent and anonymization standards</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;">
+                        ✅ All data properly anonymized and consented
+                    </p>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Quality Indicators</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Current</th>
+                            <th>Target</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Teachers meeting minimum</td>
+                            <td>95%</td>
+                            <td>90%</td>
+                            <td style="color: #28a745;">✅ Exceeding</td>
+                        </tr>
+                        <tr>
+                            <td>Reflection engagement</td>
+                            <td>71%</td>
+                            <td>60%</td>
+                            <td style="color: #28a745;">✅ Exceeding</td>
+                        </tr>
+                        <tr>
+                            <td>Teacher satisfaction</td>
+                            <td>4.3/5</td>
+                            <td>4.0/5</td>
+                            <td style="color: #28a745;">✅ Exceeding</td>
+                        </tr>
+                        <tr>
+                            <td>Data privacy compliance</td>
+                            <td>100%</td>
+                            <td>100%</td>
+                            <td style="color: #28a745;">✅ Met</td>
+                        </tr>
+                        <tr>
+                            <td>System uptime</td>
+                            <td>99.7%</td>
+                            <td>99.5%</td>
+                            <td style="color: #28a745;">✅ Exceeding</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Ethical Compliance</h2>
+
+                <div class="feature-box">
+                    <h4>Trust-First Principles Audit</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>✅ Transparency: All teachers understand what's recorded and why</li>
+                        <li>✅ Agency: Opt-in/opt-out features actively used (234 opt-outs this month)</li>
+                        <li>✅ Support: Language in system is supportive, not judgmental</li>
+                        <li>✅ Sampling: Minimum frequency prevents burden (avg 3.2 recordings/teacher)</li>
+                        <li>✅ Context: 71% of recordings include teacher reflections</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="margin-top: 2rem;">
+                    📊 <strong>Next Audit:</strong> Scheduled for January 15, 2025. 
+                    All compliance reports available for stakeholder review.
+                </div>
+            `;
+        }
+
+        function getAdminSettingsPage() {
+            return `
+                <h1 class="main-header">⚙️ System Settings</h1>
+                <p class="sub-header">Configure TrackEd system-wide parameters</p>
+
+                <div class="warning-box">
+                    ⚠️ <strong>Administrator Access:</strong> These settings affect all users. Changes should be made carefully and documented.
+                </div>
+
+                <h2 style="margin-top: 2rem; color: #002244;">Sampling Requirements</h2>
+
+                <div class="form-group">
+                    <label>Minimum recordings per class per month:</label>
+                    <select>
+                        <option selected>1 (Current)</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                        Current: Teachers must record at least 1 session per class monthly
+                    </p>
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" checked>
+                        Allow teachers to exceed minimum voluntarily
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>
+                        Send supportive reminders when approaching deadline
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        Strict enforcement (not recommended for trust-first approach)
+                    </label>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Data Access Policies</h2>
+
+                <div class="form-group">
+                    <label>Data retention period:</label>
+                    <select>
+                        <option>6 months</option>
+                        <option selected>1 year</option>
+                        <option>2 years</option>
+                        <option>3 years</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Anonymization timeline:</label>
+                    <select>
+                        <option>Immediate (upon upload)</option>
+                        <option>After 30 days</option>
+                        <option selected>After 6 months</option>
+                        <option>After 1 year</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" checked>
+                        Require teacher consent for research use
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>
+                        Require student/parent consent for recordings
+                    </label>
+                    <label>
+                        <input type="checkbox" checked>
+                        Allow teachers to delete within 48 hours
+                    </label>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn btn-success" onclick="alert('System settings saved!')">💾 Save System Settings</button>
+                    <button class="btn btn-warning" onclick="alert('Settings reset to defaults')">🔄 Reset to Defaults</button>
+                </div>
+            `;
+        }
+
+        // Product Designer pages
+        function loadDesignerPage(pageId) {
+            const mainContent = document.getElementById('mainContent');
+            
+            const pages = {
+                'designer-home': getDesignerHomePage(),
+                'designer-usability': getDesignerUsabilityPage(),
+                'designer-feedback': getDesignerFeedbackPage(),
+                'designer-analytics': getDesignerAnalyticsPage(),
+                'designer-prototypes': getDesignerPrototypesPage()
+            };
+            
+            mainContent.innerHTML = pages[pageId] || pages['designer-home'];
+        }
+
+        function getDesignerHomePage() {
+            return `
+                <h1 class="main-header">Product Designer Dashboard</h1>
+                <p class="sub-header">UX insights and feature validation</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">127</div>
+                        <div class="metric-label">Feedback Items</div>
+                        <div class="metric-delta">+23 this week</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4.2/5</div>
+                        <div class="metric-label">Overall Rating</div>
+                        <div class="metric-delta">+0.3 from last month</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">89%</div>
+                        <div class="metric-label">Feature Adoption</div>
+                        <div class="metric-delta">Agency features</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Active A/B Tests</div>
+                        <div class="metric-delta">6 completed</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Recent Design Insights</h2>
+
+                <div class="supportive-prompt">
+                    <h3>✅ Validation: Supportive Language Works</h3>
+                    <p style="margin-top: 0.5rem;">
+                        <strong>Test:</strong> "Reflection Opportunity" vs "Low Engagement Alert"<br>
+                        <strong>Result:</strong> Supportive language increased teacher response rate by 67%<br>
+                        <strong>Action:</strong> Rolling out supportive language system-wide
+                    </p>
+                </div>
+
+                <div class="supportive-prompt">
+                    <h3>📊 Discovery: Opt-Out Feature Reduces Anxiety</h3>
+                    <p style="margin-top: 0.5rem;">
+                        <strong>Finding:</strong> Teachers with access to opt-out features report 43% less surveillance anxiety<br>
+                        <strong>Usage:</strong> 19% of sessions opted out, primarily for experimental pedagogy<br>
+                        <strong>Insight:</strong> Agency through choice is working as designed
+                    </p>
+                </div>
+
+                <div class="reflection-question">
+                    <h3>🎯 In Progress: Safe Space Feature Testing</h3>
+                    <p style="margin-top: 0.5rem;">
+                        <strong>Status:</strong> Beta testing in 5 classrooms<br>
+                        <strong>Early feedback:</strong> Positive reception, some technical challenges<br>
+                        <strong>Next steps:</strong> Refine audio detection algorithms
+                    </p>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Priority Action Items</h2>
+
+                <div class="feedback-card">
+                    <h4>HIGH PRIORITY: Simplify Reflection Interface</h4>
+                    <p><strong>Source:</strong> 15 teacher feedback items</p>
+                    <p><strong>Issue:</strong> Teachers find prompt selection overwhelming</p>
+                    <p><strong>Proposed solution:</strong> Contextual prompts based on session type</p>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Review Feedback</button>
+                    <button class="btn btn-info" style="margin-top: 1rem;">Create Prototype</button>
+                </div>
+
+                <div class="feedback-card">
+                    <h4>MEDIUM PRIORITY: Mobile Optimization</h4>
+                    <p><strong>Source:</strong> Usage analytics</p>
+                    <p><strong>Finding:</strong> 23% of teachers access on mobile, but completion rate is lower</p>
+                    <p><strong>Proposed solution:</strong> Mobile-first reflection interface</p>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">View Analytics</button>
+                </div>
+            `;
+        }
+
+        function getDesignerUsabilityPage() {
+            return `
+                <h1 class="main-header">🎨 Usability Tests</h1>
+                <p class="sub-header">Active and completed usability studies</p>
+
+                <h2 style="color: #002244;">Active Tests</h2>
+
+                <div class="dashboard-card">
+                    <h3>Test #12: Language Comparison (Supportive vs Judgmental)</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-top: 1rem;">
+                        <div style="flex: 1;">
+                            <p><strong>Status:</strong> <span style="color: #28a745;">Active - 78% complete</span></p>
+                            <p><strong>Participants:</strong> 45 teachers</p>
+                            <p><strong>Duration:</strong> 2 weeks (1 week remaining)</p>
+                            <p><strong>Goal:</strong> Validate that supportive language increases engagement</p>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;">78%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="supportive-prompt" style="margin-top: 1rem;">
+                        <strong>Preliminary Results:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Supportive version: 67% response rate</li>
+                            <li>Judgmental version: 23% response rate</li>
+                            <li>Teacher preference: 89% prefer supportive tone</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">View Full Results</button>
+                    <button class="btn btn-info" style="margin-top: 1rem;">Export Data</button>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Completed Tests</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test</th>
+                            <th>Completed</th>
+                            <th>Participants</th>
+                            <th>Key Finding</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Language Testing</strong></td>
+                            <td>Nov 15, 2024</td>
+                            <td>45</td>
+                            <td>Supportive language increased engagement by 67%</td>
+                            <td style="color: #28a745;">✅ Implemented</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reflection Prompts</strong></td>
+                            <td>Nov 1, 2024</td>
+                            <td>38</td>
+                            <td>Contextual prompts preferred over generic ones</td>
+                            <td style="color: #ffc107;">⏳ In development</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Agency Features</strong></td>
+                            <td>Oct 20, 2024</td>
+                            <td>52</td>
+                            <td>Opt-out reduces surveillance anxiety by 43%</td>
+                            <td style="color: #28a745;">✅ Implemented</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function getDesignerFeedbackPage() {
+            return `
+                <h1 class="main-header">💭 User Feedback</h1>
+                <p class="sub-header">Collected feedback from teachers, students, and administrators</p>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">4.2/5</div>
+                        <div class="metric-label">Average Rating</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Would Recommend</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">127</div>
+                        <div class="metric-label">Total Feedback Items</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">23</div>
+                        <div class="metric-label">This Week</div>
+                    </div>
+                </div>
+
+                <div class="divider" style="margin: 2rem 0;"></div>
+
+                <h2 style="color: #002244;">Recent Feedback</h2>
+
+                <div class="feedback-card">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <p><strong>Teacher - Ms. Johnson (Mathematics)</strong></p>
+                            <p style="color: #666; font-size: 0.9rem;">Nov 20, 2024</p>
+                        </div>
+                        <div class="rating-stars">★★★★★</div>
+                    </div>
+                    <p style="margin-top: 1rem;">
+                        "I love the opt-out feature! It gives me the freedom to try new teaching methods without worrying about being judged. 
+                        The reflection prompts are also really helpful for thinking about my practice."
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span style="background: #e8f4f8; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.85rem;">Agency</span>
+                        <span style="background: #fff3cd; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.85rem;">Reflection</span>
+                    </div>
+                </div>
+
+                <div class="feedback-card">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+<div style="flex: 1;">
+<p><strong>Student - Alex (Grade 9)</strong></p>
+<p style="color: #666; font-size: 0.9rem;">Nov 17, 2024</p>
+</div>
+<div class="rating-stars">★★★★★</div>
+</div>
+<p style="margin-top: 1rem;">
+"I like that I can see my own recordings and track my progress.
+The privacy controls are clear and I feel safe knowing what's being shared."
+</p>
+</div>
+`;
+}
+function getDesignerAnalyticsPage() {
+        return `
+            <h1 class="main-header">📊 Usage Analytics</h1>
+            <p class="sub-header">Feature adoption and user behavior patterns</p>
+
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-value">89%</div>
+                    <div class="metric-label">Feature Adoption</div>
+                    <div class="metric-delta">Agency features</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3.2</div>
+                    <div class="metric-label">Avg Sessions/Teacher</div>
+                    <div class="metric-delta">Per month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">71%</div>
+                    <div class="metric-label">Reflection Rate</div>
+                    <div class="metric-delta">+8% this month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2.4 min</div>
+                    <div class="metric-label">Avg Reflection Time</div>
+                    <div class="metric-delta">Efficient!</div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder" style="margin-top: 2rem;">
+                📊 Feature Usage Breakdown Chart
+            </div>
+
+            <div class="chart-placeholder">
+                📈 Engagement Trends Over Time
+            </div>
+        `;
+    }
+
+    function getDesignerPrototypesPage() {
+        return `
+            <h1 class="main-header">🎯 Prototypes & Experiments</h1>
+            <p class="sub-header">Design iterations and experimental features</p>
+
+            <h2 style="color: #002244;">Active Prototypes</h2>
+
+            <div class="dashboard-card">
+                <h3>🎨 Prototype: Contextual Reflection Prompts</h3>
+                <p><strong>Status:</strong> In development</p>
+                <p><strong>Goal:</strong> Reduce cognitive load by showing relevant prompts based on session type</p>
+                
+                <div class="comparison-grid" style="margin-top: 1.5rem;">
+                    <div>
+                        <h4>Current Version</h4>
+                        <div class="reflection-question">
+                            All 15 generic prompts shown every time
+                        </div>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            <strong>Issue:</strong> Teachers report feeling overwhelmed
+                        </p>
+                    </div>
+                    <div>
+                        <h4>Prototype Version</h4>
+                        <div class="supportive-prompt">
+                            5 contextual prompts based on:<br>
+                            - Subject taught<br>
+                            - Time of day<br>
+                            - Recent patterns<br>
+                            - Teacher preferences
+                        </div>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            <strong>Expected:</strong> Faster, more relevant reflections
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-primary">View Interactive Prototype</button>
+                    <button class="btn btn-info">Schedule User Testing</button>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>📱 Prototype: Mobile-First Reflection Interface</h3>
+                <p><strong>Status:</strong> Ready for testing</p>
+                <p><strong>Goal:</strong> Improve mobile experience (23% of users on mobile)</p>
+                
+                <div class="feature-box" style="margin-top: 1rem;">
+                    <h4>New Features:</h4>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>Voice-to-text reflection recording</li>
+                        <li>Swipe gestures for prompt selection</li>
+                        <li>Quick tags instead of long forms</li>
+                        <li>Offline mode with auto-sync</li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-success">Launch Beta Test</button>
+                    <button class="btn btn-primary">View Figma Designs</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // Helper functions
+    function checkFrequency() {
+        const freq = document.getElementById('recordingFrequency')?.value;
+        const warning = document.getElementById('frequencyWarning');
+        if (warning && (freq === 'biweekly' || freq === 'daily')) {
+            warning.style.display = 'block';
+        } else if (warning) {
+            warning.style.display = 'none';
+        }
+    }
+
+    function reduceFrequency() {
+        const select = document.getElementById('recordingFrequency');
+        if (select) {
+            select.value = 'weekly';
+            document.getElementById('frequencyWarning').style.display = 'none';
+        }
+    }
+
+    function saveSettings() {
+        alert('✅ Your preferences have been saved!');
+    }
+
+    // Initialize app on load
+    window.onload = initApp;
+</script>
