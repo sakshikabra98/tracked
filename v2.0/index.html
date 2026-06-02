@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IMPACT+ V2 Complete Prototype</title>
+<style>
+body{margin:0;font-family:Arial;background:#f4f6f9}
+.sidebar{position:fixed;left:0;top:0;width:280px;height:100%;overflow:auto;background:#0f172a;color:#fff}
+.sidebar h2{text-align:center;padding:15px}
+.sidebar a{display:block;color:#fff;text-decoration:none;padding:10px 20px}
+.sidebar a:hover{background:#1e293b}
+.main{margin-left:280px;padding:20px}
+.card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+.kpi{display:inline-block;width:200px;margin:8px;padding:12px;background:#eef2ff;border-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #ddd;padding:8px}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.district{padding:25px;text-align:center;color:#fff;border-radius:8px}
+.green{background:#16a34a}.yellow{background:#ca8a04}.red{background:#dc2626}
+input,select,textarea{width:100%;padding:8px;margin:4px 0}
+</style>
+</head>
+<body>
+<div class="sidebar">
+<h2>IMPACT+ V2</h2>
+<a href="#home">Home</a>
+<a href="#impactindex">Impact Index</a>
+<a href="#districtmap">District Map</a>
+<a href="#hierarchy">State→District→School</a>
+<a href="#teacher">Teacher Logger</a>
+<a href="#student">Student Reflection</a>
+<a href="#observation">Observation</a>
+<a href="#assessment">Assessment</a>
+<a href="#holistic">Holistic Development</a>
+<a href="#teacherpractice">Teacher Practice</a>
+<a href="#school">School Dashboard</a>
+<a href="#district">District Dashboard</a>
+<a href="#research">Research Dashboard</a>
+<a href="#comparison">Platform Comparison</a>
+<a href="#cost">Cost Effectiveness</a>
+<a href="#methodology">Methodology</a>
+<a href="#evidence">Evidence Dashboard</a>
+<a href="#csr">CSR/Government Reporting</a>
+</div>
+<div class="main">
+
+<div id="home" class="card">
+<h1>IMPACT+ Educational Impact Intelligence Platform</h1>
+<p>Research, Monitoring, Evaluation, Accountability and Learning (RMEAL) platform for evaluating EdTech interventions.</p>
+</div>
+
+<div id="impactindex" class="card">
+<h2>Educational Impact Index</h2>
+<div class="kpi">Overall Impact: 81/100</div>
+<table>
+<tr><th>Dimension</th><th>Score</th></tr>
+<tr><td>Access</td><td>82</td></tr>
+<tr><td>Adoption</td><td>76</td></tr>
+<tr><td>Usage</td><td>81</td></tr>
+<tr><td>Engagement</td><td>88</td></tr>
+<tr><td>Achievement</td><td>73</td></tr>
+<tr><td>Retention</td><td>70</td></tr>
+<tr><td>Confidence</td><td>84</td></tr>
+<tr><td>Collaboration</td><td>80</td></tr>
+<tr><td>Critical Thinking</td><td>72</td></tr>
+<tr><td>Teacher Practice</td><td>79</td></tr>
+<tr><td>Transformation</td><td>77</td></tr>
+<tr><td>Sustainability</td><td>74</td></tr>
+</table>
+</div>
+
+<div id="districtmap" class="card">
+<h2>District Map Dashboard (Static Prototype)</h2>
+<div class="map">
+<div class="district green">District A<br>84</div>
+<div class="district yellow">District B<br>72</div>
+<div class="district red">District C<br>58</div>
+<div class="district green">District D<br>88</div>
+<div class="district yellow">District E<br>69</div>
+<div class="district green">District F<br>81</div>
+</div>
+</div>
+
+<div id="hierarchy" class="card">
+<h2>State → District → School Hierarchy</h2>
+<table>
+<tr><th>Level</th><th>Entity</th><th>Impact</th></tr>
+<tr><td>State</td><td>Haryana</td><td>79</td></tr>
+<tr><td>District</td><td>Gurgaon</td><td>84</td></tr>
+<tr><td>School</td><td>Govt School 12</td><td>77</td></tr>
+</table>
+</div>
+
+<div id="teacher" class="card"><h2>Teacher Session Logger</h2><input placeholder="Teacher"><input placeholder="School"><textarea placeholder="Reflection"></textarea></div>
+<div id="student" class="card"><h2>Student Reflection</h2><input placeholder="Student"><textarea placeholder="Learning Reflection"></textarea></div>
+<div id="observation" class="card"><h2>Observation Tool</h2><textarea placeholder="Observation Notes"></textarea></div>
+<div id="assessment" class="card"><h2>Assessment Tracker</h2><input placeholder="Pre-Test"><input placeholder="Post-Test"></div>
+
+<div id="holistic" class="card">
+<h2>Holistic Development Tracker</h2>
+<table><tr><th>Dimension</th><th>Score</th></tr>
+<tr><td>Confidence</td><td>4</td></tr>
+<tr><td>Communication</td><td>4</td></tr>
+<tr><td>Creativity</td><td>4</td></tr>
+<tr><td>Leadership</td><td>3</td></tr></table>
+</div>
+
+<div id="teacherpractice" class="card">
+<h2>Teacher Practice Tracker</h2>
+<table><tr><th>Indicator</th><th>Rating</th></tr>
+<tr><td>Planning</td><td>4</td></tr>
+<tr><td>Questioning</td><td>4</td></tr>
+<tr><td>Assessment</td><td>3</td></tr>
+<tr><td>Technology Integration</td><td>5</td></tr></table>
+</div>
+
+<div id="school" class="card"><h2>School Dashboard</h2><div class="kpi">Students 850</div><div class="kpi">Teachers 25</div><div class="kpi">Learning Gain +15%</div></div>
+
+<div id="district" class="card"><h2>District Dashboard</h2><div class="kpi">Schools 50</div><div class="kpi">Teachers 1200</div><div class="kpi">Students 25000</div></div>
+
+<div id="research" class="card">
+<h2>Research Dashboard</h2>
+<p>Filters: State, District, School, Grade, Subject, Gender, Platform, Time Period</p>
+<table><tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Learning Gain</td><td>18%</td></tr>
+<tr><td>Retention</td><td>15%</td></tr>
+<tr><td>Confidence Gain</td><td>12%</td></tr></table>
+</div>
+
+<div id="comparison" class="card">
+<h2>Comparative Platform Evaluation</h2>
+<table>
+<tr><th>Platform</th><th>Usage</th><th>Engagement</th><th>Gain</th></tr>
+<tr><td>Khan Academy</td><td>85</td><td>4.5</td><td>21%</td></tr>
+<tr><td>DIKSHA</td><td>120</td><td>4.2</td><td>15%</td></tr>
+<tr><td>Byju's</td><td>42</td><td>3.8</td><td>10%</td></tr>
+<tr><td>Mindspark</td><td>18</td><td>4.4</td><td>19%</td></tr>
+</table>
+</div>
+
+<div id="cost" class="card">
+<h2>Cost Effectiveness</h2>
+<table><tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Cost per Student</td><td>₹100</td></tr>
+<tr><td>Cost per Learning Gain</td><td>₹20</td></tr></table>
+</div>
+
+<div id="methodology" class="card">
+<h2>Impact Methodology & Scoring</h2>
+<table>
+<tr><th>Dimension</th><th>Weight</th><th>Evidence</th></tr>
+<tr><td>Access</td><td>5%</td><td>Infrastructure Survey</td></tr>
+<tr><td>Adoption</td><td>5%</td><td>Usage Logs</td></tr>
+<tr><td>Usage</td><td>10%</td><td>Teacher Logs</td></tr>
+<tr><td>Engagement</td><td>10%</td><td>Observation + Reflection</td></tr>
+<tr><td>Achievement</td><td>20%</td><td>Assessments</td></tr>
+<tr><td>Retention</td><td>10%</td><td>Follow-up Tests</td></tr>
+<tr><td>Confidence</td><td>5%</td><td>Student Survey</td></tr>
+<tr><td>Collaboration</td><td>5%</td><td>Observation</td></tr>
+<tr><td>Critical Thinking</td><td>10%</td><td>Performance Tasks</td></tr>
+<tr><td>Teacher Practice</td><td>10%</td><td>Observation</td></tr>
+<tr><td>Transformation</td><td>5%</td><td>School Rubric</td></tr>
+<tr><td>Sustainability</td><td>5%</td><td>Follow-up Survey</td></tr>
+</table>
+</div>
+
+<div id="evidence" class="card">
+<h2>Evidence Dashboard</h2>
+<table>
+<tr><th>Evidence Source</th><th>Used For</th></tr>
+<tr><td>Teacher Logs</td><td>Usage, Adoption</td></tr>
+<tr><td>Student Reflections</td><td>Confidence, Engagement</td></tr>
+<tr><td>Observations</td><td>Collaboration, Teacher Practice</td></tr>
+<tr><td>Assessments</td><td>Achievement, Retention</td></tr>
+<tr><td>Usage Logs</td><td>Adoption, Frequency</td></tr>
+</table>
+</div>
+
+<div id="csr" class="card">
+<h2>CSR & Government Reporting</h2>
+<table>
+<tr><th>Indicator</th><th>Value</th></tr>
+<tr><td>Schools Reached</td><td>50</td></tr>
+<tr><td>Teachers Trained</td><td>1200</td></tr>
+<tr><td>Students Benefited</td><td>25000</td></tr>
+<tr><td>Average Impact Index</td><td>81</td></tr>
+</table>
+</div>
+
+</div>
+</body></html>
