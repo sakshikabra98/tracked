@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>IMPACT+ V3 HTML-Only Prototype</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6fb;color:#1f2937}
+.sidebar{position:fixed;top:0;left:0;width:290px;height:100vh;background:#0f172a;color:#fff;overflow:auto;padding-bottom:30px}
+.sidebar h1{font-size:24px;text-align:center;margin:20px 0 5px}
+.sidebar p{text-align:center;font-size:12px;color:#cbd5e1;margin:0 15px 20px}
+.sidebar a{display:block;color:#e5e7eb;text-decoration:none;padding:11px 22px;font-size:14px;border-left:4px solid transparent}
+.sidebar a:hover{background:#1e293b;border-left:4px solid #60a5fa}
+.main{margin-left:290px;padding:24px}
+.section{background:#fff;border-radius:14px;padding:24px;margin-bottom:22px;box-shadow:0 3px 12px rgba(15,23,42,.08)}
+h2{margin-top:0;color:#0f172a}
+h3{color:#1e3a8a;margin-bottom:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.kpi{background:#eef2ff;border-radius:12px;padding:18px;border-left:5px solid #1e3a8a}
+.kpi span{display:block;color:#475569;font-size:13px}
+.kpi strong{display:block;font-size:26px;color:#0f172a;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+th{background:#1e3a8a;color:#fff;text-align:left}
+td,th{border:1px solid #dbe3ef;padding:10px;vertical-align:top}
+input,select,textarea{width:100%;padding:10px;margin:7px 0 13px;border:1px solid #cbd5e1;border-radius:8px}
+textarea{min-height:80px}
+.badge{display:inline-block;padding:6px 10px;border-radius:20px;font-size:12px;margin:2px;background:#e0f2fe;color:#075985}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.district{min-height:110px;border-radius:14px;color:#fff;padding:16px;text-align:center;font-weight:bold}
+.green{background:#15803d}.yellow{background:#b45309}.red{background:#b91c1c}.blue{background:#1d4ed8}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.flow div{background:#f8fafc;border:1px solid #dbe3ef;border-radius:12px;padding:16px;text-align:center}
+.bar{height:12px;background:#e5e7eb;border-radius:20px;overflow:hidden}
+.fill{height:12px;background:#1e3a8a}
+.reportbox{border:1px solid #cbd5e1;border-radius:12px;padding:16px;background:#f8fafc}
+@media(max-width:800px){.sidebar{position:relative;width:100%;height:auto}.main{margin-left:0}.map{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+<h1>IMPACT+</h1>
+<p>EdTech Impact Intelligence Platform</p>
+<a href="#home">Home</a>
+<a href="#toc">Theory of Change</a>
+<a href="#logic">Logic Model</a>
+<a href="#nep">NEP 2020 Alignment</a>
+<a href="#sdg">SDG & Equity Dashboard</a>
+<a href="#longitudinal">Longitudinal Tracking</a>
+<a href="#benchmarking">School Benchmarking</a>
+<a href="#teacherpd">Teacher PD Engine</a>
+<a href="#aiinsights">AI Insight Mockup</a>
+<a href="#earlywarning">Early Warning System</a>
+<a href="#fidelity">Implementation Fidelity</a>
+<a href="#researchmodule">Research Module</a>
+<a href="#qualitative">Qualitative Evidence</a>
+<a href="#stakeholder">Stakeholder Dashboards</a>
+<a href="#costbenefit">Cost-Benefit Engine</a>
+<a href="#districtmap">District Map</a>
+<a href="#methodology">Scoring Methodology</a>
+<a href="#impactindex">Impact Index</a>
+</div>
+
+<div class="main">
+
+<section id="home" class="section">
+<h2>IMPACT+ V3: HTML-Only Prototype</h2>
+<p><b>Purpose:</b> A static, presentation-ready prototype for measuring the educational impact of EdTech interventions such as Khan Academy, DIKSHA, Byju's, Mindspark and YouTube-based classroom learning.</p>
+<div class="grid">
+<div class="kpi"><span>Overall Impact Index</span><strong>81/100</strong></div>
+<div class="kpi"><span>Schools Covered</span><strong>50</strong></div>
+<div class="kpi"><span>Students Reached</span><strong>25,000</strong></div>
+<div class="kpi"><span>Average Learning Gain</span><strong>+18%</strong></div>
+</div>
+</section>
+
+<section id="toc" class="section">
+<h2>Theory of Change</h2>
+<div class="flow">
+<div><b>Inputs</b><br>Devices, content, teacher training, internet</div>
+<div><b>Activities</b><br>EdTech sessions, practice tasks, teacher facilitation</div>
+<div><b>Outputs</b><br>Sessions completed, students reached, assessments conducted</div>
+<div><b>Outcomes</b><br>Learning gain, confidence, engagement, teacher practice change</div>
+<div><b>Impact</b><br>Improved learning, classroom transformation, sustained adoption</div>
+</div>
+</section>
+
+<section id="logic" class="section">
+<h2>Logic Model Dashboard</h2>
+<table>
+<tr><th>Resources</th><th>Activities</th><th>Participation</th><th>Short-Term Outcomes</th><th>Long-Term Impact</th></tr>
+<tr><td>Tablets, teacher training, content licenses</td><td>Digital lessons, quizzes, peer learning</td><td>Teachers, students, principals, observers</td><td>Higher engagement and concept clarity</td><td>Improved achievement and school-level adoption</td></tr>
+</table>
+</section>
+
+<section id="nep" class="section">
+<h2>NEP 2020 Alignment Dashboard</h2>
+<table>
+<tr><th>NEP Theme</th><th>IMPACT+ Indicator</th><th>Evidence Source</th></tr>
+<tr><td>Foundational Literacy and Numeracy</td><td>Learning gains, assessment scores</td><td>Pre/post tests</td></tr>
+<tr><td>Competency-Based Education</td><td>Critical thinking, application tasks</td><td>Observation and performance tasks</td></tr>
+<tr><td>Experiential Learning</td><td>Group work, peer learning, classroom participation</td><td>Observation tool</td></tr>
+<tr><td>Digital Learning</td><td>Usage quality, platform adoption</td><td>Teacher logs</td></tr>
+<tr><td>Teacher Professional Development</td><td>Teacher practice index</td><td>Training and classroom observation</td></tr>
+<tr><td>Holistic Development</td><td>Confidence, collaboration, curiosity</td><td>Student reflection and observation</td></tr>
+</table>
+</section>
+
+<section id="sdg" class="section">
+<h2>SDG 4 and Equity Dashboard</h2>
+<div class="grid">
+<div class="kpi"><span>SDG 4.1 Learning Outcomes</span><strong>+18%</strong></div>
+<div class="kpi"><span>SDG 4.4 Digital Skills</span><strong>76</strong></div>
+<div class="kpi"><span>SDG 4.5 Equity</span><strong>82</strong></div>
+<div class="kpi"><span>SDG 4.c Teacher Training</span><strong>1,200</strong></div>
+</div>
+<table>
+<tr><th>Equity Lens</th><th>Tracked Variable</th><th>Use in Analysis</th></tr>
+<tr><td>Gender</td><td>Girls/Boys/Other</td><td>Compare access, engagement and gains</td></tr>
+<tr><td>Location</td><td>Rural/Urban</td><td>Identify access and connectivity gaps</td></tr>
+<tr><td>Device Access</td><td>Own/shared/no device</td><td>Explain variation in usage and outcomes</td></tr>
+<tr><td>Socioeconomic Status</td><td>Proxy indicators</td><td>Measure inclusion and targeting</td></tr>
+</table>
+</section>
+
+<section id="longitudinal" class="section">
+<h2>Longitudinal Student Tracking</h2>
+<table>
+<tr><th>Student</th><th>Baseline</th><th>Midline</th><th>Endline</th><th>Follow-Up</th><th>Growth</th></tr>
+<tr><td>Student A</td><td>42</td><td>58</td><td>71</td><td>68</td><td>+26</td></tr>
+<tr><td>Student B</td><td>38</td><td>49</td><td>66</td><td>62</td><td>+24</td></tr>
+<tr><td>Student C</td><td>51</td><td>63</td><td>74</td><td>72</td><td>+21</td></tr>
+</table>
+</section>
+
+<section id="benchmarking" class="section">
+<h2>School Benchmarking Engine</h2>
+<table>
+<tr><th>School</th><th>Impact Index</th><th>District Average</th><th>State Average</th><th>Status</th></tr>
+<tr><td>Govt School 12</td><td>77</td><td>69</td><td>64</td><td><span class="badge">Above Average</span></td></tr>
+<tr><td>Model School A</td><td>88</td><td>69</td><td>64</td><td><span class="badge">Top Quartile</span></td></tr>
+<tr><td>Govt School 21</td><td>58</td><td>69</td><td>64</td><td><span class="badge">Needs Support</span></td></tr>
+</table>
+</section>
+
+<section id="teacherpd" class="section">
+<h2>Teacher Professional Development Engine</h2>
+<table>
+<tr><th>Teacher</th><th>Training Completed</th><th>Classroom Application</th><th>Observation Score</th><th>Reflection Quality</th><th>Teacher Development Index</th></tr>
+<tr><td>Teacher A</td><td>90</td><td>82</td><td>78</td><td>80</td><td>82.5</td></tr>
+<tr><td>Teacher B</td><td>75</td><td>68</td><td>72</td><td>70</td><td>71.3</td></tr>
+</table>
+</section>
+
+<section id="aiinsights" class="section">
+<h2>AI Insight Generator Mockup</h2>
+<div class="reportbox">
+<p><b>Insight 1:</b> Schools using collaborative DIKSHA sessions show higher student engagement than schools using passive video viewing.</p>
+<p><b>Insight 2:</b> Grade 8 mathematics shows the strongest learning gains across all platforms.</p>
+<p><b>Insight 3:</b> Teacher facilitation quality appears strongly associated with student confidence growth.</p>
+</div>
+</section>
+
+<section id="earlywarning" class="section">
+<h2>Early Warning System</h2>
+<table>
+<tr><th>Alert</th><th>School</th><th>Indicator</th><th>Trend</th><th>Suggested Action</th></tr>
+<tr><td>Engagement Drop</td><td>School 24</td><td>Engagement</td><td>4.2 to 2.9</td><td>Academic support visit</td></tr>
+<tr><td>Low Usage</td><td>School 18</td><td>Sessions/week</td><td>5 to 1</td><td>Check device/connectivity barriers</td></tr>
+<tr><td>Assessment Risk</td><td>School 31</td><td>Learning Gain</td><td>+3%</td><td>Review pedagogy and remediation plan</td></tr>
+</table>
+</section>
+
+<section id="fidelity" class="section">
+<h2>Implementation Fidelity Tracker</h2>
+<table>
+<tr><th>Fidelity Dimension</th><th>Measurement</th><th>Score</th></tr>
+<tr><td>Dosage</td><td>Sessions delivered per week against plan</td><td>82</td></tr>
+<tr><td>Quality</td><td>Observation-based quality of classroom delivery</td><td>76</td></tr>
+<tr><td>Adherence</td><td>Intervention delivered as designed</td><td>79</td></tr>
+<tr><td>Reach</td><td>Percentage of intended students reached</td><td>88</td></tr>
+</table>
+</section>
+
+<section id="researchmodule" class="section">
+<h2>Research Module</h2>
+<table>
+<tr><th>Study Type</th><th>Use Case</th><th>Tracking Requirement</th></tr>
+<tr><td>RCT</td><td>High-rigor impact evaluation</td><td>Treatment/control allocation</td></tr>
+<tr><td>Quasi-experimental</td><td>Matched comparison schools</td><td>Baseline covariates and matching criteria</td></tr>
+<tr><td>Pre-post</td><td>Rapid program assessment</td><td>Baseline and endline tests</td></tr>
+<tr><td>Difference-in-difference</td><td>Program rollout comparison</td><td>Comparison group and repeated measures</td></tr>
+<tr><td>Mixed methods</td><td>Quantitative + qualitative explanation</td><td>Assessments, interviews, observations</td></tr>
+</table>
+</section>
+
+<section id="qualitative" class="section">
+<h2>Qualitative Evidence Repository</h2>
+<table>
+<tr><th>Evidence Type</th><th>Example</th><th>Used For</th></tr>
+<tr><td>Student quote</td><td>"The video helped me understand fractions."</td><td>Student voice</td></tr>
+<tr><td>Teacher reflection</td><td>"Group discussion worked better than individual viewing."</td><td>Pedagogical learning</td></tr>
+<tr><td>Observer note</td><td>"Students asked more questions after the simulation."</td><td>Classroom transformation</td></tr>
+<tr><td>Classroom narrative</td><td>Short case study of one classroom</td><td>Reporting and learning</td></tr>
+</table>
+</section>
+
+<section id="stakeholder" class="section">
+<h2>Multi-Stakeholder Dashboards</h2>
+<table>
+<tr><th>User</th><th>Dashboard Need</th><th>Primary Indicators</th></tr>
+<tr><td>Teacher</td><td>Classroom improvement</td><td>Engagement, understanding, reflection</td></tr>
+<tr><td>Principal</td><td>School performance</td><td>Adoption, learning gain, teacher practice</td></tr>
+<tr><td>NGO</td><td>Program implementation</td><td>Reach, fidelity, outcomes</td></tr>
+<tr><td>CSR</td><td>Return on investment</td><td>Cost per student, cost per gain</td></tr>
+<tr><td>Government</td><td>System trends</td><td>District performance, equity, scale</td></tr>
+<tr><td>Researcher</td><td>Raw evidence and methods</td><td>Baseline, endline, attrition, comparison groups</td></tr>
+</table>
+</section>
+
+<section id="costbenefit" class="section">
+<h2>Cost-Benefit Engine</h2>
+<table>
+<tr><th>Platform</th><th>Cost per Student</th><th>Learning Gain</th><th>Cost per Learning Gain Point</th></tr>
+<tr><td>DIKSHA</td><td>₹20</td><td>15%</td><td>₹1.33</td></tr>
+<tr><td>Khan Academy</td><td>₹100</td><td>21%</td><td>₹4.76</td></tr>
+<tr><td>Byju's</td><td>₹250</td><td>10%</td><td>₹25.00</td></tr>
+<tr><td>Mindspark</td><td>₹180</td><td>19%</td><td>₹9.47</td></tr>
+</table>
+</section>
+
+<section id="districtmap" class="section">
+<h2>District Map Dashboard</h2>
+<div class="map">
+<div class="district green">Gurgaon<br>Impact 84<br>Green</div>
+<div class="district yellow">Faridabad<br>Impact 72<br>Moderate</div>
+<div class="district red">Rewari<br>Impact 58<br>Needs Support</div>
+<div class="district blue">Jhajjar<br>Impact 81<br>High</div>
+<div class="district yellow">Nuh<br>Impact 64<br>Moderate</div>
+<div class="district green">Rohtak<br>Impact 86<br>High</div>
+</div>
+<p><b>Colour rule:</b> Green = 80+, Yellow = 60–79, Red = below 60.</p>
+</section>
+
+<section id="methodology" class="section">
+<h2>Scoring Methodology</h2>
+<table>
+<tr><th>Dimension</th><th>Weight</th><th>Indicators</th><th>Evidence Source</th></tr>
+<tr><td>Access</td><td>5%</td><td>Device access, connectivity, electricity</td><td>Infrastructure survey</td></tr>
+<tr><td>Adoption</td><td>5%</td><td>Active teachers, active students, repeat users</td><td>Usage logs and teacher logs</td></tr>
+<tr><td>Usage</td><td>10%</td><td>Frequency, duration, quality of use</td><td>Session logger</td></tr>
+<tr><td>Engagement</td><td>10%</td><td>Attention, participation, enjoyment, questioning</td><td>Observation and student reflection</td></tr>
+<tr><td>Achievement</td><td>20%</td><td>Pre-test, post-test, normalized gain</td><td>Assessments</td></tr>
+<tr><td>Retention</td><td>10%</td><td>One-week, one-month, three-month retention</td><td>Follow-up tests</td></tr>
+<tr><td>Confidence</td><td>5%</td><td>Self-efficacy and academic confidence</td><td>Student surveys</td></tr>
+<tr><td>Collaboration</td><td>5%</td><td>Peer learning, group work, peer teaching</td><td>Observation</td></tr>
+<tr><td>Critical Thinking</td><td>10%</td><td>Analysis, evaluation, justification, problem solving</td><td>Performance tasks</td></tr>
+<tr><td>Teacher Practice</td><td>10%</td><td>Planning, questioning, feedback, assessment, tech integration</td><td>Observation and teacher reflection</td></tr>
+<tr><td>Classroom Transformation</td><td>5%</td><td>Student voice, agency, participation, discussion</td><td>Observation and qualitative notes</td></tr>
+<tr><td>Sustainability</td><td>5%</td><td>Continued use, ownership, budget, local capacity</td><td>School survey and follow-up</td></tr>
+</table>
+</section>
+
+<section id="impactindex" class="section">
+<h2>IMPACT+ Educational Impact Index</h2>
+<div class="grid">
+<div class="kpi"><span>Access</span><strong>82</strong><div class="bar"><div class="fill" style="width:82%"></div></div></div>
+<div class="kpi"><span>Adoption</span><strong>76</strong><div class="bar"><div class="fill" style="width:76%"></div></div></div>
+<div class="kpi"><span>Usage</span><strong>81</strong><div class="bar"><div class="fill" style="width:81%"></div></div></div>
+<div class="kpi"><span>Engagement</span><strong>88</strong><div class="bar"><div class="fill" style="width:88%"></div></div></div>
+<div class="kpi"><span>Achievement</span><strong>73</strong><div class="bar"><div class="fill" style="width:73%"></div></div></div>
+<div class="kpi"><span>Retention</span><strong>70</strong><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<div class="kpi"><span>Confidence</span><strong>84</strong><div class="bar"><div class="fill" style="width:84%"></div></div></div>
+<div class="kpi"><span>Collaboration</span><strong>80</strong><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="kpi"><span>Critical Thinking</span><strong>72</strong><div class="bar"><div class="fill" style="width:72%"></div></div></div>
+<div class="kpi"><span>Teacher Practice</span><strong>79</strong><div class="bar"><div class="fill" style="width:79%"></div></div></div>
+<div class="kpi"><span>Transformation</span><strong>77</strong><div class="bar"><div class="fill" style="width:77%"></div></div></div>
+<div class="kpi"><span>Sustainability</span><strong>74</strong><div class="bar"><div class="fill" style="width:74%"></div></div></div>
+</div>
+<h2>Overall Impact Score: 81 / 100</h2>
+</section>
+
+</div>
+</body>
+</html>
