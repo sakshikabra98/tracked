@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TrackEd Dashboard V5 — REFLECTIVE M&E Layer</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#172033;line-height:1.45}
+.sidebar{position:fixed;left:0;top:0;width:315px;height:100vh;background:#101827;color:#fff;overflow:auto;padding-bottom:35px}
+.sidebar h1{text-align:center;margin:18px 0 2px;font-size:25px;letter-spacing:.4px}
+.sidebar p{text-align:center;color:#cbd5e1;font-size:12px;margin:0 18px 15px}
+.sidebar a{display:block;color:#e5e7eb;text-decoration:none;padding:10px 22px;border-left:4px solid transparent;font-size:14px}
+.sidebar a:hover{background:#1f2937;border-left-color:#93c5fd}
+.main{margin-left:315px;padding:24px}
+.section{background:#fff;border-radius:16px;padding:24px;margin-bottom:22px;box-shadow:0 3px 14px rgba(15,23,42,.08)}
+h2{margin-top:0;color:#0f172a}
+h3{color:#1e3a8a;margin-bottom:8px}
+p.lead{font-size:16px;color:#334155}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.kpi{background:#eef2ff;border-left:5px solid #1e3a8a;border-radius:13px;padding:16px}
+.kpi span{display:block;color:#475569;font-size:13px}
+.kpi strong{display:block;font-size:25px;color:#0f172a;margin-top:6px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px}
+th{background:#1e3a8a;color:#fff;text-align:left}
+td,th{border:1px solid #d7e0ee;padding:9px;vertical-align:top}
+input,select,textarea{width:100%;padding:9px;margin:5px 0 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+textarea{min-height:72px}
+label{font-weight:bold;font-size:13px;color:#334155}
+.badge{display:inline-block;padding:5px 9px;border-radius:20px;background:#dbeafe;color:#1e40af;font-size:12px;margin:2px}
+.good{background:#ecfdf5;border-left:5px solid #16a34a;padding:14px;border-radius:10px;margin:10px 0}
+.warn{background:#fff7ed;border-left:5px solid #f97316;padding:14px;border-radius:10px;margin:10px 0}
+.redbox{background:#fef2f2;border-left:5px solid #dc2626;padding:14px;border-radius:10px;margin:10px 0}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.flow div{background:#f8fafc;border:1px solid #d7e0ee;border-radius:12px;padding:14px;text-align:center}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.district{min-height:115px;border-radius:14px;color:#fff;padding:14px;text-align:center;font-weight:bold}
+.green{background:#15803d}.yellow{background:#b45309}.red{background:#b91c1c}.blue{background:#1d4ed8}.grey{background:#475569}
+.bar{height:12px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:7px}
+.fill{height:12px;background:#1e3a8a}
+.small{font-size:12px;color:#64748b}
+.cardtitle{font-size:18px;font-weight:bold;color:#0f172a;margin-bottom:8px}
+.mirror{background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:16px;margin-top:12px}
+@media(max-width:850px){.sidebar{position:relative;width:100%;height:auto}.main{margin-left:0}.map{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+<h1>TrackEd</h1>
+<p>A dignity-centred REFLECTIVE M&E layer for EdTech use in classrooms</p>
+<a href="#home">1. Home</a>
+<a href="#designbrief">2. Design Brief</a>
+<a href="#reflective">3. REFLECTIVE Framework</a>
+<a href="#operatingmodel">4. Operating Model</a>
+<a href="#teacherpulse">5. Teacher Pulse Logger</a>
+<a href="#sessionlog">6. Session Reflection</a>
+<a href="#studentvoice">7. Student Voice</a>
+<a href="#platformlayer">8. Cross-Platform Layer</a>
+<a href="#usecases">9. Classroom Use Cases</a>
+<a href="#evidence">10. Evidence Matrix</a>
+<a href="#scoring">11. Scoring Logic</a>
+<a href="#mirrorinsights">12. Mirror Insights</a>
+<a href="#schooldashboard">13. School Dashboard</a>
+<a href="#districtdashboard">14. District Dashboard</a>
+<a href="#districtmap">15. District Map</a>
+<a href="#researchdashboard">16. Research Dashboard</a>
+<a href="#costdashboard">17. Cost & Value</a>
+<a href="#ethics">18. Data Ethics</a>
+<a href="#edr">19. EDR Iteration Story</a>
+<a href="#pilot">20. Pilot Setup</a>
+</div>
+
+<div class="main">
+
+<section id="home" class="section">
+<h2>1. TrackEd Dashboard — Rebuilt Around the Feedback</h2>
+<p class="lead"><b>TrackEd is not another EdTech product; it is a reflective M&E layer above EdTech tools.</b> It helps schools understand how different tools are being used, whether they are supporting learning, and what classroom conditions explain the difference.</p>
+<div class="grid">
+<div class="kpi"><span>Core Question</span><strong>What helps learning?</strong></div>
+<div class="kpi"><span>Primary User</span><strong>Teacher + School</strong></div>
+<div class="kpi"><span>Measurement Ethic</span><strong>Mirror, not monitor</strong></div>
+<div class="kpi"><span>Evidence Mode</span><strong>Low-burden triangulation</strong></div>
+</div>
+<div class="good"><b>Design correction:</b> This version moves away from the earlier 12-dimensional IMPACT+ style scorecard and places REFLECTIVE at the centre. Scores are no longer used to rank teachers; they are used to generate prompts for improvement.</div>
+</section>
+
+<section id="designbrief" class="section">
+<h2>2. Design Brief: What the Dashboard Must Do</h2>
+<table>
+<tr><th>Feedback Received</th><th>Design Response in TrackEd</th></tr>
+<tr><td>The tool should not become an EdTech intervention of its own.</td><td>TrackEd only captures, interprets and reflects evidence from existing tools and classroom processes.</td></tr>
+<tr><td>Teachers will not complete long questionnaires regularly.</td><td>The dashboard uses one-minute pulse check-ins, class-level reflections, and optional voice notes.</td></tr>
+<tr><td>Schools need to know which activities enable engagement and which enable improvement.</td><td>The dashboard separates engagement evidence from learning evidence and shows likely enablers.</td></tr>
+<tr><td>EdTech does not work by itself.</td><td>Every session log records teacher role, peer discussion, task type, language support and feedback.</td></tr>
+<tr><td>Data should not become surveillance.</td><td>No teacher ranking, optional student voice, consent flags, aggregated reporting and supportive language.</td></tr>
+<tr><td>Different EdTech tools need different evidence.</td><td>Use-case screens show different evidence patterns for Khan Academy, DIKSHA, Byju's, PhysicsWallah and YouTube.</td></tr>
+</table>
+</section>
+
+<section id="reflective" class="section">
+<h2>3. REFLECTIVE Framework Dashboard</h2>
+<p><b>REFLECTIVE is the organising framework.</b> The older 12-dimensional framework is retained only as a background origin, not as the main dashboard spine.</p>
+<table>
+<tr><th>Letter</th><th>Dimension</th><th>Dashboard Question</th><th>Primary Feature</th></tr>
+<tr><td>R</td><td>Responsible and ethical monitoring</td><td>Is the data useful without becoming surveillance?</td><td>Consent, aggregation, no ranking</td></tr>
+<tr><td>E</td><td>Equity and access mapping</td><td>Who had the opportunity to use the tool?</td><td>Access snapshot</td></tr>
+<tr><td>F</td><td>Frequency and nature of EdTech use</td><td>How often and for what purpose was the tool used?</td><td>Session logger</td></tr>
+<tr><td>L</td><td>Learning outcome alignment</td><td>Which curricular outcome was addressed?</td><td>LO tagging</td></tr>
+<tr><td>E</td><td>Engagement and classroom process</td><td>Were students attentive, questioning and collaborating?</td><td>Energy meter + observation</td></tr>
+<tr><td>C</td><td>Competency and holistic development</td><td>Did students explain, apply, collaborate or reflect?</td><td>Competency tracker</td></tr>
+<tr><td>T</td><td>Teacher reflection and transformation</td><td>What did the teacher notice and change?</td><td>Mirror reflection</td></tr>
+<tr><td>I</td><td>Inclusion and socio-cultural context</td><td>Did language, gender, disability or context affect uptake?</td><td>Context tags</td></tr>
+<tr><td>V</td><td>Voice, consent and dignity</td><td>Did students and teachers retain agency?</td><td>Optional student voice</td></tr>
+<tr><td>E</td><td>Evidence for improvement, not surveillance</td><td>What action should be taken next?</td><td>Reflective insight card</td></tr>
+</table>
+</section>
+
+<section id="operatingmodel" class="section">
+<h2>4. Operating Model</h2>
+<div class="flow">
+<div><b>Before Class</b><br>Teacher selects tool, topic, LO, mode and access condition</div>
+<div><b>During Class</b><br>Quick energy/engagement pulse; no intrusive surveillance</div>
+<div><b>After Class</b><br>One class-level teacher reflection; optional student voice</div>
+<div><b>Periodic</b><br>Assessment and observation sampled, not demanded daily</div>
+<div><b>Dashboard</b><br>Shows reflective insight, not judgement</div>
+</div>
+</section>
+
+<section id="teacherpulse" class="section">
+<h2>5. Teacher Pulse Logger: One-Minute Check-In</h2>
+<p><b>The pulse logger replaces long questionnaires.</b> It captures classroom energy and engagement as a quick, repeated signal that can be triangulated with timetable, subject, tool, and assessment data.</p>
+<div class="grid">
+<div><label>Class Energy</label><select><option>1 - Very low</option><option>2 - Low</option><option>3 - Moderate</option><option>4 - High</option><option>5 - Very high</option></select></div>
+<div><label>Student Engagement</label><select><option>1 - Very low</option><option>2 - Low</option><option>3 - Moderate</option><option>4 - High</option><option>5 - Very high</option></select></div>
+<div><label>Period Timing</label><select><option>Early morning</option><option>Pre-lunch</option><option>Post-lunch</option><option>Last period</option></select></div>
+<div><label>External Context</label><select><option>Normal day</option><option>After sports/dance</option><option>Exam week</option><option>Heat/noise disruption</option><option>Teacher substitute</option></select></div>
+</div>
+<label>Teacher note, optional</label><textarea placeholder="Example: Students had sports before this period; low energy may not reflect the lesson quality."></textarea>
+<div class="mirror"><b>Mirror prompt:</b> Low energy was recorded after a sports period. Consider whether the next activity should begin with a short recap or energiser rather than interpreting this as poor engagement.</div>
+</section>
+
+<section id="sessionlog" class="section">
+<h2>6. Session Reflection: Class-Level, Not Student-by-Student</h2>
+<div class="grid">
+<div><label>Class</label><input placeholder="Class 7"></div>
+<div><label>Subject</label><input placeholder="Mathematics"></div>
+<div><label>Tool Used</label><select><option>Khan Academy</option><option>DIKSHA</option><option>Byju's</option><option>PhysicsWallah</option><option>YouTube</option><option>Other</option></select></div>
+<div><label>Purpose</label><select><option>Concept introduction</option><option>Practice / reinforcement</option><option>Remediation</option><option>Assessment</option><option>Homework</option></select></div>
+<div><label>Mode</label><select><option>Whole class projection</option><option>Shared devices / pair work</option><option>Individual device use</option><option>Teacher-led discussion</option><option>Homework / asynchronous</option></select></div>
+<div><label>Learning Outcome</label><input placeholder="Solves problems involving decimals in real-life contexts"></div>
+</div>
+<label>Reflective prompts</label>
+<textarea placeholder="Did most students attempt the activity? Were students able to solve independently? Did peer discussion help? What was difficult? What would you do differently next time?"></textarea>
+</section>
+
+<section id="studentvoice" class="section">
+<h2>7. Student Voice: Optional, Dignified, Low-Burden</h2>
+<p><b>Student voice is used to understand experience, not to label children.</b> The dashboard supports emoji, text, audio, drawing or short reflection, with consent and opt-out.</p>
+<table>
+<tr><th>Prompt</th><th>Format</th><th>Use in Dashboard</th></tr>
+<tr><td>Did this help you understand?</td><td>Emoji / 1–5</td><td>Confidence and understanding trend</td></tr>
+<tr><td>What helped most?</td><td>Video / quiz / teacher / peer / activity</td><td>Learning enabler analysis</td></tr>
+<tr><td>What was difficult?</td><td>Text/audio optional</td><td>Misconception and support planning</td></tr>
+<tr><td>Can we use your reflection?</td><td>Consent yes/no</td><td>Voice, consent and dignity</td></tr>
+</table>
+</section>
+
+<section id="platformlayer" class="section">
+<h2>8. Cross-Platform M&E Layer</h2>
+<p><b>TrackEd does not duplicate platform dashboards.</b> It converts platform-level data into M&E questions and adds classroom context that EdTech tools usually miss.</p>
+<table>
+<tr><th>Platform</th><th>What Platform May Already Provide</th><th>What TrackEd Adds</th></tr>
+<tr><td>Khan Academy</td><td>Student progress, practice scores, teacher dashboard</td><td>Mode of use, peer discussion, access constraints, teacher reflection, LO alignment</td></tr>
+<tr><td>DIKSHA</td><td>Content access, QR-linked resources, usage traces where available</td><td>Classroom process, whether video became discussion/task, inclusion and language context</td></tr>
+<tr><td>Byju's</td><td>App/module use and proprietary assessment data where accessible</td><td>School-level interpretation, teacher mediation, learner voice, non-punitive reflection</td></tr>
+<tr><td>PhysicsWallah / YouTube</td><td>Views, completion, content exposure</td><td>Whether exposure became learning, discussion, practice, feedback or remediation</td></tr>
+</table>
+</section>
+
+<section id="usecases" class="section">
+<h2>9. Classroom Use Cases</h2>
+<h3>Use Case A: Khan Academy — Class 7 Decimals</h3>
+<table>
+<tr><th>Session Context</th><th>TrackEd Capture</th><th>Generated Insight</th></tr>
+<tr><td>Students work in pairs because devices are limited.</td><td>Mode: shared devices; LO: decimal word problems; purpose: practice.</td><td>Pair work increased peer explanation but reduced individual practice time.</td></tr>
+<tr><td>Students solve direct operations but struggle with word problems.</td><td>Teacher reflection + platform quiz score.</td><td>Next class should focus on reading and interpreting word problems.</td></tr>
+</table>
+
+<h3>Use Case B: DIKSHA / Video Resource — Class 7 Science</h3>
+<table>
+<tr><th>Session Context</th><th>TrackEd Capture</th><th>Generated Insight</th></tr>
+<tr><td>Teacher uses video/simulation on separation of substances.</td><td>Tool: DIKSHA/video; mode: whole-class; follow-up group task.</td><td>Video supported concept introduction, but application improved through group examples.</td></tr>
+<tr><td>Students apply concept to tea leaves, saltwater, sieving.</td><td>Competency: application to daily life.</td><td>Students need more hands-on practice for transfer.</td></tr>
+</table>
+
+<h3>Use Case C: PhysicsWallah / YouTube — Homework Support</h3>
+<table>
+<tr><th>Session Context</th><th>TrackEd Capture</th><th>Generated Insight</th></tr>
+<tr><td>Students watch lecture outside class.</td><td>Purpose: homework support; evidence: student reflection and short quiz.</td><td>High exposure does not necessarily show understanding; follow-up classroom check is needed.</td></tr>
+</table>
+</section>
+
+<section id="evidence" class="section">
+<h2>10. Evidence Matrix</h2>
+<table>
+<tr><th>REFLECTIVE Dimension</th><th>Minimum Evidence</th><th>Collection Burden</th><th>Frequency</th></tr>
+<tr><td>Responsible monitoring</td><td>Consent flag, aggregation rule, no-rank setting</td><td>Low</td><td>Setup + review</td></tr>
+<tr><td>Equity and access</td><td>Device access, language, group/individual use</td><td>Low</td><td>Each session / weekly</td></tr>
+<tr><td>Frequency and nature of use</td><td>Tool, purpose, duration, mode</td><td>Low</td><td>Each session</td></tr>
+<tr><td>Learning outcome alignment</td><td>NCERT/state LO tag</td><td>Medium initially, low later</td><td>Each session</td></tr>
+<tr><td>Engagement and process</td><td>Energy pulse, participation, questions, peer support</td><td>Low to medium</td><td>Pulse each session; observation sample</td></tr>
+<tr><td>Competency and holistic development</td><td>Application, explanation, collaboration, confidence</td><td>Medium</td><td>Weekly / sampled</td></tr>
+<tr><td>Teacher reflection</td><td>What worked, what did not, what next</td><td>Low</td><td>Each session or weekly</td></tr>
+<tr><td>Inclusion and context</td><td>Language, device, gender, disability, socio-cultural constraints</td><td>Low</td><td>Baseline + updates</td></tr>
+<tr><td>Voice and dignity</td><td>Optional student reflection and consent</td><td>Low</td><td>Sampled</td></tr>
+<tr><td>Evidence for improvement</td><td>Action prompt and follow-up status</td><td>Low</td><td>Dashboard review</td></tr>
+</table>
+</section>
+
+<section id="scoring" class="section">
+<h2>11. Scoring Logic: From Scores to Prompts</h2>
+<p><b>TrackEd should avoid a single punitive score.</b> It can still show indices, but each score must produce an explanation and a reflective next step.</p>
+<table>
+<tr><th>Score</th><th>Calculation</th><th>Interpretation</th><th>Output Language</th></tr>
+<tr><td>Access Readiness</td><td>Device + connectivity + language support + shared-use feasibility</td><td>Whether children had opportunity to benefit</td><td>"Some students may not have had equal access."</td></tr>
+<tr><td>Use Quality</td><td>Purpose + mode + duration + teacher mediation</td><td>Whether EdTech use was passive or active</td><td>"Consider adding discussion after video viewing."</td></tr>
+<tr><td>Engagement Signal</td><td>Energy pulse + participation + questions + peer support</td><td>Whether students were involved</td><td>"Engagement was lower post-lunch; context may matter."</td></tr>
+<tr><td>Learning Signal</td><td>Pre/post or platform score + teacher-identified misconceptions</td><td>Whether learning improved</td><td>"Procedural skill improved; word problems need support."</td></tr>
+<tr><td>Reflection Quality</td><td>Teacher note contains observation + reason + next action</td><td>Whether data closed the learning loop</td><td>"Next-step reflection recorded."</td></tr>
+</table>
+<div class="warn"><b>Dashboard rule:</b> No teacher leaderboard. No red label attached to an individual teacher. Red flags are attached to support needs, not people.</div>
+</section>
+
+<section id="mirrorinsights" class="section">
+<h2>12. Mirror Insights: Supportive Reporting Language</h2>
+<div class="mirror">
+<p><b>Instead of:</b> Student engagement was poor.</p>
+<p><b>TrackEd says:</b> Engagement appeared lower than usual. This was a post-lunch period and students had just returned from sports. Consider a short recap, energiser, or peer task before beginning individual practice.</p>
+</div>
+<div class="mirror">
+<p><b>Instead of:</b> Teacher did not use EdTech effectively.</p>
+<p><b>TrackEd says:</b> The digital resource was used mainly for viewing. A follow-up question or group task may help convert exposure into learning.</p>
+</div>
+<div class="mirror">
+<p><b>Instead of:</b> Students failed the assessment.</p>
+<p><b>TrackEd says:</b> Students attempted procedural questions successfully but struggled with application. The next session may focus on examples from daily life.</p>
+</div>
+</section>
+
+<section id="schooldashboard" class="section">
+<h2>13. School Dashboard</h2>
+<div class="grid">
+<div class="kpi"><span>Classes Covered</span><strong>18</strong></div>
+<div class="kpi"><span>Sessions Logged</span><strong>126</strong></div>
+<div class="kpi"><span>Active Teachers</span><strong>21/25</strong></div>
+<div class="kpi"><span>Student Voice Samples</span><strong>340</strong></div>
+<div class="kpi"><span>Evidence Completeness</span><strong>78%</strong></div>
+<div class="kpi"><span>Improvement Prompts Closed</span><strong>64%</strong></div>
+</div>
+<table>
+<tr><th>Focus Area</th><th>Status</th><th>Likely Explanation</th><th>Suggested School Action</th></tr>
+<tr><td>Math practice</td><td><span class="badge">Strong</span></td><td>Khan Academy used with peer discussion and follow-up questions</td><td>Document practice for other grades</td></tr>
+<tr><td>Science videos</td><td><span class="badge">Moderate</span></td><td>Good exposure but limited application tasks</td><td>Add classroom tasks after video</td></tr>
+<tr><td>Post-lunch classes</td><td><span class="badge">Needs reflection</span></td><td>Energy and engagement lower after recess/sports</td><td>Review timetable and opening routines</td></tr>
+</table>
+</section>
+
+<section id="districtdashboard" class="section">
+<h2>14. District Dashboard</h2>
+<div class="grid">
+<div class="kpi"><span>Schools</span><strong>50</strong></div>
+<div class="kpi"><span>Teachers Active</span><strong>1,020</strong></div>
+<div class="kpi"><span>Students Reached</span><strong>25,000</strong></div>
+<div class="kpi"><span>High-Support Schools</span><strong>7</strong></div>
+</div>
+<table>
+<tr><th>District Question</th><th>Dashboard Evidence</th><th>Administrative Action</th></tr>
+<tr><td>Which schools need support?</td><td>Low evidence completeness + low learning signal + access barriers</td><td>Schedule field support visit</td></tr>
+<tr><td>Which practices should be scaled?</td><td>High learning signal with high reflection quality</td><td>Document and share with cluster schools</td></tr>
+<tr><td>Which EdTech tools work best under which conditions?</td><td>Platform comparison by mode, subject, access and LO</td><td>Use evidence for procurement/training decisions</td></tr>
+</table>
+</section>
+
+<section id="districtmap" class="section">
+<h2>15. District Map</h2>
+<div class="map">
+<div class="district green">Gurgaon<br>Reflection Index 84<br>Strong evidence</div>
+<div class="district yellow">Faridabad<br>Reflection Index 72<br>Needs targeted support</div>
+<div class="district red">Rewari<br>Reflection Index 58<br>Field review needed</div>
+<div class="district blue">Rohtak<br>Reflection Index 86<br>Practice site</div>
+<div class="district yellow">Nuh<br>Reflection Index 64<br>Access concern</div>
+<div class="district grey">Jhajjar<br>Data Completeness 48%<br>Insufficient evidence</div>
+</div>
+<table>
+<tr><th>Map Colour</th><th>Meaning</th><th>Action</th></tr>
+<tr><td>Green / Blue</td><td>Strong implementation and useful evidence</td><td>Study and replicate</td></tr>
+<tr><td>Yellow</td><td>Moderate evidence or mixed outcomes</td><td>Targeted support</td></tr>
+<tr><td>Red</td><td>Low learning signal or serious implementation constraint</td><td>Field review</td></tr>
+<tr><td>Grey</td><td>Insufficient evidence</td><td>Improve data completeness before judgement</td></tr>
+</table>
+</section>
+
+<section id="researchdashboard" class="section">
+<h2>16. Research Dashboard</h2>
+<p><b>The research view separates evidence from claims.</b> Simulated/prototype data is labelled as demonstration data, not field findings.</p>
+<div class="grid">
+<div><label>Tool</label><select><option>All</option><option>Khan Academy</option><option>DIKSHA</option><option>Byju's</option><option>PhysicsWallah</option></select></div>
+<div><label>Grade</label><select><option>All</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option></select></div>
+<div><label>Subject</label><select><option>All</option><option>Math</option><option>Science</option><option>English</option></select></div>
+<div><label>Mode of Use</label><select><option>All</option><option>Whole class</option><option>Shared device</option><option>Individual</option><option>Homework</option></select></div>
+<div><label>Evidence Status</label><select><option>All</option><option>Complete</option><option>Partial</option><option>Illustrative only</option></select></div>
+<div><label>Equity Lens</label><select><option>All</option><option>Gender</option><option>Device access</option><option>Language</option><option>Disability</option></select></div>
+</div>
+<table>
+<tr><th>Research Question</th><th>Required Evidence</th><th>Current Dashboard Output</th></tr>
+<tr><td>Are learning gaps shrinking across tools?</td><td>Matched baseline/endline by student group and tool</td><td>Available only if assessment data is uploaded</td></tr>
+<tr><td>Does mode of use affect engagement?</td><td>Session mode + energy pulse + observation</td><td>Pair work associated with more peer discussion</td></tr>
+<tr><td>Does platform use translate into classroom learning?</td><td>Platform score + teacher reflection + LO assessment</td><td>Shown as triangulated learning signal</td></tr>
+</table>
+</section>
+
+<section id="costdashboard" class="section">
+<h2>17. Cost and Value Dashboard</h2>
+<table>
+<tr><th>Tool</th><th>Cost Type</th><th>Cost per Student</th><th>Evidence Strength</th><th>Value Interpretation</th></tr>
+<tr><td>DIKSHA</td><td>Public/free content plus implementation cost</td><td>Low</td><td>Depends on classroom use evidence</td><td>High potential if teacher mediation is strong</td></tr>
+<tr><td>Khan Academy</td><td>Free/low-cost plus device and training cost</td><td>Low to moderate</td><td>Strong if teacher dashboard data is accessible</td><td>Useful for practice and remediation</td></tr>
+<tr><td>Byju's</td><td>Subscription/licensing</td><td>Higher</td><td>Depends on data access and school integration</td><td>Must be justified by learning and inclusion evidence</td></tr>
+<tr><td>YouTube / PhysicsWallah</td><td>Low direct cost, high curation burden</td><td>Low</td><td>Weak unless linked to tasks and assessment</td><td>Useful as supplement, not sufficient evidence of learning</td></tr>
+</table>
+</section>
+
+<section id="ethics" class="section">
+<h2>18. Data Ethics and Dignity Guardrails</h2>
+<table>
+<tr><th>Risk</th><th>Guardrail</th><th>Dashboard Behaviour</th></tr>
+<tr><td>Surveillance</td><td>No continuous camera/audio monitoring by default</td><td>Uses teacher pulse, sampled observation, optional artefacts</td></tr>
+<tr><td>Teacher blame</td><td>No ranking or punitive labels</td><td>Shows support needs and context explanations</td></tr>
+<tr><td>Student labelling</td><td>Aggregate reporting and consent</td><td>Student voice is optional and non-punitive</td></tr>
+<tr><td>Data burden</td><td>One-minute check-ins and class-level logs</td><td>Minimum viable evidence principle</td></tr>
+<tr><td>Misinterpretation</td><td>Context tags and teacher reflection</td><td>Insights include possible non-teacher explanations</td></tr>
+</table>
+</section>
+
+<section id="edr" class="section">
+<h2>19. EDR Iteration Story</h2>
+<table>
+<tr><th>Iteration</th><th>Design Logic</th><th>What Changed</th></tr>
+<tr><td>IMPACT+</td><td>Impact measurement dashboard</td><td>Too close to surveillance and administrative scoring</td></tr>
+<tr><td>MIRROR</td><td>Reflective support tool</td><td>Centred teacher agency, dignity and non-punitive language</td></tr>
+<tr><td>TrackEd</td><td>Practice-continuum and cross-platform M&E layer</td><td>Added REFLECTIVE framework, use cases, evidence matrix and improvement prompts</td></tr>
+</table>
+</section>
+
+<section id="pilot" class="section">
+<h2>20. Pilot Setup</h2>
+<table>
+<tr><th>Component</th><th>Recommended Setup</th></tr>
+<tr><td>Duration</td><td>8–12 weeks</td></tr>
+<tr><td>Schools</td><td>6–10 schools with different levels of device access and EdTech maturity</td></tr>
+<tr><td>Tools</td><td>At least three: Khan Academy, DIKSHA and one commercial/open video platform</td></tr>
+<tr><td>Grades</td><td>Grades 6–8</td></tr>
+<tr><td>Data collection</td><td>Pulse every session; session reflection weekly or after meaningful EdTech use; observation monthly; assessment baseline/endline</td></tr>
+<tr><td>Success criteria</td><td>Teachers complete pulse in under one minute; at least 70% session evidence completeness; dashboards used in monthly school review</td></tr>
+<tr><td>Ethics</td><td>Consent, opt-out, aggregate dashboards, no rankings, no intrusive surveillance</td></tr>
+</table>
+</section>
+
+</div>
+</body>
+</html>
