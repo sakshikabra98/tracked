@@ -668,8 +668,8 @@
             },
             student: {
                 stats: [
-                    { number: '8', label: 'Classes' },
-                    { number: 'B+', label: 'Avg Grade' }
+                    { number: '7A', label: 'My Class' },
+                    { number: '🔥5', label: 'Reflections' }
                 ],
                 navigation: [
                     { id: 'student-home', icon: '🏠', label: 'Home' },
@@ -681,15 +681,15 @@
             },
             admin: {
                 stats: [
-                    { number: '45', label: 'Teachers' },
-                    { number: '850', label: 'Students' }
+                    { number: '12', label: 'Classes' },
+                    { number: '5', label: 'EdTech Tools' }
                 ],
                 navigation: [
-                    { id: 'admin-home', icon: '🏠', label: 'Dashboard' },
-                    { id: 'admin-teachers', icon: '👥', label: 'Teachers' },
-                    { id: 'admin-analytics', icon: '📊', label: 'Analytics' },
-                    { id: 'admin-compliance', icon: '✅', label: 'Compliance' },
-                    { id: 'admin-settings', icon: '⚙️', label: 'System Settings' }
+                    { id: 'admin-overview', icon: '🏫', label: 'School Overview' },
+                    { id: 'admin-learning', icon: '📚', label: 'Classes & Learning' },
+                    { id: 'admin-teaching', icon: '🌱', label: 'Teaching & Growth' },
+                    { id: 'admin-edtech', icon: '📲', label: 'EdTech & App' },
+                    { id: 'admin-reports', icon: '📄', label: 'Reports' }
                 ]
             },
             designer: {
@@ -1015,60 +1015,310 @@
         function getTeacherReflectionPage() {
             return `
                 <h1 class="main-header">💭 Reflection Space</h1>
-                <p class="sub-header">Add your voice, context, and narrative to your teaching journey</p>
+                <p class="sub-header">Add your voice and context — and think more deeply about your practice</p>
 
-                <div class="info-box">
-                    💡 Reflections are <strong>entirely optional</strong> but highly valuable for your growth.
-                </div>
-
-                <h2 style="margin-top: 2rem; color: #002244;">Reflection Prompts</h2>
-                
-                <div class="reflection-question">
-                    <strong>Prompt 1:</strong> What surprised you about today's class?
-                </div>
-                <div class="reflection-question">
-                    <strong>Prompt 2:</strong> What was the most challenging question a student asked?
-                </div>
-                <div class="reflection-question">
-                    <strong>Prompt 3:</strong> What would you do differently?
+                <div class="tabs">
+                    <button class="tab active" id="te-tabbtn-reflect" onclick="document.getElementById('te-tab-reflect').style.display='block';document.getElementById('te-tab-ai').style.display='none';this.classList.add('active');document.getElementById('te-tabbtn-ai').classList.remove('active');">📝 Guided Reflection</button>
+                    <button class="tab" id="te-tabbtn-ai" onclick="document.getElementById('te-tab-ai').style.display='block';document.getElementById('te-tab-reflect').style.display='none';this.classList.add('active');document.getElementById('te-tabbtn-reflect').classList.remove('active');">🪞 Reflect with TrackEd AI</button>
                 </div>
 
-                <div class="form-group" style="margin-top: 2rem;">
-                    <label>Write your reflection:</label>
-                    <textarea placeholder="Share your thoughts..."></textarea>
+                <!-- TAB 1: GUIDED REFLECTION -->
+                <div id="te-tab-reflect">
+                    <div class="info-box">
+                        💡 Reflections are <strong>entirely optional and unscored</strong>. They are returned to you as your own trajectory of growth — never shown to an administrator as a score.
+                    </div>
+
+                    <h2 style="margin-top: 1.5rem; color: #002244;">After this lesson</h2>
+                    <p style="color:#666;margin-top:-.5rem;">Prompts that invite narrative, not judgement — aimed at the task and the learning process (Black &amp; Wiliam), and at how the tool was mediated (Vygotsky).</p>
+
+                    <div class="reflection-question">
+                        <strong>How did most students respond?</strong> Could they work independently, or did they need your support?
+                    </div>
+                    <div class="reflection-question">
+                        <strong>What did the tool do well — and what did <em>you</em> add that it could not?</strong>
+                    </div>
+                    <div class="reflection-question">
+                        <strong>Who took part fully, and who did not?</strong> What might have got in the way (language, device-sharing, confidence)?
+                    </div>
+                    <div class="reflection-question">
+                        <strong>What would you change in the next session?</strong>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <label>Write your reflection:</label>
+                        <textarea placeholder="In your own words — what happened, and what you noticed..."></textarea>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="btn btn-success" onclick="alert('Saved privately to your growth trajectory. 🌱')">📤 Save Reflection</button>
+                    </div>
                 </div>
 
-                <div style="text-align: center; margin-top: 2rem;">
-                    <button class="btn btn-success">📤 Submit Reflection</button>
+                <!-- TAB 2: REFLECT WITH TRACKED AI -->
+                <div id="te-tab-ai" style="display:none;">
+                    <div class="info-box" style="border-left:4px solid #667eea;">
+                        🪞 <strong>TrackEd AI is a reflection partner, not a mentor.</strong> It won't grade your teaching or hand you a lesson plan. It asks questions and points to the ideas behind good practice, so the thinking — and the growth — stays yours.
+                    </div>
+
+                    <div id="te-ai-thread" style="background:#f8f9fa;border:1px solid #e3e6ef;border-radius:10px;padding:1rem;min-height:240px;max-height:440px;overflow-y:auto;margin-top:1rem;">
+                        <div style="margin:.2rem 0 .5rem;"><span style="display:inline-block;background:#eef2ff;color:#333;border-radius:14px 14px 14px 2px;padding:.7rem .9rem;max-width:90%;">Namaste! I'm <strong>TrackEd AI</strong>, your reflection partner. 🪞 I'm here to help you think more deeply about your practice — to notice <em>how</em> the tool was mediated, where students were in their learning, and what your next move might be. What's on your mind after today's class?</span></div>
+                    </div>
+
+                    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem;">
+                        <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.45rem .9rem;font-size:.85rem;margin:0;" onclick="teAIReply('Help me reflect on my next lesson plan')">🗒️ My next lesson plan</button>
+                        <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.45rem .9rem;font-size:.85rem;margin:0;" onclick="teAIReply('How well did Khan Academy work for my class?')">📲 How did the tool work?</button>
+                        <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.45rem .9rem;font-size:.85rem;margin:0;" onclick="teAIReply('My students struggled with word problems')">🤔 Students struggled</button>
+                        <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.45rem .9rem;font-size:.85rem;margin:0;" onclick="teAIReply('How can I shift my pedagogy using SAMR?')">🪜 Shift my pedagogy</button>
+                        <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.45rem .9rem;font-size:.85rem;margin:0;" onclick="teAIReply('Connect my teaching to learning theory and best practice')">📚 Connect to theory</button>
+                    </div>
+
+                    <div style="display:flex;gap:.5rem;margin-top:.8rem;">
+                        <input id="te-ai-input" placeholder="Type what happened in your lesson, or a question..." style="flex:1;padding:.7rem;border:1px solid #ddd;border-radius:8px;font-size:.95rem;" onkeydown="if(event.key==='Enter'){teAIReply();}">
+                        <button class="btn btn-primary" style="margin:0;" onclick="teAIReply()">Send</button>
+                    </div>
+
+                    <p style="font-size:.72rem;color:#999;margin-top:.7rem;">Demonstration of the reflective-coaching experience — scripted for this prototype. A live version would use a secure, on-device or API model, and would always remain a mirror, never a mentor. Conversations are private to you.</p>
                 </div>
             `;
         }
 
         function getTeacherInsightsPage() {
+            // ----- Illustrative cohort (FICTIONAL). Class 7A · Mathematics · Sarvodaya Bal Vidyalaya, Janakpuri -----
+            const names = [
+                "Aarav Sharma","Saanvi Verma","Mohammed Arif","Diya Kumari","Kabir Singh",
+                "Anaya Gupta","Rehan Khan","Ishita Yadav","Aryan Mishra","Fatima Sheikh",
+                "Vihaan Chauhan","Riya Sahni","Ayaan Ansari","Tanvi Rawat","Karan Bisht",
+                "Zoya Parveen","Dev Patel","Meera Nair","Harsh Vardhan","Nidhi Rani",
+                "Sahil Khurana","Pooja Devi","Imran Qureshi","Sneha Joshi","Rohit Kumar",
+                "Alia Begum","Yash Thakur","Khushi Saxena","Faizan Malik","Ananya Reddy",
+                "Naveen Kumar","Simran Kaur","Aditya Jha","Mahira Khatoon","Pranav Iyer",
+                "Bhavya Sharma","Sameer Dutta","Kavya Pillai","Arjun Negi","Heena Bano"
+            ];
+            const topics = ["Integers","Fractions & Decimals","Data Handling","Simple Equations","Lines & Angles","Perimeter & Area"];
+            const contexts = [
+                "shares one tablet between four (1:4)",
+                "Hindi is the home language; some tool content is in English",
+                "intermittent power shortens device time",
+                "first-generation learner; limited home support",
+                "strong home support; device access after school"
+            ];
+            const bands = ["Beginner","Developing","Grade level","Secure","Advanced"];
+            const bandColors = ["#dc3545","#ffc107","#17a2b8","#667eea","#28a745"];
+
+            // deterministic pseudo-random so the demo is stable
+            const rnd = (i, salt) => { const x = Math.sin((i + 1) * 12.9898 + salt * 78.233) * 43758.5453; return x - Math.floor(x); };
+
+            // derive per-child data
+            const learners = names.map((name, i) => {
+                const start = 1 + Math.floor(rnd(i, 1) * 2);                 // 1..2 (off-platform check, level 1..6)
+                const traj = [start];
+                for (let k = 1; k < 5; k++) traj.push(Math.min(6, traj[k - 1] + Math.round(rnd(i, k + 2) * 1.4)));
+                const mastery = topics.map((t, ti) => 35 + Math.round(rnd(i, ti + 10) * 58)); // 35..93
+                const lowIdx = mastery.indexOf(Math.min(...mastery));
+                const langThread = rnd(i, 30) < 0.42;                        // word-problem / reading-load thread
+                const ctx = contexts[i % contexts.length];
+                const lvl = (v) => v < 0.34 ? "Emerging" : v < 0.67 ? "Developing" : "Strong";
+                return {
+                    i, name, traj, mastery,
+                    endBand: bands[Math.min(4, traj[4] - 1)],
+                    endBandColor: bandColors[Math.min(4, traj[4] - 1)],
+                    gainTopic: topics[mastery.indexOf(Math.max(...mastery))],
+                    lowTopic: topics[lowIdx],
+                    langThread, ctx,
+                    autonomy: lvl(rnd(i, 40)), perseverance: lvl(rnd(i, 41)), collaboration: lvl(rnd(i, 42))
+                };
+            });
+
+            // ---------- tiny inline-SVG chart helpers (no libraries) ----------
+            const spark = (vals, w, h, color) => {
+                const max = Math.max(...vals), min = Math.min(...vals), rng = (max - min) || 1;
+                const pts = vals.map((v, i) => [ (i / (vals.length - 1)) * (w - 10) + 5, h - 6 - ((v - min) / rng) * (h - 16) ]);
+                const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+                const area = line + ` L ${(w - 5).toFixed(1)} ${(h - 6).toFixed(1)} L 5 ${(h - 6).toFixed(1)} Z`;
+                const last = pts[pts.length - 1];
+                return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="max-width:${w}px;">
+                    <path d="${area}" fill="${color}22"/><path d="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/>
+                    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3.5" fill="${color}"/></svg>`;
+            };
+            const hbars = (items) => `<div style="display:flex;flex-direction:column;gap:.5rem;">` + items.map(it => `
+                <div><div style="display:flex;justify-content:space-between;font-size:.78rem;color:#444;margin-bottom:2px;">
+                    <span>${it.label}</span><span style="color:#666;">${it.val}%</span></div>
+                <div style="background:#e9ecef;border-radius:6px;height:9px;overflow:hidden;">
+                    <div style="height:100%;width:${it.val}%;background:${it.val < 45 ? '#ffc107' : 'linear-gradient(90deg,#667eea,#764ba2)'};"></div></div></div>`).join("") + `</div>`;
+            const distbar = (segs) => {
+                const total = segs.reduce((s, x) => s + x.val, 0) || 1;
+                const bar = segs.map(s => `<div title="${s.label}: ${s.val}" style="width:${(s.val / total * 100).toFixed(1)}%;background:${s.color};"></div>`).join("");
+                const legend = segs.map(s => `<span style="display:inline-flex;align-items:center;gap:4px;font-size:.74rem;color:#444;margin:0 12px 4px 0;"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};display:inline-block;"></span>${s.label} (${s.val})</span>`).join("");
+                return `<div style="display:flex;height:18px;border-radius:6px;overflow:hidden;">${bar}</div><div style="margin-top:.6rem;">${legend}</div>`;
+            };
+            const lineChart = (vals, w, h, target) => {
+                const max = 6, min = 0;
+                const pts = vals.map((v, i) => [ (i / (vals.length - 1)) * (w - 40) + 30, h - 22 - ((v - min) / (max - min)) * (h - 36) ]);
+                const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+                const ty = h - 22 - ((target - min) / (max - min)) * (h - 36);
+                const labels = ["W1","W3","W5","W7","W9"];
+                return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="max-width:${w}px;">
+                    <line x1="30" y1="${h - 22}" x2="${w - 6}" y2="${h - 22}" stroke="#ddd"/>
+                    <line x1="30" y1="6" x2="30" y2="${h - 22}" stroke="#ddd"/>
+                    <line x1="30" y1="${ty.toFixed(1)}" x2="${w - 6}" y2="${ty.toFixed(1)}" stroke="#28a745" stroke-dasharray="4 4" stroke-width="1"/>
+                    <text x="${w - 8}" y="${(ty - 4).toFixed(1)}" font-size="9" fill="#28a745" text-anchor="end">grade-level target</text>
+                    <path d="${line}" fill="none" stroke="#002244" stroke-width="2.5"/>
+                    ${pts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#002244"/>`).join("")}
+                    ${pts.map((p, i) => `<text x="${p[0].toFixed(1)}" y="${h - 8}" font-size="9" fill="#888" text-anchor="middle">${labels[i]}</text>`).join("")}
+                </svg>`;
+            };
+            const tag = (t) => `<span style="display:inline-block;background:#eef0fb;color:#3b3b6d;border:1px solid #d7dbf5;border-radius:12px;padding:1px 8px;font-size:.7rem;margin-left:6px;">${t}</span>`;
+
+            // class-level aggregates (from the cohort, for honesty)
+            const bandCounts = bands.map((b, bi) => ({ label: b, color: bandColors[bi], val: learners.filter(l => l.endBand === b).length }));
+            const classAvgTraj = [0,1,2,3,4].map(k => +(learners.reduce((s, l) => s + l.traj[k], 0) / learners.length).toFixed(2));
+            const topicAvg = topics.map((t, ti) => ({ label: t, val: Math.round(learners.reduce((s, l) => s + l.mastery[ti], 0) / learners.length) }));
+            const langThreadCount = learners.filter(l => l.langThread).length;
+
+            // ---------- per-child report panels ----------
+            const panelsHTML = learners.map(l => {
+                const masteryItems = topics.map((t, ti) => ({ label: t, val: l.mastery[ti] }));
+                const crossSubject = l.langThread
+                    ? `Colleagues' tool analytics and off-platform checks show that ${l.name.split(" ")[0]}'s difficulty with Mathematics <strong>word problems</strong> co-occurs with reading-comprehension load in Science and EVS — a <strong>language thread</strong>, not a numeracy gap. Shared with consent, at the level of learning patterns only.`
+                    : `No cross-subject pattern flagged this cycle. Where colleagues' tool data (with consent) suggests a shared thread, it appears here as a learning pattern — never as a behavioural profile.`;
+                return `
+                <div id="te-rep-${l.i}" class="te-learner-report dashboard-card" style="display:none;border-top:4px solid ${l.endBandColor};">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">
+                        <div>
+                            <h3 style="margin-bottom:2px;">${l.name}</h3>
+                            <p style="color:#666;font-size:.85rem;margin:0;">Class 7A · Mathematics · Sarvodaya Bal Vidyalaya</p>
+                            <span style="display:inline-block;margin-top:6px;background:#e8f4f8;color:#0c5460;border-radius:12px;padding:1px 9px;font-size:.7rem;">🔒 consented · visible to learner & family · used to plan support, not to rank</span>
+                        </div>
+                        <button class="btn" style="background:#eee;color:#444;padding:.4rem 1rem;" onclick="document.getElementById('te-rep-${l.i}').style.display='none';document.getElementById('te-roster-top').scrollIntoView({behavior:'smooth'});">✕ Close</button>
+                    </div>
+
+                    <div class="comparison-grid" style="margin-top:1.2rem;gap:1.5rem;">
+                        <div>
+                            <h4 style="color:#002244;margin-bottom:.3rem;">Learning trajectory</h4>
+                            <p style="font-size:.74rem;color:#888;margin:0 0 .2rem;">Off-platform FLN/numeracy check, level 1–6 · current band: <strong style="color:${l.endBandColor};">${l.endBand}</strong></p>
+                            ${spark(l.traj, 300, 56, l.endBandColor)}
+                            <p style="font-size:.72rem;color:#999;margin-top:.2rem;">Read against ${l.name.split(" ")[0]}'s own prior level (individual-reference norm), not against peers.</p>
+                            <h4 style="color:#002244;margin:1rem 0 .4rem;">Topic mastery</h4>
+                            <p style="font-size:.72rem;color:#888;margin:0 0 .5rem;">Khan/DIKSHA analytics, triangulated with the off-platform check.</p>
+                            ${hbars(masteryItems)}
+                        </div>
+                        <div>
+                            <h4 style="color:#002244;margin-bottom:.4rem;">How ${l.name.split(" ")[0]} learned — a developmental read <span style="font-weight:400;font-size:.72rem;color:#999;">(hypotheses)</span></h4>
+                            <div class="feature-box" style="font-size:.86rem;">
+                                <p style="margin:0 0 .5rem;"><strong>Mediation (Vygotsky, ZPD).</strong> Gains are clearest in <em>${l.gainTopic}</em>, where your scaffolding met the task; <em>${l.lowTopic}</em> still sits just beyond independent reach and is the next zone for guided support.</p>
+                                <p style="margin:0 0 .5rem;"><strong>Tech × pedagogy × content (TPACK).</strong> The tool's visual models help on procedural topics, but on ${l.langThread ? "word problems the tool's affordance adds little until reading-comprehension support is supplied by you" : "reasoning topics the tool works best when paired with your classroom discussion"} — a TPACK fit that depends on your mediation, not the tool alone.</p>
+                                <p style="margin:0 0 .5rem;"><strong>Context (Bronfenbrenner).</strong> ${l.name.split(" ")[0]} ${l.ctx}; read the pattern with that in view rather than as ability.</p>
+                                <p style="margin:0;"><strong>Feedback (Black & Wiliam).</strong> Progress is judged against ${l.name.split(" ")[0]}'s own baseline; comments work best aimed at the task and the strategy, not the child.</p>
+                            </div>
+                            <h4 style="color:#002244;margin:1rem 0 .4rem;">Holistic development <span style="font-weight:400;font-size:.72rem;color:#999;">(teacher observation; pattern-level)</span></h4>
+                            <div>
+                                <span class="grade-badge ${l.autonomy === 'Strong' ? 'grade-a' : l.autonomy === 'Developing' ? 'grade-b' : 'grade-c'}">Autonomy: ${l.autonomy}</span>
+                                <span class="grade-badge ${l.perseverance === 'Strong' ? 'grade-a' : l.perseverance === 'Developing' ? 'grade-b' : 'grade-c'}" style="margin-left:6px;">Perseverance: ${l.perseverance}</span>
+                                <span class="grade-badge ${l.collaboration === 'Strong' ? 'grade-a' : l.collaboration === 'Developing' ? 'grade-b' : 'grade-c'}" style="margin-left:6px;">Collaboration: ${l.collaboration}</span>
+                            </div>
+                            <h4 style="color:#002244;margin:1rem 0 .4rem;">Cross-subject pattern <span style="font-weight:400;font-size:.72rem;color:#999;">(consented)</span></h4>
+                            <div class="info-box" style="font-size:.84rem;">${crossSubject}</div>
+                        </div>
+                    </div>
+
+                    <h4 style="color:#002244;margin:1.2rem 0 .4rem;">Next steps in Mathematics — for you to weigh, not prescriptions</h4>
+                    <div class="supportive-prompt" style="font-size:.88rem;">
+                        <ul style="margin:0 0 0 1.2rem;">
+                            <li style="margin-bottom:.5rem;">Before the next ${l.lowTopic.toLowerCase().includes('equation') || l.langThread ? "practice set, run a short teacher-led 'reading the problem' mini-step" : "round, surface the strategy aloud with two worked examples"}, then a brief Khan/DIKSHA set on <em>${l.lowTopic}</em>. ${tag("formative loop · Black & Wiliam")}</li>
+                            <li style="margin-bottom:.5rem;">Pair ${l.name.split(" ")[0]} with a peer who models the strategy, to work just inside the zone of proximal development. ${tag("ZPD · Vygotsky")}</li>
+                            <li style="margin-bottom:.5rem;">Verify gains with a 3-item <strong>off-platform</strong> check, not the tool's own quiz — adaptive tools can return ~50% from guessing and mask the real gap. ${tag("learning-outcome alignment")}</li>
+                        </ul>
+                    </div>
+                    <p style="font-size:.74rem;color:#999;margin-top:.6rem;">These are formative hypotheses drawn from existing tool data and your observations — a mirror to plan from, not a verdict.</p>
+                </div>`;
+            }).join("");
+
+            // ---------- roster of 40 (all clickable) ----------
+            const rosterHTML = learners.map(l => `
+                <button onclick="document.querySelectorAll('.te-learner-report').forEach(function(p){p.style.display='none';});var t=document.getElementById('te-rep-${l.i}');t.style.display='block';t.scrollIntoView({behavior:'smooth',block:'start'});"
+                    style="display:flex;align-items:center;justify-content:space-between;text-align:left;background:#fff;border:1px solid #e3e6ef;border-left:4px solid ${l.endBandColor};border-radius:8px;padding:.55rem .7rem;cursor:pointer;font-size:.82rem;transition:all .2s;"
+                    onmouseover="this.style.background='#f5f7ff';this.style.transform='translateX(3px)';" onmouseout="this.style.background='#fff';this.style.transform='none';">
+                    <span style="font-weight:600;color:#002244;">${l.i + 1}. ${l.name}</span>
+                    <span style="font-size:.66rem;color:#fff;background:${l.endBandColor};border-radius:10px;padding:1px 7px;white-space:nowrap;">${l.endBand}</span>
+                </button>`).join("");
+
+            // ---------- page ----------
             return `
                 <h1 class="main-header">📊 Your Insights Dashboard</h1>
-                <p class="sub-header">Reflective insights designed to support your growth</p>
+                <p class="sub-header">A mirror for your next lesson — your class, read for growth</p>
 
-                <div class="metrics-row">
-                    <div class="metric-card">
-                        <div class="metric-value">7.2/10</div>
-                        <div class="metric-label">Avg. Class Energy</div>
-                        <div class="metric-delta">+0.3 from last month</div>
+                <div class="info-box" style="border-left:4px solid #17a2b8;">
+                    <strong>Where these insights come from.</strong> TrackEd reads the analytics the EdTech tools this class already uses (Khan Academy, DIKSHA) <em>emit</em>, alongside your own optional observations and a periodic learning check administered <strong>independently of any platform</strong>. There is <strong>no classroom audio or video, no facial or voice recognition, and no per-second monitoring</strong>. Learner data is consented, visible to the learner and family, used to plan support — never to rank, and never exposed to an administrator as an individual feed.
+                </div>
+                <div class="warning-box" style="font-size:.82rem;">⚠️ <strong>Illustrative prototype data.</strong> Class 7A at the fictional Sarvodaya Bal Vidyalaya, Janakpuri. All names and figures are fabricated to demonstrate the interface.</div>
+
+                <!-- standard selector -->
+                <div style="margin:1.5rem 0 .5rem;">
+                    <span style="font-size:.85rem;color:#666;margin-right:.6rem;">Standard you teach:</span>
+                    <button class="btn btn-primary" style="padding:.4rem 1rem;" onclick="document.getElementById('te-standard-note').style.display='none';document.getElementById('te-roster-wrap').style.display='block';">Class 7A · Maths</button>
+                    <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.4rem 1rem;" onclick="document.getElementById('te-roster-wrap').style.display='none';var n=document.getElementById('te-standard-note');n.style.display='block';document.getElementById('te-standard-name').textContent='Class 6A · Maths (39 learners)';">Class 6A · Maths</button>
+                    <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.4rem 1rem;" onclick="document.getElementById('te-roster-wrap').style.display='none';var n=document.getElementById('te-standard-note');n.style.display='block';document.getElementById('te-standard-name').textContent='Class 8B · Maths (41 learners)';">Class 8B · Maths</button>
+                </div>
+                <div id="te-standard-note" class="feature-box" style="display:none;"><strong><span id="te-standard-name"></span></strong> loads in the identical format. In this prototype, <strong>Class 7A is wired as the worked example</strong> — switch back to it to explore the full roster.</div>
+
+                <div id="te-roster-wrap">
+                    <!-- CLASS SNAPSHOT (quantitative) -->
+                    <h2 style="color:#002244;margin-top:1.5rem;">Class 7A at a glance</h2>
+                    <div class="comparison-grid" style="gap:1.5rem;">
+                        <div class="dashboard-card">
+                            <h3>Where the class stands</h3>
+                            <p style="font-size:.78rem;color:#888;margin:-.5rem 0 .8rem;">Independent FLN/numeracy check — band distribution across ${learners.length} learners.</p>
+                            ${distbar(bandCounts)}
+                            <h3 style="margin-top:1.4rem;">Class average over the term</h3>
+                            <p style="font-size:.78rem;color:#888;margin:-.5rem 0 .4rem;">Off-platform check level (1–6), nine weeks.</p>
+                            ${lineChart(classAvgTraj, 520, 150, 4)}
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>Topic mastery, class average</h3>
+                            <p style="font-size:.78rem;color:#888;margin:-.5rem 0 .8rem;">Khan/DIKSHA analytics, triangulated with the off-platform check. Amber = below 45%.</p>
+                            ${hbars(topicAvg)}
+                        </div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">85%</div>
-                        <div class="metric-label">Student Engagement</div>
+
+                    <!-- QUALITATIVE INSIGHT + next step (closing the loop) -->
+                    <div class="supportive-prompt" style="margin-top:1.5rem;">
+                        <h3>🪞 This week's insight</h3>
+                        <p>The class handles <strong>procedures</strong> (integers, perimeter) more securely than <strong>interpretation</strong>: ${topicAvg.find(t => t.label === "Simple Equations").val}% average on simple equations and recurring difficulty with word problems. ${langThreadCount} learners show a <strong>language thread</strong> — the obstacle is reading the problem, not the arithmetic. Pairs sharing devices discussed more but completed fewer items: peer explanation traded against individual practice.</p>
+                        <p style="margin-bottom:0;"><strong>Suggested next step.</strong> Open the next session with a short teacher-led "reading the word problem" routine before the Khan/DIKSHA set, and verify with a brief off-platform check rather than the tool's own quiz. <span style="font-size:.74rem;color:#777;">(formative loop · Black & Wiliam)</span></p>
                     </div>
+
+                    <!-- equity disaggregation (E) -->
+                    <div class="dashboard-card" style="margin-top:1.5rem;">
+                        <h3>Who is reaching the tool (equity)</h3>
+                        <p style="font-size:.78rem;color:#888;margin:-.5rem 0 .8rem;">Share of EdTech sessions reaching each group — flags gaps, not individuals.</p>
+                        ${hbars([{label:"Girls",val:46},{label:"First-generation learners",val:38},{label:"Mother-tongue content available",val:41},{label:"Class overall",val:72}])}
+                        <p style="font-size:.8rem;color:#856404;background:#fff3cd;border-radius:6px;padding:.5rem .7rem;margin-top:.8rem;">Girls and first-generation learners are reaching the tool less. Worth a look at device-sharing order and timing.</p>
+                    </div>
+
+                    <!-- reflective bridge (light; the full Reflection Space is a separate page) -->
+                    <div class="reflection-question" style="margin-top:1.5rem;">
+                        <h3>📝 To carry into your reflection</h3>
+                        <p style="margin:.3rem 0;">Three prompts drawn from this week's pattern (the full Reflection Space lives on its own page):</p>
+                        <ul style="margin:0 0 0 1.2rem;">
+                            <li style="margin-bottom:.4rem;"><strong>How was the tool mediated?</strong> What did <em>you</em> add that the platform could not, on word problems?</li>
+                            <li style="margin-bottom:.4rem;"><strong>Who was included, and who was not?</strong> What kept girls and first-generation learners off the device this week?</li>
+                            <li><strong>What would you change next time?</strong> Name one move for the learners on the language thread.</li>
+                        </ul>
+                    </div>
+
+                    <!-- ROSTER -->
+                    <h2 id="te-roster-top" style="color:#002244;margin-top:2rem;">Individual learner reports</h2>
+                    <p style="color:#666;font-size:.9rem;margin-bottom:1rem;">Tap any learner to open a longitudinal report — trajectory, topic mastery, a developmental read, holistic development, and next steps. Coloured by current band. (${learners.length} learners)</p>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem;margin-bottom:1.5rem;">
+                        ${rosterHTML}
+                    </div>
+                    ${panelsHTML}
                 </div>
 
-                <div class="supportive-prompt" style="margin-top: 2rem;">
-                    <h3>🌟 Success Highlight</h3>
-                    <p>Student question quality increased by 40% this month! Your "Think-Pair-Share" strategy is working well.</p>
-                </div>
-
-                <div class="supportive-prompt">
-                    <h3>💡 Reflection Opportunity</h3>
-                    <p>Early morning sessions show lower engagement. Consider energizer activities at the start of class.</p>
+                <!-- honesty footer: what this can and cannot conclude -->
+                <div class="feature-box" style="margin-top:2rem;border-left:4px solid #002244;">
+                    <h4 style="color:#002244;">What this dashboard can and cannot conclude</h4>
+                    <p style="font-size:.86rem;margin:.3rem 0;">It <strong>can</strong> surface learning <em>alongside</em> tool use, show each learner's trajectory against their own baseline, and sharpen the questions you ask before the next lesson. It <strong>cannot</strong> prove the tool <em>caused</em> a gain — there is no comparison group, and a single class cannot isolate the tool from your teaching, the child's maturation, or other instruction. Treat every insight as a <strong>formative hypothesis to test</strong>, not a verdict on the tool, the learner, or you.</p>
                 </div>
             `;
         }
@@ -1122,309 +1372,203 @@
 
         function getStudentHomePage() {
             return `
-                <h1 class="main-header">Welcome Back, Alex! 👋</h1>
-                <p class="sub-header">Here's your learning journey at a glance</p>
+                <h1 class="main-header" style="color:#6a4fb6;">Namaste, Aarav! 👋</h1>
+                <p class="sub-header">This is your space — to think about your day and grow a little every time 🌱</p>
 
                 <div class="metrics-row">
-                    <div class="metric-card">
-                        <div class="metric-value">8</div>
-                        <div class="metric-label">Active Classes</div>
+                    <div class="metric-card" style="background:linear-gradient(135deg,#fff7e6,#fff);">
+                        <div class="metric-value" style="color:#ff8c42;">🔥 5</div>
+                        <div class="metric-label">days of reflecting in a row</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">B+</div>
-                        <div class="metric-label">Average Grade</div>
+                    <div class="metric-card" style="background:linear-gradient(135deg,#eef2ff,#fff);">
+                        <div class="metric-value" style="color:#667eea;">⭐ 8</div>
+                        <div class="metric-label">thinking stars earned</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">92%</div>
-                        <div class="metric-label">Attendance</div>
+                    <div class="metric-card" style="background:linear-gradient(135deg,#eafaf0,#fff);">
+                        <div class="metric-value" style="color:#28a745;">🌱 12</div>
+                        <div class="metric-label">ideas you've grown</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">5</div>
-                        <div class="metric-label">New Feedback</div>
+                    <div class="metric-card" style="background:linear-gradient(135deg,#fdeef6,#fff);">
+                        <div class="metric-value" style="color:#d6589f;">🤝 3</div>
+                        <div class="metric-label">times you helped a friend</div>
                     </div>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Recent Activity</h2>
-                
-                <div class="assignment-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h3 style="margin-bottom: 0.5rem;">Mathematics - Algebra Quiz</h3>
-                            <p style="color: #666;">Completed Nov 20, 2024</p>
-                        </div>
-                        <span class="grade-badge grade-a">A-</span>
+                <!-- TODAY'S CHECK-IN -->
+                <div class="dashboard-card" style="border-top:5px solid #ffce54;">
+                    <h3 style="color:#6a4fb6;">🌈 How did class feel today?</h3>
+                    <p style="color:#666;margin-top:-.5rem;">Tap the face that fits. There's no wrong answer!</p>
+                    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0;">
+                        ${['😀 Great','😊 Good','😐 Okay','😕 Tricky','😢 Hard'].map((m,idx) => `<button id="te-mood-${idx}" onclick="teMood(${idx})" style="flex:1;min-width:95px;background:#f7f7fb;border:2px solid #eee;border-radius:14px;padding:.7rem .4rem;cursor:pointer;font-size:.92rem;">${m}</button>`).join('')}
                     </div>
-                    <p style="margin-top: 1rem;">Great work on problem-solving! Consider reviewing the quadratic formula section.</p>
+                    <div id="te-mood-reply" style="display:none;" class="supportive-prompt"></div>
+
+                    <h3 style="color:#6a4fb6;margin-top:1.3rem;">✏️ Two stars and a wish</h3>
+                    <p style="color:#666;margin-top:-.5rem;">Two things that went well today, and one thing you'd like to get better at.</p>
+                    <div class="form-group" style="margin-bottom:.8rem;"><label>⭐ One thing I did well</label><input placeholder="e.g., I helped Riya with fractions"></div>
+                    <div class="form-group" style="margin-bottom:.8rem;"><label>⭐ Another thing I did well</label><input placeholder="e.g., I asked a question in class"></div>
+                    <div class="form-group" style="margin-bottom:.8rem;"><label>🌱 One thing I'd like to try next</label><input placeholder="e.g., I want to understand word problems better"></div>
+                    <button class="btn btn-success" onclick="alert('Added to your journey! 🌟 Lovely thinking, Aarav.')">🌟 Add to my journey</button>
                 </div>
 
-                <div class="assignment-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <h3 style="margin-bottom: 0.5rem;">Science - Lab Report</h3>
-                            <p style="color: #666;">Completed Nov 18, 2024</p>
-                        </div>
-                        <span class="grade-badge grade-b">B+</span>
+                <!-- LEARNING JOURNEY -->
+                <div class="dashboard-card">
+                    <h3 style="color:#6a4fb6;">🗺️ My learning journey this week</h3>
+                    <p style="color:#666;margin-top:-.5rem;">Every time you reflect, your path grows. Keep going!</p>
+                    <svg viewBox="0 0 520 90" width="100%" height="90" style="max-width:520px;">
+                        <path d="M 10 70 Q 90 20 170 55 T 330 45 T 510 35" fill="none" stroke="#d7dbf5" stroke-width="4" stroke-dasharray="2 6"/>
+                        ${[[10,70,1],[90,38,1],[170,55,1],[250,40,1],[330,45,1],[420,38,0],[510,35,0]].map((p,idx) => `<circle cx="${p[0]}" cy="${p[1]}" r="${idx===4?9:7}" fill="${p[2]?'#28a745':'#e3e6ef'}" stroke="#fff" stroke-width="2"/><text x="${p[0]}" y="${p[1]+0.5}" font-size="9" fill="#fff" text-anchor="middle" dominant-baseline="middle">${p[2]?'✓':''}</text>`).join('')}
+                        <text x="250" y="78" font-size="10" fill="#6a4fb6" text-anchor="middle">You're here — 5 reflections this week! 🌟</text>
+                    </svg>
+                </div>
+
+                <!-- QUESTS -->
+                <div class="dashboard-card">
+                    <h3 style="color:#6a4fb6;">🏅 Your reflection quests</h3>
+                    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.6rem;">
+                        ${[['🌟','First reflection',1],['🔥','5-day streak',1],['🤝','Helped a friend',1],['❓','Curious questioner',0],['💪','Brave try',0]].map(b => `<div style="text-align:center;width:110px;opacity:${b[2]?'1':'0.45'};"><div style="font-size:2rem;background:${b[2]?'#fff7e6':'#f1f1f4'};border:2px solid ${b[2]?'#ffce54':'#e3e6ef'};border-radius:50%;width:64px;height:64px;line-height:64px;margin:0 auto;">${b[0]}</div><div style="font-size:.74rem;color:#555;margin-top:.3rem;">${b[1]}${b[2]?'':' 🔒'}</div></div>`).join('')}
                     </div>
-                    <p style="margin-top: 1rem;">Excellent observations! Your hypothesis was well-structured.</p>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
+                <div class="info-box">🔒 Your reflections are just for you and your teacher, to help you learn and feel good. Nobody is giving you marks here — this is your thinking space. 💛</div>
 
-                <h2 style="color: #002244;">Your Privacy & Control</h2>
-                
-                <div class="info-box">
-                    <strong>🔒 You're in control:</strong> You can view your own class recordings, see your feedback, and control who sees your work. 
-                    Visit Privacy Settings to manage your preferences.
-                </div>
-
-                <div style="margin-top: 1.5rem;">
-                    <button class="btn btn-primary" onclick="showPage('student-classes')">📚 View My Classes</button>
-                    <button class="btn btn-primary" onclick="showPage('student-progress')">📈 Check My Progress</button>
+                <div style="margin-top:1rem;">
+                    <button class="btn btn-primary" onclick="showPage('student-classes')">🎒 My Class</button>
+                    <button class="btn btn-primary" onclick="showPage('student-progress')">🌱 How I'm Growing</button>
                 </div>
             `;
         }
 
         function getStudentClassesPage() {
+            const subjects = [
+                {emoji:'🧮', name:'Mathematics', teacher:'Ms. Sharma', topic:'Fractions & Decimals', friendly:"We're learning to share and split numbers — like sharing a pizza fairly! 🍕"},
+                {emoji:'🔬', name:'Science', teacher:'Mr. Verma', topic:'Plants & Photosynthesis', friendly:"How do plants make their own food from sunlight? Let's find out! 🌿"},
+                {emoji:'📖', name:'English', teacher:'Ms. Nair', topic:'Stories & Poems', friendly:"Reading wonderful stories and writing our own. ✍️"},
+                {emoji:'🌏', name:'Social Science', teacher:'Mr. Khan', topic:'Our Environment', friendly:"Exploring the world around us — our city, our planet. 🏙️"},
+                {emoji:'🪔', name:'Hindi', teacher:'Ms. Devi', topic:'कविता और कहानी', friendly:"सुंदर कविताएँ और कहानियाँ पढ़ना और सुनाना। 📚"}
+            ];
             return `
-                <h1 class="main-header">📚 My Classes</h1>
-                <p class="sub-header">View your enrolled classes and recent sessions</p>
+                <h1 class="main-header" style="color:#6a4fb6;">My Class — Class 7A 🎒</h1>
+                <p class="sub-header">Everything we're exploring together at Sarvodaya Bal Vidyalaya</p>
 
+                <div class="info-box">📹 Class recordings stay private — they're not part of your space, and that's okay! If you missed something or want to go over it again, just ask your teacher. 💛</div>
+
+                ${subjects.map(s => `
                 <div class="dashboard-card">
-                    <h3>Mathematics - Grade 9A</h3>
-                    <p><strong>Teacher:</strong> Ms. Johnson</p>
-                    <p><strong>Current Topic:</strong> Quadratic Equations</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 75%;">75% Complete</div>
+                    <h3 style="color:#6a4fb6;">${s.emoji} ${s.name}</h3>
+                    <p><strong>Teacher:</strong> ${s.teacher}</p>
+                    <p>🚀 Right now we're exploring: <strong>${s.topic}</strong></p>
+                    <p style="color:#666;">${s.friendly}</p>
+                    <div style="margin-top:.7rem;">
+                        <button class="btn btn-primary" onclick="alert('Opening class material for ${s.name}… 📚')">📚 View class material</button>
                     </div>
-                    <div style="margin-top: 1rem;">
-                        <button class="btn btn-primary">View Class Materials</button>
-                        <button class="btn btn-info">My Recordings</button>
-                    </div>
-                </div>
+                </div>`).join('')}
 
-                <div class="dashboard-card">
-                    <h3>Science - Grade 9B</h3>
-                    <p><strong>Teacher:</strong> Mr. Patel</p>
-                    <p><strong>Current Topic:</strong> Chemical Reactions</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 60%;">60% Complete</div>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <button class="btn btn-primary">View Class Materials</button>
-                        <button class="btn btn-info">My Recordings</button>
-                    </div>
-                </div>
-
-                <div class="dashboard-card">
-                    <h3>English - Grade 10A</h3>
-                    <p><strong>Teacher:</strong> Ms. Williams</p>
-                    <p><strong>Current Topic:</strong> Shakespearean Literature</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 85%;">85% Complete</div>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <button class="btn btn-primary">View Class Materials</button>
-                        <button class="btn btn-info">My Recordings</button>
-                    </div>
-                </div>
-
-                <div class="info-box" style="margin-top: 2rem;">
-                    💡 <strong>About Your Recordings:</strong> You can access recordings of sessions where you participated. 
-                    These help you review material and track your learning journey.
+                <div class="reflection-question" style="margin-top:1.5rem;">
+                    💭 <strong>Wondering about something in class?</strong> Pop over to your <a href="#" onclick="showPage('student-home');return false;" style="color:#6a4fb6;font-weight:600;">thinking space</a> and tell us what you're curious about — or what felt tricky today. 🌱
                 </div>
             `;
         }
 
         function getStudentProgressPage() {
+            const subj = [
+                {id:'mat', emoji:'🧮', name:'Maths'},
+                {id:'sci', emoji:'🔬', name:'Science'},
+                {id:'eng', emoji:'📖', name:'English'},
+                {id:'soc', emoji:'🌏', name:'Social Science'},
+                {id:'hin', emoji:'🪔', name:'Hindi'}
+            ];
             return `
-                <h1 class="main-header">📈 My Progress</h1>
-                <p class="sub-header">Track your academic journey and growth</p>
+                <h1 class="main-header" style="color:#6a4fb6;">How I'm Growing 🌱</h1>
+                <p class="sub-header">Look how far you've come, Aarav — learning is a journey, not a race 🐢💨</p>
 
-                <div class="metrics-row">
-                    <div class="metric-card">
-                        <div class="metric-value">B+</div>
-                        <div class="metric-label">Overall GPA</div>
-                        <div class="metric-delta">+0.2 from last quarter</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">18</div>
-                        <div class="metric-label">Assignments Completed</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">92%</div>
-                        <div class="metric-label">Class Participation</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">12</div>
-                        <div class="metric-label">Improvement Areas</div>
+                <!-- GROWING GARDEN (replaces grade chart) -->
+                <div class="dashboard-card">
+                    <h3 style="color:#6a4fb6;">🌸 My growing garden</h3>
+                    <p style="color:#666;margin-top:-.5rem;">Each flower is something you've been working on. Some are blooming, some are still growing — and that's perfect.</p>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.6rem;">
+                        ${[['🌻','Explaining my maths thinking','blooming'],['🌼','Writing stories','blooming'],['🌱','Reading word problems','growing'],['🌿','Drawing what I observe','growing'],['🌸','Asking "why?"','blooming']].map(f => `<div style="text-align:center;width:120px;"><div style="font-size:2.4rem;">${f[0]}</div><div style="font-size:.78rem;color:#444;">${f[1]}</div><div style="font-size:.7rem;color:${f[2]==='blooming'?'#28a745':'#ff8c42'};">${f[2]==='blooming'?'🌟 blooming':'🌱 growing'}</div></div>`).join('')}
                     </div>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Grade Breakdown by Subject</h2>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Subject</th>
-                            <th>Current Grade</th>
-                            <th>Trend</th>
-                            <th>Assignments</th>
-                            <th>Participation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Mathematics</strong></td>
-                            <td><span class="grade-badge grade-a">A-</span></td>
-                            <td style="color: #28a745;">↑ Improving</td>
-                            <td>15/16 completed</td>
-                            <td>95%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Science</strong></td>
-                            <td><span class="grade-badge grade-b">B+</span></td>
-                            <td style="color: #28a745;">↑ Improving</td>
-                            <td>14/15 completed</td>
-                            <td>88%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>English</strong></td>
-                            <td><span class="grade-badge grade-a">A</span></td>
-                            <td style="color: #666;">→ Stable</td>
-                            <td>12/12 completed</td>
-                            <td>98%</td>
-                        </tr>
-                        <tr>
-                            <td><strong>History</strong></td>
-                            <td><span class="grade-badge grade-b">B</span></td>
-                            <td style="color: #ffc107;">↓ Needs attention</td>
-                            <td>13/14 completed</td>
-                            <td>82%</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="supportive-prompt" style="margin-top: 2rem;">
-                    <h3>🌟 Strengths</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Excellent written communication skills (English)</li>
-                        <li>Strong problem-solving abilities (Mathematics)</li>
-                        <li>High participation in class discussions</li>
-                        <li>Consistent homework completion</li>
+                <!-- LOOK WHAT YOU CAN DO (was "Strengths") -->
+                <div class="supportive-prompt">
+                    <h3>✨ Look what you can do!</h3>
+                    <ul style="margin-left:1.5rem;margin-top:.5rem;">
+                        <li>You explain your maths thinking step by step 🧮</li>
+                        <li>You write wonderful, colourful stories ✍️</li>
+                        <li>You ask brave questions in class 🙋</li>
+                        <li>You help your friends when they're stuck 🤝</li>
                     </ul>
                 </div>
 
-                <div class="reflection-question" style="margin-top: 1rem;">
-                    <h3>📝 Growth Opportunities</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>History: Consider reviewing timeline connections</li>
-                        <li>Science: Lab report conclusions could be more detailed</li>
-                        <li>Consider joining the Math Club to build on your strengths</li>
+                <!-- YOUR NEXT LITTLE ADVENTURE (was "Growth Opportunities"/"Improvement Areas") -->
+                <div class="reflection-question">
+                    <h3>🌱 Your next little adventure</h3>
+                    <p style="margin:.3rem 0;">These are fun things to explore next — not problems, just new paths!</p>
+                    <ul style="margin-left:1.5rem;margin-top:.4rem;">
+                        <li>🔍 In maths, let's become <strong>word-problem detectives</strong> — reading the question slowly, like clues.</li>
+                        <li>🖼️ In science, try drawing what you observe — your pictures tell a great story.</li>
+                        <li>⭐ Keep asking "why?" — your curiosity is your superpower.</li>
                     </ul>
                 </div>
 
-                <div class="chart-placeholder" style="margin-top: 2rem;">
-                    📊 Grade Trend Chart - Your progress over time
+                <!-- A NOTE JUST FOR YOU (talk like a friend) -->
+                <div class="dashboard-card" style="background:linear-gradient(135deg,#fff7e6,#fff);border-left:4px solid #ff8c42;">
+                    <h3 style="color:#ff8c42;">💛 A note just for you</h3>
+                    <p>Hey Aarav — getting something wrong doesn't mean you're not clever. It means your brain is stretching and growing stronger! Every time you try a tricky thing, you learn a little more. I'm proud of how you keep going. You haven't mastered word problems… <em>yet</em> — and that little word makes all the difference. Keep being curious! 🌟</p>
+                </div>
+
+                <!-- SELF-ASSESSMENT (assessment AS learning) -->
+                <div class="dashboard-card">
+                    <h3 style="color:#6a4fb6;">🚦 How do I feel about what we're learning?</h3>
+                    <p style="color:#666;margin-top:-.5rem;">Tap a light for each subject. 🟢 I've got it!  🟡 Getting there  🔴 I'd like more help. This is just for you to think about — there are no marks here.</p>
+                    <div style="margin-top:.6rem;">
+                        ${subj.map(s => `
+                        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f4;padding:.6rem 0;">
+                            <span style="font-size:.95rem;color:#333;">${s.emoji} ${s.name}</span>
+                            <span style="display:flex;gap:.5rem;">
+                                <span id="te-light-${s.id}-g" onclick="teLight('${s.id}','g')" style="cursor:pointer;font-size:1.4rem;opacity:0.3;">🟢</span>
+                                <span id="te-light-${s.id}-y" onclick="teLight('${s.id}','y')" style="cursor:pointer;font-size:1.4rem;opacity:0.3;">🟡</span>
+                                <span id="te-light-${s.id}-r" onclick="teLight('${s.id}','r')" style="cursor:pointer;font-size:1.4rem;opacity:0.3;">🔴</span>
+                            </span>
+                        </div>`).join('')}
+                    </div>
+                    <p style="font-size:.78rem;color:#888;margin-top:.7rem;">Telling your teacher where you'd like more help is a brave and clever thing to do. 💪</p>
                 </div>
             `;
         }
 
         function getStudentFeedbackPage() {
+            const fb = [
+                {emoji:'🧮', name:'Mathematics', teacher:'Ms. Sharma', stars:["You showed every step in your decimal sums — so clear and tidy!","You helped Riya understand how to split a fraction. 🤝"], wish:"Let's read word problems slowly together, like detectives looking for clues. 🔍"},
+                {emoji:'🔬', name:'Science', teacher:'Mr. Verma', stars:["Your observations about the plants were so careful.","You asked a brilliant question about why leaves are green. 🌿"], wish:"Try drawing what you see in your next experiment — your pictures help your ideas grow."},
+                {emoji:'📖', name:'English', teacher:'Ms. Nair', stars:["Your story had wonderful, colourful describing words! ✨","You read aloud with lovely expression."], wish:"Let's add a beginning, middle and end to your next story — like steps on a path."},
+                {emoji:'🌏', name:'Social Science', teacher:'Mr. Khan', stars:["You connected our lesson to your own neighbourhood — clever thinking!","You listened so well to your classmates' ideas."], wish:"Next time, let's find one example from a map together. 🗺️"},
+                {emoji:'🪔', name:'Hindi', teacher:'Ms. Devi', stars:["आपने कविता बहुत सुंदर ढंग से सुनाई! 🌟","आपकी लिखावट साफ़ और सुंदर है।"], wish:"अगली बार एक नई कहानी अपने शब्दों में सुनाने की कोशिश करें।"}
+            ];
             return `
-                <h1 class="main-header">💬 My Feedback</h1>
-                <p class="sub-header">Teacher feedback and personalized learning suggestions</p>
+                <h1 class="main-header" style="color:#6a4fb6;">Messages from my teachers 💬</h1>
+                <p class="sub-header">Kind notes to help you learn and grow — from all your subjects</p>
 
-                <div class="info-box">
-                    💡 Your teachers provide feedback to help you grow. Remember: feedback is about learning, not judgment!
-                </div>
+                <div class="info-box">💛 Your teachers write these to cheer you on and help you take your next little step. They're about learning and growing — never about marks.</div>
 
-                <h2 style="margin-top: 2rem; color: #002244;">Recent Feedback</h2>
-
-                <div class="assignment-card">
-                    <div style="display: flex; justify-content: space-between; align-items: start;">
-                        <div>
-                            <h3 style="margin-bottom: 0.5rem;">Mathematics - Algebra Quiz</h3>
-                            <p style="color: #666; font-size: 0.9rem;">From Ms. Johnson • Nov 20, 2024</p>
-                        </div>
-                        <span class="grade-badge grade-a">A-</span>
-                    </div>
-                    <div class="supportive-prompt" style="margin-top: 1rem;">
-                        <p><strong>What you did well:</strong></p>
-                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                            <li>Excellent step-by-step problem solving</li>
-                            <li>Clear mathematical reasoning</li>
-                            <li>Good use of formulas</li>
+                ${fb.map(f => `
+                <div class="dashboard-card">
+                    <h3 style="color:#6a4fb6;">${f.emoji} ${f.name}</h3>
+                    <p style="color:#666;font-size:.88rem;margin-top:-.6rem;">A note from ${f.teacher}</p>
+                    <div class="supportive-prompt" style="margin-top:.6rem;">
+                        <p style="margin:0 0 .3rem;"><strong>⭐ What you did so well:</strong></p>
+                        <ul style="margin-left:1.5rem;margin-top:.2rem;">
+                            ${f.stars.map(s => `<li>${s}</li>`).join('')}
                         </ul>
-                        <p style="margin-top: 1rem;"><strong>To improve further:</strong></p>
-                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                            <li>Review the quadratic formula - you mixed up the signs in question 7</li>
-                            <li>Double-check your final answers</li>
-                        </ul>
+                        <p style="margin:.7rem 0 .2rem;"><strong>🌱 Let's try next:</strong></p>
+                        <p style="margin:0;">${f.wish}</p>
                     </div>
-                    <button class="btn btn-primary" style="margin-top: 1rem;">View Full Assessment</button>
-                </div>
+                </div>`).join('')}
 
-                <div class="assignment-card">
-                    <div style="display: flex; justify-content: space-between; align-items: start;">
-                        <div>
-                            <h3 style="margin-bottom: 0.5rem;">Science - Lab Report</h3>
-                            <p style="color: #666; font-size: 0.9rem;">From Mr. Patel • Nov 18, 2024</p>
-                        </div>
-                        <span class="grade-badge grade-b">B+</span>
-                    </div>
-                    <div class="supportive-prompt" style="margin-top: 1rem;">
-                        <p><strong>Strengths:</strong></p>
-                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                            <li>Excellent hypothesis formation</li>
-                            <li>Detailed observations during experiment</li>
-                            <li>Good use of scientific terminology</li>
-                        </ul>
-                        <p style="margin-top: 1rem;"><strong>Next steps:</strong></p>
-                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                            <li>Include more analysis in your conclusion</li>
-                            <li>Explain why the results support your hypothesis</li>
-                        </ul>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top: 1rem;">View Full Report</button>
-                </div>
-
-                <div class="assignment-card">
-                    <div style="display: flex; justify-content: space-between; align-items: start;">
-                        <div>
-                            <h3 style="margin-bottom: 0.5rem;">English - Essay on "Romeo & Juliet"</h3>
-                            <p style="color: #666; font-size: 0.9rem;">From Ms. Williams • Nov 15, 2024</p>
-                        </div>
-                        <span class="grade-badge grade-a">A</span>
-                    </div>
-                    <div class="supportive-prompt" style="margin-top: 1rem; background: #d4edda; border-left-color: #28a745;">
-                        <p><strong>Outstanding work! 🌟</strong></p>
-                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                            <li>Exceptional literary analysis</li>
-                            <li>Strong use of textual evidence</li>
-                            <li>Sophisticated understanding of themes</li>
-                            <li>Clear, engaging writing style</li>
-                        </ul>
-                        <p style="margin-top: 1rem;"><em>Keep up this excellent standard of work!</em></p>
-                    </div>
-                    <button class="btn btn-success" style="margin-top: 1rem;">View Full Essay</button>
-                </div>
-
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Learning Recommendations</h2>
-
-                <div class="reflection-question">
-                    <h4>Based on your progress, here are some personalized suggestions:</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-                        <li><strong>Mathematics:</strong> You're doing great! Consider joining the Math Olympiad team</li>
-                        <li><strong>Science:</strong> Practice writing more detailed lab conclusions</li>
-                        <li><strong>English:</strong> Your analytical skills are excellent - maintain this level</li>
-                        <li><strong>History:</strong> Try creating timeline charts to visualize connections</li>
-                    </ul>
+                <div class="reflection-question" style="margin-top:1.5rem;">
+                    💭 <strong>What do you think?</strong> Which "let's try next" are you most excited about? Tell us in your <a href="#" onclick="showPage('student-home');return false;" style="color:#6a4fb6;font-weight:600;">thinking space</a>. 🌟
                 </div>
             `;
         }
@@ -1541,486 +1685,369 @@
             const mainContent = document.getElementById('mainContent');
             
             const pages = {
-                'admin-home': getAdminHomePage(),
-                'admin-teachers': getAdminTeachersPage(),
-                'admin-analytics': getAdminAnalyticsPage(),
-                'admin-compliance': getAdminCompliancePage(),
-                'admin-settings': getAdminSettingsPage()
+                'admin-overview': getAdminOverviewPage(),
+                'admin-learning': getAdminLearningPage(),
+                'admin-teaching': getAdminTeachingPage(),
+                'admin-edtech': getAdminEdtechPage(),
+                'admin-reports': getAdminReportsPage()
             };
             
-            mainContent.innerHTML = pages[pageId] || pages['admin-home'];
+            mainContent.innerHTML = pages[pageId] || pages['admin-overview'];
         }
 
-        function getAdminHomePage() {
+        function getAdminOverviewPage() {
             return `
-                <h1 class="main-header">Administrator Dashboard</h1>
-                <p class="sub-header">System overview and key metrics</p>
+                <h1 class="main-header">🏫 School Overview</h1>
+                <p class="sub-header">Sarvodaya Bal Vidyalaya, Janakpuri — how learning, teaching, and the EdTech programme are going</p>
+
+                <div class="info-box" style="border-left:4px solid #17a2b8;">
+                    <strong>What leadership sees here.</strong> School-wide and class-wide <em>patterns</em>, equity gaps, and programme health — to guide support, resources, and reporting. By design this view <strong>never exposes an individual teacher's reflections or an individual learner's record</strong>; that identifiability is stripped at this level. <span style="color:#555;">(REFLECTIVE: Evidence for improvement, not surveillance · Responsible &amp; ethical monitoring)</span>
+                </div>
+                <div class="warning-box" style="font-size:.82rem;">⚠️ <strong>Illustrative prototype data</strong> for a fictional school. All figures are fabricated to demonstrate the interface.</div>
 
                 <div class="metrics-row">
-                    <div class="metric-card">
-                        <div class="metric-value">45</div>
-                        <div class="metric-label">Active Teachers</div>
-                        <div class="metric-delta">+3 this month</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">850</div>
-                        <div class="metric-label">Students</div>
-                        <div class="metric-delta">+15 this month</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">95%</div>
-                        <div class="metric-label">Compliance Rate</div>
-                        <div class="metric-delta">+2% from last month</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">4.3/5</div>
-                        <div class="metric-label">Teacher Satisfaction</div>
-                        <div class="metric-delta">Stable</div>
-                    </div>
+                    <div class="metric-card"><div class="metric-value">12</div><div class="metric-label">classes monitored</div></div>
+                    <div class="metric-card"><div class="metric-value">5</div><div class="metric-label">EdTech tools in the portfolio</div></div>
+                    <div class="metric-card"><div class="metric-value" style="color:#28a745;">58%</div><div class="metric-label">learners at / above grade level</div><div class="metric-delta">▲ from 49% (independent check)</div></div>
+                    <div class="metric-card"><div class="metric-value" style="color:#dc3545;">−18 pts</div><div class="metric-label">girls' device-access gap</div><div class="metric-delta" style="color:#dc3545;">⚑ equity alert</div></div>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">System Health</h2>
-
-                <div class="dashboard-card">
-                    <h3>Recording Compliance</h3>
-                    <p>Teachers meeting minimum sampling requirements</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 95%;">95%</div>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
-                        43 out of 45 teachers are meeting minimum requirements
-                    </p>
+                <h2 style="color:#002244;margin-top:1.5rem;">The five domains, at a glance</h2>
+                <p style="color:#666;margin-top:-.5rem;">TrackEd's RMEAL frame. Use the tabs on the left for the detail behind each.</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;">
+                    ${[
+                        ['📈','Student learning','Improving; interpretation lags procedures','#28a745'],
+                        ['🌱','Teacher practice','Most teaching at Substitution → Augmentation','#667eea'],
+                        ['🤝','School culture','Collaboration growing; safe to experiment','#17a2b8'],
+                        ['🧭','Fidelity & adaptation','On dosage; 3 adaptations logged','#ffc107'],
+                        ['♻️','Systemic & sustainability','Loosely aligned to UDISE+; cost falling','#6a4fb6']
+                    ].map(d => `<div class="dashboard-card" style="margin-bottom:0;border-top:4px solid ${d[3]};"><div style="font-size:1.6rem;">${d[0]}</div><h3 style="margin:.3rem 0;font-size:1.05rem;">${d[1]}</h3><p style="font-size:.82rem;color:#555;margin:0;">${d[2]}</p></div>`).join('')}
                 </div>
 
-                <div class="dashboard-card">
-                    <h3>Agency Utilization</h3>
-                    <p>Teachers actively using opt-in/opt-out features</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 78%;">78%</div>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
-                        Teachers are exercising agency appropriately - healthy balance
-                    </p>
+                <div class="dashboard-card" style="margin-top:1.5rem;">
+                    <h3>⚑ Equity watch <span style="font-weight:400;font-size:.8rem;color:#999;">(REFLECTIVE: Equity &amp; access mapping)</span></h3>
+                    <p style="font-size:.82rem;color:#888;margin-top:-.4rem;">Share of EdTech sessions reaching each group, school-wide. Flags gaps, never individuals. An alert fires automatically when a gap widens from baseline.</p>
+                    ${admBars([{label:'Boys',val:71},{label:'Girls',val:53,flag:true},{label:'First-generation learners',val:48,flag:true},{label:'Mother-tongue content available',val:44,flag:true},{label:'Learners using assistive features',val:39,flag:true}])}
                 </div>
 
-                <div class="dashboard-card">
-                    <h3>Reflection Engagement</h3>
-                    <p>Teachers adding qualitative context to recordings</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 82%;">82%</div>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
-                        Strong adoption of reflection features
-                    </p>
+                <div class="dashboard-card" style="margin-top:1.5rem;">
+                    <h3>🧭 What may need leadership attention</h3>
+                    <p style="font-size:.82rem;color:#888;margin-top:-.4rem;">Pattern-level signals for systemic decisions — not judgements of any individual.</p>
+                    <div class="reflection-question" style="margin:.5rem 0;">🔴 <strong>Equity — girls' device access.</strong> 18 points below boys across 3 classes. Consider reviewing the device-sharing rota and session timing.</div>
+                    <div class="reflection-question" style="margin:.5rem 0;">🟡 <strong>Learning — word problems.</strong> Across Class 6 and 7 maths, interpretation lags procedural fluency. A school-wide language-in-maths focus may help — a PD signal, not blame.</div>
+                    <div class="reflection-question" style="margin:.5rem 0;">🟡 <strong>Programme — tool fit in Science.</strong> One tool is little used in Science; worth checking whether it fits the curriculum or should be swapped.</div>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Recent Alerts</h2>
-
-                <div class="supportive-prompt">
-                    <strong>✅ All Systems Normal</strong>
-                    <p style="margin-top: 0.5rem;">No critical issues requiring attention. 2 teachers need gentle reminder about monthly minimum.</p>
+                <div class="feature-box" style="margin-top:1.5rem;border-left:4px solid #002244;">
+                    <h4 style="color:#002244;">🔒 Data governance (DPDP Act 2023)</h4>
+                    <p style="font-size:.84rem;margin:.2rem 0;">Guardian consent on file: <strong>96%</strong> of learners · Data minimisation: one class-level entry, sampling not exhaustive logging · Retention: <strong>1 year</strong>, then erasure · Purpose limitation: monitoring for improvement only. No classroom recordings, facial recognition, or voice identification anywhere in TrackEd.</p>
                 </div>
 
-                <div class="info-box" style="margin-top: 1rem;">
-                    <strong>📊 Trust-First Metrics:</strong> TrackEd is designed to support teachers, not surveil them. 
-                    Our metrics focus on system health and teacher satisfaction, not punitive tracking.
+                <div style="margin-top:1rem;">
+                    <button class="btn btn-primary" onclick="showPage('admin-learning')">📚 Classes &amp; learning</button>
+                    <button class="btn btn-primary" onclick="showPage('admin-reports')">📄 Generate report</button>
                 </div>
             `;
         }
 
-        function getAdminTeachersPage() {
+        function getAdminLearningPage() {
+            const classes = [
+                {id:'6a', name:'Class 6A', tool:'DIKSHA', atGrade:52, trend:'up', flag:false},
+                {id:'6b', name:'Class 6B', tool:'Khan Academy', atGrade:44, trend:'flat', flag:true},
+                {id:'7a', name:'Class 7A', tool:'Khan Academy', atGrade:61, trend:'up', flag:false},
+                {id:'7b', name:'Class 7B', tool:'DIKSHA', atGrade:57, trend:'up', flag:false},
+                {id:'8a', name:'Class 8A', tool:'Mindspark', atGrade:66, trend:'up', flag:false},
+                {id:'8b', name:'Class 8B', tool:'Khan Academy', atGrade:49, trend:'down', flag:true},
+                {id:'5a', name:'Class 5A', tool:'Chimple', atGrade:55, trend:'up', flag:false},
+                {id:'5b', name:'Class 5B', tool:'Chimple', atGrade:41, trend:'flat', flag:true}
+            ];
+            const arrow = t => t==='up' ? '<span style="color:#28a745;">▲ improving</span>' : t==='down' ? '<span style="color:#dc3545;">▼ needs attention</span>' : '<span style="color:#888;">▬ steady</span>';
+            const panels = classes.map(c => {
+                const dist = [
+                    {label:'Beginner', val:Math.round((100-c.atGrade)*0.4), color:'#dc3545'},
+                    {label:'Developing', val:Math.round((100-c.atGrade)*0.6), color:'#ffc107'},
+                    {label:'Grade level', val:Math.round(c.atGrade*0.6), color:'#17a2b8'},
+                    {label:'Secure+', val:Math.round(c.atGrade*0.4), color:'#28a745'}
+                ];
+                return `<div id="adm-cls-${c.id}" class="adm-class-panel dashboard-card" style="display:none;border-top:4px solid #667eea;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3 style="margin:0;">${c.name} — aggregated learning profile</h3>
+                        <button class="btn" style="background:#eee;color:#444;padding:.35rem .9rem;" onclick="document.getElementById('adm-cls-${c.id}').style.display='none';document.getElementById('adm-class-top').scrollIntoView({behavior:'smooth'});">✕ Close</button>
+                    </div>
+                    <p style="font-size:.78rem;color:#999;margin:.2rem 0 1rem;">Aggregate pattern only — no individual learner records are shown to leadership. Primary tool: <strong>${c.tool}</strong>.</p>
+                    <div class="comparison-grid" style="gap:1.5rem;">
+                        <div>
+                            <h4 style="color:#002244;">Where the class stands (independent check)</h4>
+                            ${admDist(dist)}
+                            <h4 style="color:#002244;margin-top:1rem;">Engagement (observed + pulse)</h4>
+                            ${admBars([{label:'Behavioural (on task)',val:74},{label:'Cognitive (thinking hard)',val:58},{label:'Emotional (enjoying it)',val:69}])}
+                        </div>
+                        <div>
+                            <h4 style="color:#002244;">Topic mastery pattern</h4>
+                            ${admBars([{label:'Number & operations',val:71},{label:'Fractions / Decimals',val:63},{label:'Word problems',val:42},{label:'Geometry',val:66},{label:'Data handling',val:60}])}
+                            <h4 style="color:#002244;margin-top:1rem;">Equity within the class</h4>
+                            ${admBars([{label:'Girls reached',val:c.flag?48:64,flag:c.flag},{label:'First-generation reached',val:c.flag?45:60,flag:c.flag}])}
+                        </div>
+                    </div>
+                    <div class="supportive-prompt" style="margin-top:1rem;"><strong>Pattern:</strong> procedures more secure than interpretation; a language thread runs through word problems.${c.flag?' <strong style="color:#dc3545;">Equity flag:</strong> some groups reaching the tool less — worth a sharing-rota review.':''} Verified by independent check, not the platform's own quiz.</div>
+                </div>`;
+            }).join('');
+            const rows = classes.map(c => `
+                <button onclick="document.querySelectorAll('.adm-class-panel').forEach(function(p){p.style.display='none';});var t=document.getElementById('adm-cls-${c.id}');t.style.display='block';t.scrollIntoView({behavior:'smooth',block:'start'});"
+                    style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr auto;align-items:center;gap:.6rem;text-align:left;width:100%;background:#fff;border:1px solid #e3e6ef;border-left:4px solid ${c.flag?'#dc3545':'#667eea'};border-radius:8px;padding:.7rem .8rem;cursor:pointer;margin-bottom:.5rem;">
+                    <span style="font-weight:600;color:#002244;">${c.name}</span>
+                    <span style="font-size:.82rem;color:#555;">${c.tool}</span>
+                    <span style="font-size:.95rem;color:#002244;font-weight:600;">${c.atGrade}%<span style="font-weight:400;font-size:.7rem;color:#888;"> at grade</span></span>
+                    <span style="font-size:.8rem;">${arrow(c.trend)}</span>
+                    <span style="font-size:.7rem;color:#fff;background:${c.flag?'#dc3545':'#28a745'};border-radius:10px;padding:1px 8px;">${c.flag?'⚑ equity':'ok'}</span>
+                </button>`).join('');
             return `
-                <h1 class="main-header">👥 Teacher Management</h1>
-                <p class="sub-header">Overview of teacher engagement with TrackEd</p>
+                <h1 class="main-header">📚 Classes &amp; Learning</h1>
+                <p class="sub-header">Class-level learning patterns across the school — comparable, equity-disaggregated</p>
+                <div class="info-box" style="border-left:4px solid #17a2b8;">Learning is measured <strong>independently of the platforms</strong> (ASER / SCERT-style checks), because a tool's own quiz scores its content, not the child's competence. Leadership sees each class as a <strong>pattern</strong> and can compare across the school — but cannot open an individual learner. <span style="color:#555;">(REFLECTIVE: Learning outcome alignment · Equity &amp; access mapping)</span></div>
 
-                <div class="form-group">
-                    <label>Filter by Department:</label>
-                    <select>
-                        <option>All Departments</option>
-                        <option>Mathematics</option>
-                        <option>Science</option>
-                        <option>English</option>
-                        <option>History</option>
-                        <option>Arts</option>
-                    </select>
+                <div class="dashboard-card" style="margin-top:1rem;">
+                    <h3>School comparison — % at / above grade level</h3>
+                    ${admBars(classes.map(c => ({label:c.name+' ('+c.tool+')', val:c.atGrade, flag:c.flag})))}
                 </div>
 
-                <table style="margin-top: 2rem;">
-                    <thead>
-                        <tr>
-                            <th>Teacher</th>
-                            <th>Department</th>
-                            <th>Status</th>
-                            <th>Recordings (This Month)</th>
-                            <th>Reflections</th>
-                            <th>Compliance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Ms. Johnson</strong></td>
-                            <td>Mathematics</td>
-                            <td><span class="status-indicator status-active"></span> Active</td>
-                            <td>4 / 3 required</td>
-                            <td>3</td>
-                            <td style="color: #28a745;">✅ Met</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Mr. Patel</strong></td>
-                            <td>Science</td>
-                            <td><span class="status-indicator status-active"></span> Active</td>
-                            <td>3 / 3 required</td>
-                            <td>2</td>
-                            <td style="color: #28a745;">✅ Met</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ms. Williams</strong></td>
-                            <td>English</td>
-                            <td><span class="status-indicator status-active"></span> Active</td>
-                            <td>5 / 3 required</td>
-                            <td>4</td>
-                            <td style="color: #28a745;">✅ Exceeded</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Mr. Rodriguez</strong></td>
-                            <td>History</td>
-                            <td><span class="status-indicator status-warning"></span> Needs Support</td>
-                            <td>2 / 3 required</td>
-                            <td>1</td>
-                            <td style="color: #ffc107;">⚠️ Below minimum</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ms. Chen</strong></td>
-                            <td>Mathematics</td>
-                            <td><span class="status-indicator status-active"></span> Active</td>
-                            <td>3 / 3 required</td>
-                            <td>3</td>
-                            <td style="color: #28a745;">✅ Met</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h2 id="adm-class-top" style="color:#002244;margin-top:1.5rem;">Open a class (aggregated profile)</h2>
+                <p style="color:#666;font-size:.9rem;">Tap a class for its aggregated learning profile. No individual learner data appears at this level.</p>
+                ${rows}
+                ${panels}
+            `;
+        }
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Support Actions</h2>
-
-                <div class="reflection-question">
-                    <h4>Teachers Needing Gentle Support</h4>
-                    <p style="margin-top: 0.5rem;"><strong>Mr. Rodriguez (History)</strong> - 2 recordings this month</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                        <em>Suggested action:</em> Send supportive reminder about monthly minimum. 
-                        Check if technical support is needed or if there are scheduling conflicts.
-                    </p>
-                    <button class="btn btn-info" style="margin-top: 1rem;">Send Supportive Reminder</button>
-                    <button class="btn btn-primary" style="margin-top: 1rem;">Schedule Check-in</button>
+        function getAdminTeachingPage() {
+            return `
+                <h1 class="main-header">🌱 Teaching &amp; Growth</h1>
+                <p class="sub-header">Professional practice across the school — in aggregate, never individual</p>
+                <div class="info-box" style="border-left:4px solid #667eea;">
+                    <strong>By design, this view is aggregate and by department.</strong> Leadership cannot see an individual teacher's reflections, scores, or "compliance" — those are private to each teacher and returned to her as her own growth trajectory. There is no ranking and no individual feed. <span style="color:#555;">(REFLECTIVE: Voice, consent &amp; dignity · Teacher reflection &amp; transformation)</span>
                 </div>
 
-                <div class="supportive-prompt" style="margin-top: 2rem;">
-                    <h4>📈 Department Insights</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Mathematics department showing highest reflection engagement (avg 3.5/teacher)</li>
-                        <li>Science teachers effectively using opt-out features for lab sessions</li>
-                        <li>English department maintaining consistent recording schedules</li>
+                <div class="comparison-grid" style="gap:1.5rem;margin-top:1rem;">
+                    <div class="dashboard-card">
+                        <h3>Technology integration (SAMR)</h3>
+                        <p style="font-size:.78rem;color:#888;margin-top:-.4rem;">Where teaching sits on the SAMR ladder — a maturity pattern, not a target for every teacher.</p>
+                        ${admDist([{label:'Substitution',val:18,color:'#ffc107'},{label:'Augmentation',val:16,color:'#17a2b8'},{label:'Modification',val:8,color:'#667eea'},{label:'Redefinition',val:3,color:'#28a745'}])}
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Reflective practice depth</h3>
+                        <p style="font-size:.78rem;color:#888;margin-top:-.4rem;">Distribution on the four-level rubric (Descriptive → Transformative). A culture signal, anonymous.</p>
+                        ${admDist([{label:'Descriptive',val:12,color:'#ffc107'},{label:'Analytical',val:17,color:'#17a2b8'},{label:'Critical',val:11,color:'#667eea'},{label:'Transformative',val:5,color:'#28a745'}])}
+                    </div>
+                </div>
+
+                <div class="dashboard-card" style="margin-top:1.5rem;">
+                    <h3>Teacher self-efficacy for technology integration (school average)</h3>
+                    <p style="font-size:.78rem;color:#888;margin-top:-.4rem;">Anonymous survey, 1–5. Returned to each teacher privately as her own trajectory; shown here only as a school mean.</p>
+                    ${admLine([2.8,3.1,3.5,3.9],['Baseline','Q1','Midline','Endline'],520,150,5,4,'confident (4.0)')}
+                </div>
+
+                <h2 style="color:#002244;margin-top:1.5rem;">By department <span style="font-weight:400;font-size:.85rem;color:#999;">(aggregate)</span></h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+                    ${[
+                        ['🧮','Mathematics',6,'Augmentation','Critical',82],
+                        ['🔬','Science',5,'Substitution','Analytical',64],
+                        ['📖','English',5,'Augmentation','Critical',78],
+                        ['🌏','Social Science',4,'Substitution','Descriptive',55],
+                        ['🪔','Hindi',4,'Augmentation','Analytical',70]
+                    ].map(d => `<div class="dashboard-card" style="margin-bottom:0;"><h3 style="font-size:1.05rem;">${d[0]} ${d[1]}</h3><p style="font-size:.82rem;margin:.2rem 0;color:#555;">${d[2]} teachers</p><p style="font-size:.82rem;margin:.2rem 0;">Typical SAMR: <strong>${d[3]}</strong></p><p style="font-size:.82rem;margin:.2rem 0;">Typical reflection: <strong>${d[4]}</strong></p><div style="font-size:.74rem;color:#666;margin-top:.4rem;">Reflection engagement</div><div style="background:#e9ecef;border-radius:6px;height:8px;overflow:hidden;margin-top:2px;"><div style="height:100%;width:${d[5]}%;background:linear-gradient(90deg,#667eea,#764ba2);"></div></div></div>`).join('')}
+                </div>
+
+                <div class="supportive-prompt" style="margin-top:1.5rem;">
+                    <h3>🎓 Professional-development signals <span style="font-weight:400;font-size:.8rem;color:#777;">(school-wide, not individual)</span></h3>
+                    <ul style="margin-left:1.5rem;margin-top:.4rem;">
+                        <li>Most teaching sits at <strong>Substitution / Augmentation</strong> — a workshop on moving one notch up (augmentation → modification) would benefit several departments.</li>
+                        <li>Reflective depth is strong in Maths and English, emerging in Social Science — a <strong>cross-department peer exchange</strong> could lift the whole school (Domain 3: collaborative culture).</li>
+                        <li>Self-efficacy is rising steadily — protect the conditions that are working (time, a safe-to-experiment climate).</li>
                     </ul>
                 </div>
+                <p style="font-size:.78rem;color:#999;margin-top:.7rem;">Where an individual teacher needs support, that happens through a human mentoring relationship — not by the platform exposing her data. TrackEd measures whether leaders use data <em>constructively</em>, not punitively (Domain 3.1.1).</p>
             `;
         }
 
-        function getAdminAnalyticsPage() {
+        function getAdminEdtechPage() {
             return `
-                <h1 class="main-header">📊 System Analytics</h1>
-                <p class="sub-header">Aggregated insights (all data anonymized)</p>
+                <h1 class="main-header">📲 EdTech &amp; App Performance</h1>
+                <p class="sub-header">How the EdTech portfolio — and TrackEd itself — are performing across the school</p>
+                <div class="info-box" style="border-left:4px solid #17a2b8;">This replaces any notion of "teacher compliance." It asks whether the <strong>tools</strong> are used well, and whether <strong>TrackEd</strong> is light, useful, and reaching everyone. <span style="color:#555;">(REFLECTIVE: Frequency &amp; nature of EdTech use · Responsible monitoring)</span></div>
 
-                <div class="info-box">
-                    🔒 <strong>Privacy Note:</strong> All analytics are anonymized and aggregated. 
-                    Individual teacher data is never used for comparative evaluation.
+                <div class="dashboard-card" style="margin-top:1rem;">
+                    <h3>EdTech portfolio — adoption across eligible classes</h3>
+                    <p style="font-size:.78rem;color:#888;margin-top:-.4rem;">TrackEd's distinctive view: <strong>multiple tools, compared side by side</strong> at classroom level.</p>
+                    ${admBars([{label:'Khan Academy (Maths)',val:74},{label:'DIKSHA (multi-subject)',val:66},{label:'Mindspark (Maths 8–10)',val:38},{label:'Chimple (early grades)',val:52},{label:'Read Along (English)',val:29}])}
                 </div>
 
-                <div class="metrics-row" style="margin-top: 2rem;">
-                    <div class="metric-card">
-                        <div class="metric-value">1,247</div>
-                        <div class="metric-label">Total Recordings</div>
-                        <div class="metric-delta">This month</div>
+                <div class="comparison-grid" style="gap:1.5rem;margin-top:1.5rem;">
+                    <div class="dashboard-card">
+                        <h3>How tools are used (nature of use)</h3>
+                        ${admDist([{label:'Practice / reinforcement',val:54,color:'#667eea'},{label:'Remediation',val:22,color:'#17a2b8'},{label:'New content',val:15,color:'#ffce54'},{label:'Assessment',val:9,color:'#28a745'}])}
+                        <p style="font-size:.8rem;color:#555;margin-top:.6rem;">Mostly practice after teaching — consistent with the intended blended model (Domain 4: fidelity).</p>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">892</div>
-                        <div class="metric-label">Reflections Written</div>
-                        <div class="metric-delta">71% reflection rate</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">234</div>
-                        <div class="metric-label">Opt-Outs Used</div>
-                        <div class="metric-delta">19% of sessions</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">4.3/5</div>
-                        <div class="metric-label">Teacher Satisfaction</div>
-                        <div class="metric-delta">With system</div>
+                    <div class="dashboard-card">
+                        <h3>Programme fidelity &amp; adaptation</h3>
+                        ${admBars([{label:'Planned components delivered',val:88},{label:'Dosage (actual vs planned time)',val:73},{label:'Infrastructure reliability',val:67}])}
+                        <p style="font-size:.8rem;color:#555;margin-top:.6rem;"><strong>3 adaptations logged</strong> this term (e.g., pairing for device-sharing) — treated as useful data, not deviation.</p>
                     </div>
                 </div>
 
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Usage Patterns</h2>
-
-                <div class="chart-placeholder">
-                    📈 Recording Frequency Distribution Chart
+                <div class="dashboard-card" style="margin-top:1.5rem;">
+                    <h3>TrackEd app health</h3>
+                    <div class="metrics-row" style="margin:.5rem 0;">
+                        <div class="metric-card"><div class="metric-value">84%</div><div class="metric-label">classes with an insight this month</div></div>
+                        <div class="metric-card"><div class="metric-value">1.9 min</div><div class="metric-label">avg. time per reflection</div><div class="metric-delta">within the 2-minute promise</div></div>
+                        <div class="metric-card"><div class="metric-value">99.6%</div><div class="metric-label">offline-sync success</div></div>
+                        <div class="metric-card"><div class="metric-value">71%</div><div class="metric-label">reflections include narrative</div></div>
+                    </div>
                 </div>
 
-                <div class="dashboard-card" style="margin-top: 2rem;">
-                    <h3>Opt-Out Reasons (Aggregated)</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Reason</th>
-                                <th>Frequency</th>
-                                <th>Percentage</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Experimental pedagogy</td>
-                                <td>89</td>
-                                <td>38%</td>
-                            </tr>
-                            <tr>
-                                <td>Sensitive student discussion</td>
-                                <td>67</td>
-                                <td>29%</td>
-                            </tr>
-                            <tr>
-                                <td>Repetitive content</td>
-                                <td>45</td>
-                                <td>19%</td>
-                            </tr>
-                            <tr>
-                                <td>Technical issues</td>
-                                <td>23</td>
-                                <td>10%</td>
-                            </tr>
-                            <tr>
-                                <td>Other</td>
-                                <td>10</td>
-                                <td>4%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="supportive-prompt" style="margin-top: 2rem;">
-                    <h4>✅ Positive Trends</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>Teachers using agency features appropriately</li>
-                        <li>High reflection engagement indicates trust in the system</li>
-                        <li>Opt-out patterns show thoughtful use, not avoidance</li>
-                        <li>Teacher satisfaction scores increasing month-over-month</li>
+                <div class="feature-box" style="margin-top:1.5rem;">
+                    <h4>🔎 Tool-fit watch-points <span style="font-weight:400;font-size:.8rem;color:#999;">(from each tool's published EdTech Tulna evaluation)</span></h4>
+                    <ul style="margin-left:1.5rem;margin-top:.4rem;font-size:.86rem;">
+                        <li><strong>Khan Academy:</strong> strong feedback &amp; scaffolding, but US contexts (Beth, pizza) and English audio — watch local relevance and language.</li>
+                        <li><strong>Mindspark:</strong> strong adaptivity, yet its own analytics can read ~50% from guessing — <em>verify learning with an independent check</em>, don't trust the dashboard alone.</li>
+                        <li><strong>TicTacLearn / Read Along:</strong> NCERT-aligned but thin on captions / transcripts — check accessibility.</li>
                     </ul>
-                </div>
-
-                <div class="chart-placeholder" style="margin-top: 2rem;">
-                    📊 Teacher Satisfaction Trends Over Time
+                    <p style="font-size:.78rem;color:#999;margin-top:.4rem;">These are metadata from published evaluations — they shape interpretation, not new data collection.</p>
                 </div>
             `;
         }
 
-        function getAdminCompliancePage() {
+        function getAdminReportsPage() {
             return `
-                <h1 class="main-header">✅ Compliance & Quality</h1>
-                <p class="sub-header">Monitoring system standards and ethical practices</p>
+                <h1 class="main-header">📄 Reports</h1>
+                <p class="sub-header">A school RMEAL report for leadership, the School Management Committee, the block / DIET, and funders</p>
 
-                <div class="success-box">
-                    ✅ <strong>Overall Compliance: 95%</strong> - System is functioning within expected parameters
+                <div style="margin:.5rem 0 1rem;">
+                    <span style="font-size:.85rem;color:#666;margin-right:.5rem;">Prepared for:</span>
+                    <button class="btn btn-primary" style="padding:.4rem 1rem;" onclick="document.getElementById('adm-rep-aud').textContent='the School Leadership & Management Committee (SMC)';">School / SMC</button>
+                    <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.4rem 1rem;" onclick="document.getElementById('adm-rep-aud').textContent='the Block / District Institute of Education and Training (DIET)';">Block / DIET</button>
+                    <button class="btn" style="background:#eef0fb;color:#3b3b6d;padding:.4rem 1rem;" onclick="document.getElementById('adm-rep-aud').textContent='the funding partner';">Funder</button>
+                    <button class="btn btn-success" style="padding:.4rem 1rem;" onclick="window.print();">🖨️ Print / Save as PDF</button>
                 </div>
 
-                <h2 style="margin-top: 2rem; color: #002244;">Compliance Metrics</h2>
-
-                <div class="dashboard-card">
-                    <h3>Minimum Sampling Requirements</h3>
-                    <p>Teachers meeting "1 recording per class per month" minimum</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 95%;">43 of 45 teachers</div>
+                <div class="dashboard-card" style="border-top:4px solid #002244;">
+                    <div style="border-bottom:2px solid #eee;padding-bottom:.8rem;margin-bottom:1rem;">
+                        <h2 style="color:#002244;margin:0;">School RMEAL Report — EdTech Programme</h2>
+                        <p style="margin:.3rem 0 0;color:#555;">Sarvodaya Bal Vidyalaya, Janakpuri · Term: Apr–Sep · Prepared for <strong id="adm-rep-aud">the School Leadership &amp; Management Committee (SMC)</strong></p>
+                        <p style="font-size:.78rem;color:#b00;margin:.3rem 0 0;">Illustrative prototype data — fabricated to demonstrate the report format.</p>
                     </div>
-                    <div class="reflection-question" style="margin-top: 1rem;">
-                        <strong>Action needed:</strong> 2 teachers below minimum. Supportive outreach scheduled.
+
+                    <h3 style="color:#002244;">Executive summary</h3>
+                    <p><strong>The EdTech programme is improving foundational learning while exposing an equity gap that now requires a deliberate response.</strong> Across twelve classes, the share of learners at or above grade level rose from 49% to 58% on checks administered independently of the platforms. Procedural fluency is strengthening faster than interpretation, and a recurring language-in-word-problems thread runs across the middle grades. Teaching is maturing along the SAMR continuum and teacher confidence is rising. The clearest call on leadership is equity: girls and first-generation learners are reaching the tools less than their peers, and the gap has widened enough to trigger an alert.</p>
+
+                    <h3 style="color:#002244;">Domain 1 — Student learning</h3>
+                    <p><strong>Learning is rising, measured independently of the tools themselves.</strong> Gains are concentrated in number and procedure; word problems lag, and the obstacle is reading the problem more than the arithmetic. Because a platform's own quiz scores its content rather than the child's competence — and adaptive tools can read as high as ~50% from guessing — every learning figure here comes from independent checks.</p>
+
+                    <h3 style="color:#002244;">Domain 2 — Teacher practice &amp; growth</h3>
+                    <p><strong>Teaching is moving up the integration ladder, and reflection is becoming a habit.</strong> Most practice sits at Substitution and Augmentation, with a growing minority at Modification, and reflective depth is strongest in Mathematics and English. These figures are reported in aggregate only; no individual teacher is identified, ranked, or monitored, because professional-growth data is private to each teacher.</p>
+
+                    <h3 style="color:#002244;">Domain 3 — School culture</h3>
+                    <p><strong>A collaborative, safe-to-experiment culture is taking root.</strong> Teachers increasingly turn to peers rather than only the principal for technology help, a sign of distributed leadership. Communication with parents about the programme remains the area most in need of strengthening.</p>
+
+                    <h3 style="color:#002244;">Domain 4 — Programme fidelity &amp; adaptation</h3>
+                    <p><strong>The programme is being delivered largely as designed, with sensible local adaptation.</strong> Most planned components were delivered and dosage is close to plan; infrastructure reliability is the weakest link, with power and connectivity the common causes. Three adaptations were logged and are treated as useful evidence rather than deviation.</p>
+
+                    <h3 style="color:#002244;">Domain 5 — Systemic &amp; sustainability</h3>
+                    <p><strong>The programme is affordable and increasingly owned locally, though not yet formally integrated.</strong> Per-learner cost is falling because the model leans on tools and data the school already holds. Alignment to UDISE+ and state frameworks is loose but improving; building local M&amp;E capacity is the next step toward sustainability.</p>
+
+                    <h3 style="color:#002244;">Equity statement</h3>
+                    <p><strong>An intervention that lifts the average while widening the gap is not a success.</strong> Girls, first-generation learners, and children needing assistive features are reaching the tools less. Leadership is asked to review the device-sharing rota, session timing, and mother-tongue content as the priority action this term.</p>
+
+                    <h3 style="color:#002244;">Data governance &amp; ethics (DPDP Act 2023)</h3>
+                    <p><strong>The programme is designed to be lawful and dignified by construction.</strong> Guardian consent is on file for 96% of learners; data collection is minimal — one class-level entry, sampled rather than exhaustive; retention is one year followed by erasure; and there are no classroom recordings, facial recognition, or voice identification anywhere in TrackEd.</p>
+
+                    <h3 style="color:#002244;">What this report can and cannot conclude</h3>
+                    <p><strong>This is a formative report, not an impact verdict.</strong> Without a comparison group it cannot prove the tools caused the gains; it shows learning <em>alongside</em> use, surfaces patterns, and points to decisions. It is offered to inform leadership judgement, not to replace it.</p>
+
+                    <h3 style="color:#002244;">Recommended leadership actions</h3>
+                    <ol style="margin-left:1.3rem;">
+                        <li>Act on the equity alert: review device-sharing and timing so girls and first-generation learners reach the tools equally.</li>
+                        <li>Run a short school-wide focus on reading word problems — a language move, not a numeracy one.</li>
+                        <li>Convene a cross-department peer exchange to spread reflective practice.</li>
+                        <li>Strengthen power / connectivity reliability and parent communication.</li>
+                        <li>Begin building local M&amp;E capacity toward UDISE+ integration.</li>
+                    </ol>
+
+                    <!-- ANNEX: REFLECTIVE framework + evaluation & reflective rubrics -->
+                    <div style="border-top:2px solid #002244;margin-top:1.8rem;padding-top:1rem;">
+                        <h2 style="color:#002244;">Annex — the REFLECTIVE framework &amp; the rubrics</h2>
+                        <p style="color:#666;font-size:.86rem;">The theory this report rests on, and the rubrics by which teaching, learning, and reflection are read. Every rubric is <strong>developmental and formative</strong>: a teacher's result stays with the teacher (leadership sees only the aggregate distributions above), and a learner's result is family-visible and judged against the child's own prior attainment, never ranked. A typeset version of this annex is provided as a PDF alongside this prototype.</p>
+
+                        <h3 style="color:#002244;">A · The REFLECTIVE framework</h3>
+                        <p><strong>REFLECTIVE is a dignity-centred evaluation framework — a mirror for growth, not a lens for surveillance.</strong> Its ten dimensions are applied as a <em>repertoire, not a checklist</em>, and are of three kinds: <em>dispositional</em> (how monitoring is conducted), <em>substantive</em> (what it attends to), and <em>analytical</em> (how findings are disaggregated and situated).</p>
+                        <table>
+                            <thead><tr><th style="width:36px;"></th><th>Dimension</th><th>Type</th><th>Focus of monitoring</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>R</strong></td><td>Responsible &amp; ethical monitoring</td><td>Dispositional</td><td>Consent, minimisation, purpose limitation as binding constraints.</td></tr>
+                                <tr><td><strong>E</strong></td><td>Equity &amp; access mapping</td><td>Analytical</td><td>Disaggregation of every outcome by markers of disadvantage.</td></tr>
+                                <tr><td><strong>F</strong></td><td>Frequency &amp; nature of EdTech use</td><td>Substantive</td><td>How, and how often, the tools in a portfolio are used.</td></tr>
+                                <tr><td><strong>L</strong></td><td>Learning outcome alignment</td><td>Substantive</td><td>Learning measured independently of the delivering platform.</td></tr>
+                                <tr><td><strong>E</strong></td><td>Engagement &amp; classroom process</td><td>Substantive</td><td>Cognitive, behavioural, and emotional engagement.</td></tr>
+                                <tr><td><strong>C</strong></td><td>Competency &amp; holistic development</td><td>Substantive</td><td>Competencies beyond foundational literacy and numeracy.</td></tr>
+                                <tr><td><strong>T</strong></td><td>Teacher reflection &amp; transformation</td><td>Substantive</td><td>Professional growth of the teacher at the centre.</td></tr>
+                                <tr><td><strong>I</strong></td><td>Inclusion &amp; socio-cultural context</td><td>Analytical</td><td>Analysis situated within the school's ecological realities.</td></tr>
+                                <tr><td><strong>V</strong></td><td>Voice, consent &amp; dignity</td><td>Dispositional</td><td>The evaluated reconstituted as participants, not objects.</td></tr>
+                                <tr><td><strong>E</strong></td><td>Evidence for improvement, not surveillance</td><td>Dispositional</td><td>The governing disposition distinguishing development from supervision.</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top:.8rem;"><strong>Four conceptual anchors ground the framework.</strong> <strong>Vygotsky</strong> — learning is mediated; the teacher, not the tool, is the decisive mediator, so a tool is never measured in isolation. <strong>Bronfenbrenner</strong> — the child sits within nested contexts (home, language, device-sharing), so every outcome is disaggregated for equity. <strong>Black &amp; Wiliam</strong> — feedback aimed at the task and the process, not the self; progress judged against one's own prior level; assessment defined by whether it improves the next decision. <strong>Critical Data Studies</strong> (Couldry &amp; Mejias; D'Ignazio &amp; Klein) — who holds power over data; consent and dignity over surveillance. <span style="color:#666;font-size:.85rem;">Wider influences: UDL, Freire, OECD, SAMR, and Most Significant Change.</span></p>
+
+                        <h3 style="color:#002244;">B · Evaluation rubric — teaching practice (SAMR)</h3>
+                        <p><strong>Teaching is read as a trajectory along the SAMR continuum, not a verdict.</strong> A teacher's result is private to her, returned as her own growth trajectory; leadership sees only anonymous, school-wide distributions (Puentedura; Hamilton et al., 2016; grounded in Vygotsky's account of the teacher as mediator).</p>
+                        <table>
+                            <thead><tr><th>Level</th><th>What it looks like</th><th>Illustrative example</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Substitution</strong></td><td>Technology replaces a familiar tool with no functional change.</td><td>Students do the same worksheet on a tablet instead of on paper.</td></tr>
+                                <tr><td><strong>Augmentation</strong></td><td>Direct substitution, but with a functional improvement.</td><td>The app gives instant feedback the paper worksheet could not.</td></tr>
+                                <tr><td><strong>Modification</strong></td><td>Technology allows significant redesign of the task.</td><td>Students record explanations and compare strategies across the class.</td></tr>
+                                <tr><td><strong>Redefinition</strong></td><td>Technology enables a task previously impossible.</td><td>Students co-create a problem set with another school and respond to one another.</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="font-size:.82rem;color:#666;">Companion measures: teacher self-efficacy (six-item Likert, returned privately as a trajectory) and reflective practice depth (rubric D).</p>
+
+                        <h3 style="color:#002244;">C · Evaluation rubric — student learning (foundational progression)</h3>
+                        <p><strong>Learning is measured independently of the delivering platform, because a tool's own quiz scores its content, not the child's competence</strong> — and an adaptive tool can read ~50% from guessing. Progress is judged against the learner's own prior level, never against peers (Black &amp; Wiliam; NIPUN Bharat; ASER/SCERT-style checks).</p>
+                        <table>
+                            <thead><tr><th style="width:120px;">Band</th><th>What the learner can do</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Beginner</strong></td><td>Recognises symbols, letters, or numbers but cannot yet operate with them independently.</td></tr>
+                                <tr><td><strong>Developing</strong></td><td>Performs simple operations or reads simple text with support; performance is inconsistent.</td></tr>
+                                <tr><td><strong>Grade level</strong></td><td>Meets the competence expected for the grade, independently, on familiar tasks.</td></tr>
+                                <tr><td><strong>Secure</strong></td><td>Applies the competence reliably, including on less familiar tasks.</td></tr>
+                                <tr><td><strong>Advanced</strong></td><td>Transfers the competence to novel problems and can explain the reasoning.</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="font-size:.82rem;color:#666;">Companion lenses: engagement (behavioural / cognitive / emotional) and competency &amp; holistic development (autonomy, perseverance, collaboration — emerging / developing / strong, from observation at pattern level).</p>
+
+                        <h3 style="color:#002244;">D · Reflective rubric — teachers (depth of reflection)</h3>
+                        <p><strong>This rubric assesses the depth of a teacher's reflection, never the quality of her teaching.</strong> Entries are coded privately and returned to the teacher as her own trajectory — never shown to an administrator as a score. Prompts ask what was difficult and what might change, aimed at the task and the process, not the self (Wiliam, 2010; following the levels-of-reflection tradition).</p>
+                        <table>
+                            <thead><tr><th style="width:150px;">Level</th><th>What the reflection does</th><th>Illustrative entry</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>1 · Descriptive</strong></td><td>Reports events with little or no interpretation.</td><td>"I used the app for 20 minutes on decimals."</td></tr>
+                                <tr><td><strong>2 · Analytical</strong></td><td>Links an action to a noticed effect.</td><td>"Students struggled with fractions — the visual didn't match how I taught it."</td></tr>
+                                <tr><td><strong>3 · Critical</strong></td><td>Interrogates assumptions and names a cause.</td><td>"The app assumes place-value mastery most of mine lack; I must pre-teach it."</td></tr>
+                                <tr><td><strong>4 · Transformative</strong></td><td>Reframes future practice.</td><td>"I now plan my non-digital lessons around what the app will cover, not the reverse."</td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="color:#002244;">E · Reflective rubric — students (self-assessment)</h3>
+                        <p><strong>Children reflect in a developmentally appropriate, growth-minded way — assessment as learning, not marks.</strong> Grounded in metacognition (Flavell), self-regulated learning (Zimmerman), assessment as learning (Earl), and growth mindset (Dweck), and expressed through child-friendly instruments rather than scores.</p>
+                        <table>
+                            <thead><tr><th style="width:120px;">Level</th><th>What the child can do</th><th>Child-friendly expression</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Noticing</strong></td><td>Names what they did.</td><td>A mood check-in: "Today we did fractions, and it felt okay."</td></tr>
+                                <tr><td><strong>Explaining</strong></td><td>Says what felt easy or tricky, and why.</td><td>Two stars and a wish: "Word problems were tricky because of the reading."</td></tr>
+                                <tr><td><strong>Connecting</strong></td><td>Links the learning to effort or strategy.</td><td>Traffic-light self-check: "When I drew a picture, it got easier."</td></tr>
+                                <tr><td><strong>Planning</strong></td><td>Sets their own next step.</td><td>Turning a wish into a goal: "Next time I'll read the question twice."</td></tr>
+                            </tbody>
+                        </table>
+
+                        <p style="font-size:.82rem;color:#666;margin-top:1rem;"><strong>A note on use.</strong> These rubrics are formative, not punitive. A teacher's results stay with the teacher; a learner's are shared with the learner and family and read against the child's own prior attainment; leadership sees only aggregated, equity-disaggregated distributions. Data is collected with consent, minimally and by sampling, retained for a defined period and then erased (DPDP Act 2023) — with no classroom recording, facial recognition, or voice identification at any point.</p>
                     </div>
-                </div>
-
-                <div class="dashboard-card">
-                    <h3>Data Access Compliance</h3>
-                    <p>All data access following approved protocols</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%;">100%</div>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;">
-                        ✅ No unauthorized access attempts detected
-                    </p>
-                </div>
-
-                <div class="dashboard-card">
-                    <h3>Privacy Protocols</h3>
-                    <p>Student consent and anonymization standards</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%;">100%</div>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;">
-                        ✅ All data properly anonymized and consented
-                    </p>
-                </div>
-
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Quality Indicators</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Current</th>
-                            <th>Target</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Teachers meeting minimum</td>
-                            <td>95%</td>
-                            <td>90%</td>
-                            <td style="color: #28a745;">✅ Exceeding</td>
-                        </tr>
-                        <tr>
-                            <td>Reflection engagement</td>
-                            <td>71%</td>
-                            <td>60%</td>
-                            <td style="color: #28a745;">✅ Exceeding</td>
-                        </tr>
-                        <tr>
-                            <td>Teacher satisfaction</td>
-                            <td>4.3/5</td>
-                            <td>4.0/5</td>
-                            <td style="color: #28a745;">✅ Exceeding</td>
-                        </tr>
-                        <tr>
-                            <td>Data privacy compliance</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td style="color: #28a745;">✅ Met</td>
-                        </tr>
-                        <tr>
-                            <td>System uptime</td>
-                            <td>99.7%</td>
-                            <td>99.5%</td>
-                            <td style="color: #28a745;">✅ Exceeding</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Ethical Compliance</h2>
-
-                <div class="feature-box">
-                    <h4>Trust-First Principles Audit</h4>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li>✅ Transparency: All teachers understand what's recorded and why</li>
-                        <li>✅ Agency: Opt-in/opt-out features actively used (234 opt-outs this month)</li>
-                        <li>✅ Support: Language in system is supportive, not judgmental</li>
-                        <li>✅ Sampling: Minimum frequency prevents burden (avg 3.2 recordings/teacher)</li>
-                        <li>✅ Context: 71% of recordings include teacher reflections</li>
-                    </ul>
-                </div>
-
-                <div class="info-box" style="margin-top: 2rem;">
-                    📊 <strong>Next Audit:</strong> Scheduled for January 15, 2025. 
-                    All compliance reports available for stakeholder review.
-                </div>
-            `;
-        }
-
-        function getAdminSettingsPage() {
-            return `
-                <h1 class="main-header">⚙️ System Settings</h1>
-                <p class="sub-header">Configure TrackEd system-wide parameters</p>
-
-                <div class="warning-box">
-                    ⚠️ <strong>Administrator Access:</strong> These settings affect all users. Changes should be made carefully and documented.
-                </div>
-
-                <h2 style="margin-top: 2rem; color: #002244;">Sampling Requirements</h2>
-
-                <div class="form-group">
-                    <label>Minimum recordings per class per month:</label>
-                    <select>
-                        <option selected>1 (Current)</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
-                        Current: Teachers must record at least 1 session per class monthly
-                    </p>
-                </div>
-
-                <div class="checkbox-group">
-                    <label>
-                        <input type="checkbox" checked>
-                        Allow teachers to exceed minimum voluntarily
-                    </label>
-                    <label>
-                        <input type="checkbox" checked>
-                        Send supportive reminders when approaching deadline
-                    </label>
-                    <label>
-                        <input type="checkbox">
-                        Strict enforcement (not recommended for trust-first approach)
-                    </label>
-                </div>
-
-                <div class="divider" style="margin: 2rem 0;"></div>
-
-                <h2 style="color: #002244;">Data Access Policies</h2>
-
-                <div class="form-group">
-                    <label>Data retention period:</label>
-                    <select>
-                        <option>6 months</option>
-                        <option selected>1 year</option>
-                        <option>2 years</option>
-                        <option>3 years</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Anonymization timeline:</label>
-                    <select>
-                        <option>Immediate (upon upload)</option>
-                        <option>After 30 days</option>
-                        <option selected>After 6 months</option>
-                        <option>After 1 year</option>
-                    </select>
-                </div>
-
-                <div class="checkbox-group">
-                    <label>
-                        <input type="checkbox" checked>
-                        Require teacher consent for research use
-                    </label>
-                    <label>
-                        <input type="checkbox" checked>
-                        Require student/parent consent for recordings
-                    </label>
-                    <label>
-                        <input type="checkbox" checked>
-                        Allow teachers to delete within 48 hours
-                    </label>
-                </div>
-
-                <div style="text-align: center; margin-top: 3rem;">
-                    <button class="btn btn-success" onclick="alert('System settings saved!')">💾 Save System Settings</button>
-                    <button class="btn btn-warning" onclick="alert('Settings reset to defaults')">🔄 Reset to Defaults</button>
                 </div>
             `;
         }
@@ -2385,6 +2412,93 @@ function getDesignerAnalyticsPage() {
         alert('✅ Your preferences have been saved!');
     }
 
+    // ---------- Reflection helpers (TrackEd AI coach + student interactions) ----------
+    function teMood(idx) {
+        for (var i = 0; i < 5; i++) {
+            var b = document.getElementById('te-mood-' + i);
+            if (b) { b.style.borderColor = '#eee'; b.style.background = '#f7f7fb'; }
+        }
+        var sel = document.getElementById('te-mood-' + idx);
+        if (sel) { sel.style.borderColor = '#ffce54'; sel.style.background = '#fff7e6'; }
+        var msgs = [
+            "Yay! So glad class felt great today. What made it fun? 🌟",
+            "That's lovely to hear! Keep that good feeling growing. 😊",
+            "Okay days are part of learning too. Anything you'd like more of tomorrow? 🌈",
+            "Tricky is good — it means your brain is stretching! What part felt tricky? You can tell your teacher. 💪",
+            "Thank you for being honest. Hard days happen, and you're not alone. Would you like to tell your teacher how they can help? 💛"
+        ];
+        var r = document.getElementById('te-mood-reply');
+        if (r) { r.style.display = 'block'; r.innerHTML = msgs[idx]; }
+    }
+
+    function teLight(id, level) {
+        ['g', 'y', 'r'].forEach(function (c) {
+            var d = document.getElementById('te-light-' + id + '-' + c);
+            if (d) { d.style.opacity = (c === level ? '1' : '0.3'); d.style.transform = (c === level ? 'scale(1.2)' : 'scale(1)'); }
+        });
+    }
+
+    function teAIReply(preset) {
+        var input = document.getElementById('te-ai-input');
+        var thread = document.getElementById('te-ai-thread');
+        if (!thread) return;
+        var text = (preset !== undefined ? preset : (input ? input.value : '')).trim();
+        if (!text) return;
+        var safe = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        thread.innerHTML += '<div style="text-align:right;margin:.5rem 0;"><span style="display:inline-block;background:#667eea;color:#fff;border-radius:14px 14px 2px 14px;padding:.55rem .85rem;max-width:82%;text-align:left;">' + safe + '</span></div>';
+        if (input) input.value = '';
+        var t = text.toLowerCase();
+        var reply;
+        if (/(lesson|plan|prepare|next class|next lesson)/.test(t)) {
+            reply = `Lovely — let's think it through together rather than me handing you a plan. A shape many teachers find useful is <strong>Before &rarr; During &rarr; Student Voice &rarr; After</strong>: name the one learning outcome first, decide what the tool does that you can't do as well by hand, plan how <em>you</em> will mediate it, and leave room to hear from students.<br><br>A question to sit with: <em>what is the one thing you want students to be able to do by the end &mdash; and is the tool the best route there, or is it doing work your own explanation would do better?</em> (That's the SAMR question.)`;
+        } else if (/(khan|diksha|app|tool|artifact|artefact|platform|software|video|chimple)/.test(t)) {
+            reply = `Good thing to reflect on &mdash; the tool is a partner, not the teacher. Looking back at how it worked for your class, a few honest watch-points help: <strong>local relevance</strong> (Khan's word problems use names like Beth and foods like pizza &mdash; did that distract anyone?), <strong>feedback quality</strong> (does it tell a stuck child <em>why</em>, or just right/wrong?), <strong>scaffolding</strong>, <strong>learner control</strong>, and <strong>accessibility</strong> (captions, language).<br><br>Reflect: <em>where did the app's feedback fall short, and what did you add in that moment that it couldn't?</em> That gap is exactly your value as the mediator (Vygotsky).`;
+        } else if (/(word problem|struggl|stuck|confus|difficult|hard|didn't get|couldn't)/.test(t)) {
+            reply = `That's a rich observation. In Vygotsky's terms, those students may be just outside their <strong>zone of proximal development</strong> on that task &mdash; reachable with the right scaffold, not beyond them. And notice: if the obstacle is <em>reading</em> the problem rather than the maths, the next step is a language support, not more sums.<br><br>Black &amp; Wiliam remind us feedback works best aimed at the <strong>task and the strategy</strong>, not the child.<br><br>Ask yourself: <em>was the difficulty the concept, or the words around it &mdash; and how could you tell the difference next time?</em>`;
+        } else if (/(engag|bored|attention|motivat|participat|quiet|noisy)/.test(t)) {
+            reply = `Worth pausing on. Engagement has three faces &mdash; <strong>behavioural</strong> (on task), <strong>emotional</strong> (do they care?), and <strong>cognitive</strong> (are they thinking hard?). A class can look busy yet think little, or look quiet yet think deeply.<br><br>Reflect: <em>which kind of engagement did you actually see today &mdash; and which one mattered most for what you were teaching?</em>`;
+        } else if (/(samr|shift|pedagog|integrat|technolog|tpack)/.test(t)) {
+            reply = `A great thing to examine. The <strong>SAMR</strong> ladder is a gentle mirror: are you using the tool to <em>Substitute</em> (a worksheet on a screen), <em>Augment</em>, <em>Modify</em>, or <em>Redefine</em> (something impossible without it)? Most teaching lives lower down, and that's fine &mdash; the question is whether the level fits your goal.<br><br>Through the <strong>TPACK</strong> lens, a tool helps most when its technology, your pedagogy, and the content genuinely fit together.<br><br>Reflect: <em>what would it take to move one notch up the ladder next lesson &mdash; and would that actually help your students learn more?</em>`;
+        } else if (/(theory|best practice|research|framework|globally|evidence)/.test(t)) {
+            reply = `Happy to map your practice to the ideas behind it. A few anchors the strongest classrooms lean on: <strong>Vygotsky</strong> (learning is mediated &mdash; you matter more than the tool), <strong>Black &amp; Wiliam</strong> (assessment <em>for</em> learning; feedback that moves the next step; judging progress against a child's own past, not peers), <strong>Bronfenbrenner</strong> (context &mdash; language, home, device-sharing &mdash; shapes learning), <strong>UDL</strong> (offer more than one way to engage and to show understanding), and <strong>Freire</strong> (dialogue over delivery).<br><br>Reflect: <em>which of these felt most alive in your last lesson, and which would you like to grow?</em>`;
+        } else if (/(equit|girl|left out|access|language|hindi|shar)/.test(t)) {
+            reply = `Important to notice. Bronfenbrenner's lesson is that learning is never just about the child &mdash; it's about access, language, and home too. If girls or first-generation learners reached the device less, that's a pattern worth gently questioning, not a fact about them.<br><br>Reflect: <em>who got the most time with the tool this week, who got the least, and what small change in turn-taking might even that out?</em>`;
+        } else {
+            reply = `Thank you for sharing that. I'm here to help you think, not to hand you answers &mdash; that thinking is where the growth happens.<br><br>Tell me a little more: <em>what happened in the lesson, and what's one thing you're wondering about it?</em> You could also tap a starter above.`;
+        }
+        thread.innerHTML += '<div style="margin:.5rem 0;"><span style="display:inline-block;background:#eef2ff;color:#333;border-radius:14px 14px 14px 2px;padding:.65rem .9rem;max-width:88%;">' + reply + '</span></div>';
+        thread.scrollTop = thread.scrollHeight;
+    }
+
+    // ---------- Administrator portal chart helpers (added) ----------
+    function admDist(segs) {
+        var total = segs.reduce(function (s, x) { return s + x.val; }, 0) || 1;
+        var bar = segs.map(function (s) { return '<div title="' + s.label + ': ' + s.val + '" style="width:' + (s.val / total * 100).toFixed(1) + '%;background:' + s.color + ';"></div>'; }).join('');
+        var legend = segs.map(function (s) { return '<span style="display:inline-flex;align-items:center;gap:4px;font-size:.74rem;color:#444;margin:0 12px 4px 0;"><span style="width:10px;height:10px;border-radius:2px;background:' + s.color + ';display:inline-block;"></span>' + s.label + ' (' + s.val + ')</span>'; }).join('');
+        return '<div style="display:flex;height:18px;border-radius:6px;overflow:hidden;">' + bar + '</div><div style="margin-top:.6rem;">' + legend + '</div>';
+    }
+    function admBars(items) {
+        return '<div style="display:flex;flex-direction:column;gap:.55rem;">' + items.map(function (it) {
+            var col = it.flag ? '#dc3545' : (it.val < 45 ? '#ffc107' : 'linear-gradient(90deg,#667eea,#764ba2)');
+            return '<div><div style="display:flex;justify-content:space-between;font-size:.8rem;color:#444;margin-bottom:2px;"><span>' + it.label + (it.flag ? ' <span style=\'color:#dc3545;\'>&#9873;</span>' : '') + '</span><span style="color:#666;">' + it.val + '%</span></div><div style="background:#e9ecef;border-radius:6px;height:10px;overflow:hidden;"><div style="height:100%;width:' + it.val + '%;background:' + col + ';"></div></div></div>';
+        }).join('') + '</div>';
+    }
+    function admLine(vals, labels, w, h, maxY, target, targetLabel) {
+        var min = 0, max = maxY || 100;
+        var pts = vals.map(function (v, i) { return [(i / (vals.length - 1)) * (w - 40) + 30, h - 22 - ((v - min) / (max - min)) * (h - 36)]; });
+        var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+        var svg = '<svg viewBox="0 0 ' + w + ' ' + h + '" width="100%" height="' + h + '" style="max-width:' + w + 'px;">';
+        svg += '<line x1="30" y1="' + (h - 22) + '" x2="' + (w - 6) + '" y2="' + (h - 22) + '" stroke="#ddd"/><line x1="30" y1="6" x2="30" y2="' + (h - 22) + '" stroke="#ddd"/>';
+        if (target !== undefined) { var ty = h - 22 - ((target - min) / (max - min)) * (h - 36); svg += '<line x1="30" y1="' + ty.toFixed(1) + '" x2="' + (w - 6) + '" y2="' + ty.toFixed(1) + '" stroke="#28a745" stroke-dasharray="4 4"/><text x="' + (w - 8) + '" y="' + (ty - 4).toFixed(1) + '" font-size="9" fill="#28a745" text-anchor="end">' + (targetLabel || 'target') + '</text>'; }
+        svg += '<path d="' + line + '" fill="none" stroke="#002244" stroke-width="2.5"/>';
+        svg += pts.map(function (p) { return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3" fill="#002244"/>'; }).join('');
+        svg += pts.map(function (p, i) { return '<text x="' + p[0].toFixed(1) + '" y="' + (h - 8) + '" font-size="9" fill="#888" text-anchor="middle">' + (labels[i] || '') + '</text>'; }).join('');
+        svg += '</svg>';
+        return svg;
+    }
+
     // Initialize app on load
     window.onload = initApp;
 </script>
+</body>
+</html>
